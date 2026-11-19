@@ -1,4 +1,4 @@
-# Gipfel · Deutsch bis B2
+# B2-Gipfel
 
 Flashcard app for the vocabulary (Wortschatz) from my intensive German course protocols.
 

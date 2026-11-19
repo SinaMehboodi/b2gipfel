@@ -1,6 +1,6 @@
 {
-  "name": "Gipfel · Deutsch bis B2",
-  "short_name": "Gipfel",
+  "name": "B2-Gipfel",
+  "short_name": "B2-Gipfel",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
