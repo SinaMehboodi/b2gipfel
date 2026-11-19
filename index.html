@@ -1742,7 +1742,8 @@ async function boot(){
   route();
   Promise.all([fetch('data/schreiben.json').then(r=>r.json()), fetch('data/grammatik.json').then(r=>r.json()), fetch('data/kurzvortrag.json').then(r=>r.json()), fetch('data/buch.json').then(r=>r.json()).catch(()=>[]), fetch('data/allgemein.html').then(r=>r.text()).catch(()=>'')]).then(([w,g,k,b,a]) => { ALLG = a; WRITE = w; GRAM = g; KVALL = k; KVD = k.topics.find(x => x.id===KV.topic) || k.topics[0]; BUCH = b; const v = currentView(); if (v==='schreiben') renderWrite(); if (v==='grammatik') renderGram(); if (v==='kurzvortrag') renderKV(); if (v==='buch') renderBuch(); }).catch(()=>{});
   initCloud(); initTTS();
-  if ('serviceWorker' in navigator && location.protocol==='https:' && !window.claude){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+  if ('serviceWorker' in navigator && location.protocol==='https:' && !window.claude){ navigator.serviceWorker.register('sw.js', {updateViaCache:'none'}).then(reg => { reg.update().catch(()=>{}); document.addEventListener('visibilitychange', () => { if (document.visibilityState==='visible') reg.update().catch(()=>{}); }); }).catch(()=>{});
+    let reloaded = false; navigator.serviceWorker.addEventListener('controllerchange', () => { if (reloaded || S) return; reloaded = true; location.reload(); }); }
 }
 boot();
 })();
