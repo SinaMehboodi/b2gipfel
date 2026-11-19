@@ -312,6 +312,35 @@ table.g td{padding:12px;border-bottom:1px solid var(--line);vertical-align:top}
 table.g td:first-child{font-weight:700}
 table.g tr:last-child td{border-bottom:0}
 table.g td.w{font-family:var(--f-word)}
+.rule ul li b,.dk b{font-weight:700}
+/* Allgemeine Grammatik (Deklination) */
+.g-feature{display:block;width:100%;text-align:left;margin-top:18px;border:1px solid var(--line);border-radius:18px;padding:18px 20px;cursor:pointer;color:var(--ink);
+  background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 10%,var(--surface)),var(--surface));box-shadow:var(--shadow)}
+.g-feature .src{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.g-feature h3{font-size:20px;margin:4px 0 4px}.g-feature span.sub{color:var(--muted);font-size:14.5px}
+.b-sub.g{margin-top:28px}
+.dk-wrap{--cnom:#dbe6f0;--cakk:#f6dad6;--cdat:#dbe8d3;--cgen:#e3dcef;--knom:#3d5a73;--kakk:#9a4a42;--kdat:#55704a;--kgen:#6b5687}
+.dk-h{font-size:21px;margin:22px 0 10px}.dk-s{font-size:16.5px;margin:20px 0 8px}
+table.dk{border-collapse:collapse;width:100%;font:15px/1.35 var(--f-word);color:#1c1917}
+table.dk th,table.dk td{border:1px solid rgba(0,0,0,.14);padding:6px 9px;vertical-align:top;text-align:left}
+table.dk thead th{background:#e9e7f0;font:700 13px var(--f-body);color:#1c1917}
+table.dk tr.nom td{background:var(--cnom)}table.dk tr.akk td{background:var(--cakk)}table.dk tr.dat td{background:var(--cdat)}table.dk tr.gen td{background:var(--cgen)}
+table.dk th.k{color:#fff;font:800 15px var(--f-body);vertical-align:middle;text-align:center;width:52px}
+table.dk tr.nom th.k{background:var(--knom)}table.dk tr.akk th.k{background:var(--kakk)}table.dk tr.dat th.k{background:var(--kdat)}table.dk tr.gen th.k{background:var(--kgen)}
+table.dk td.t{font:13px var(--f-body);color:#44403c;white-space:nowrap}
+table.dk.cols td.nom,table.dk.cols th.nom{background:var(--cnom)}table.dk.cols td.akk,table.dk.cols th.akk{background:var(--cakk)}
+table.dk.cols td.dat,table.dk.cols th.dat{background:var(--cdat)}table.dk.cols td.gen,table.dk.cols th.gen{background:var(--cgen)}
+table.dk.cols td.pos,table.dk.cols th.pos{background:#eceae5}table.dk.cols td.hint{background:#fff;font:13.5px var(--f-body)}
+.minis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:12px 0 6px}
+table.dk.mini caption{caption-side:top;background:#2b2a33;color:#fff;font:700 13px var(--f-body);padding:6px;border-radius:8px 8px 0 0}
+table.dk.mini th,table.dk.mini td{text-align:center;padding:5px 4px}
+table.dk.mini tbody th{font:700 13px var(--f-body)}table.dk.mini tr.nom th{background:var(--cnom)}table.dk.mini tr.akk th{background:var(--cakk)}table.dk.mini tr.dat th{background:var(--cdat)}table.dk.mini tr.gen th{background:var(--cgen)}
+.dk-wrap .rules{margin-top:14px}.dk-wrap .rule ul{margin:8px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:5px;font-size:15px;line-height:1.5}
+.preps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.pp{border-radius:14px;padding:14px 16px;color:#1c1917;font-size:14.5px;line-height:1.45;border:1px solid rgba(0,0,0,.1)}
+.pp h4{font-size:15.5px;margin:0 0 6px}.pp p{margin:8px 0 0}
+.pp.akk{background:var(--cakk)}.pp.dat{background:var(--cdat)}.pp.gen{background:var(--cgen)}.pp.wech{background:linear-gradient(90deg,var(--cakk) 0 50%,var(--cdat) 50%) top/100% 5px no-repeat,#f1eee6}
+@media (max-width:640px){table.dk{font-size:13.5px}.tbl-wrap table.dk{min-width:620px}.tbl-wrap table.dk.cols{min-width:560px}table.dk th,table.dk td{padding:5px 6px}table.dk th.k{width:34px;font-size:12px}table.dk td.t{white-space:normal}}
 .rules{display:flex;flex-direction:column;gap:12px;margin-bottom:16px}
 .rule{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
 .rule h3{font-size:17px}
@@ -921,6 +950,7 @@ function listCards(q, fl, fs){
 let suppressClick = false;
 
 /* ---------- Schreiben ---------- */
+let ALLG = '';
 let WRITE = null, GRAM = [], wkind = 'email', wmodel = 0, wgaps = false, gTopic = null;
 function rmCards(kind){
   const d = WRITE[kind]; const label = kind==='email' ? 'E-Mail' : 'Forum';
@@ -965,8 +995,16 @@ function gCards(t){
 function cellHTML(c){ return fmt(c).replace(/&lt;br&gt;/g,'<br>'); }
 function renderGram(){
   if (!GRAM.length){ $('#gramArea').innerHTML = '<div class="empty">Wird geladen …</div>'; return; }
+  if (gTopic==='allg'){
+    $('#gramArea').innerHTML = `<div class="g-head"><button class="btn" id="gBack">← Alle Themen</button><h1>Deklination: Artikel, Adjektiv, Pronomen</h1></div>
+      <div class="src" style="margin:-8px 0 6px">Allgemeine Grammatik · Masterchart (2 Seiten)</div>
+      <div class="dk-wrap">${ALLG || '<div class="empty">Wird geladen …</div>'}</div>`;
+    return;
+  }
   if (!gTopic){
-    $('#gramArea').innerHTML = `<h1 style="font-size:32px">Grammatik aus dem Unterricht</h1>
+    $('#gramArea').innerHTML = `<h1 style="font-size:32px">Grammatik</h1>
+      <button class="g-feature" data-topic="allg"><span class="src">Allgemeine Grammatik</span><h3>Deklination: Artikel, Adjektiv, Pronomen</h3><span class="sub">Alle Tabellen auf einer Seite: Artikel- und Adjektivendungen, Pronomen, Präpositionen, Kasus und Besonderheiten</span></button>
+      <h2 class="b-sub g">Grammatik aus dem Unterricht</h2>
       <p class="hint" style="margin:6px 0 0">Jedes Thema hat die Übersicht aus dem Protokoll und Übungskarten.</p>
       <div class="g-grid">${GRAM.map(t => { const cs = gCards(t); const k = cs.filter(c => st(c)==='k').length;
         return `<button class="g-tile" data-topic="${t.id}"><span class="src">${esc(t.src)}</span><h3>${fmt(t.title)}</h3><span class="sub">${fmt(t.sub)}</span>
@@ -1357,7 +1395,7 @@ async function boot(){
   }catch(e){ $('#lessons').innerHTML = '<div class="empty">Die Wortliste konnte nicht geladen werden. Bitte Seite neu laden.</div>'; return; }
   assemble();
   route();
-  Promise.all([fetch('data/schreiben.json').then(r=>r.json()), fetch('data/grammatik.json').then(r=>r.json()), fetch('data/kurzvortrag.json').then(r=>r.json()), fetch('data/buch.json').then(r=>r.json()).catch(()=>[])]).then(([w,g,k,b]) => { WRITE = w; GRAM = g; KVALL = k; KVD = k.topics.find(x => x.id===KV.topic) || k.topics[0]; BUCH = b; const v = currentView(); if (v==='schreiben') renderWrite(); if (v==='grammatik') renderGram(); if (v==='kurzvortrag') renderKV(); if (v==='buch') renderBuch(); }).catch(()=>{});
+  Promise.all([fetch('data/schreiben.json').then(r=>r.json()), fetch('data/grammatik.json').then(r=>r.json()), fetch('data/kurzvortrag.json').then(r=>r.json()), fetch('data/buch.json').then(r=>r.json()).catch(()=>[]), fetch('data/allgemein.html').then(r=>r.text()).catch(()=>'')]).then(([w,g,k,b,a]) => { ALLG = a; WRITE = w; GRAM = g; KVALL = k; KVD = k.topics.find(x => x.id===KV.topic) || k.topics[0]; BUCH = b; const v = currentView(); if (v==='schreiben') renderWrite(); if (v==='grammatik') renderGram(); if (v==='kurzvortrag') renderKV(); if (v==='buch') renderBuch(); }).catch(()=>{});
   initCloud(); initTTS();
   if ('serviceWorker' in navigator && location.protocol==='https:' && !window.claude){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 }
