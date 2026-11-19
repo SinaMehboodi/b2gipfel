@@ -616,7 +616,7 @@ function leoTerm(front){
 /* ---------- storage: account (db) with local fallback ---------- */
 const LS = 'karteikasten-v1';
 let db = null, docRef = null, saveTimer = null, saving = false, dirty = false;
-function loadLocal(){ try{ const o = JSON.parse(localStorage.getItem(LS)||'{}'); P = o.p||{}; DAYS = o.d||{}; level = o.l||level; KV = o.kv||{}; }catch(e){} }
+function loadLocal(){ try{ const o = JSON.parse(localStorage.getItem(LS)||'{}'); P = o.p||{}; DAYS = o.d||{}; level = ['B1+','B2','all'].includes(o.l) ? o.l : level; KV = o.kv||{}; }catch(e){} }
 function saveLocal(){ try{ localStorage.setItem(LS, JSON.stringify({p:P,d:DAYS,l:level,kv:KV})); }catch(e){} }
 function setSync(cloud, text){ $('#sync').classList.toggle('cloud', cloud); $('#syncText').textContent = text; }
 function persist(){
@@ -912,7 +912,7 @@ function renderWrite(){
   $('#writeArea').innerHTML = `
     <div class="w-intro">
       <div class="panel"><h2>${fmt(d.title)}</h2><div class="src">${esc(d.src)}</div>
-        <p class="task">${fmt(d.task)}</p>${d.thema?`<div class="thema">${fmt(d.thema)}</div>`:''}
+        <p class="task">${fmt(d.task)}</p>${d.themen ? d.themen.map(([t,src,x]) => `<div class="thema"><b>${esc(t)}</b> <span class="src">· ${esc(src)}</span><br>${fmt(x)}</div>`).join('') : (d.thema?`<div class="thema">${fmt(d.thema)}</div>`:'')}
         ${d.formen?`<div style="margin-top:14px"><div class="lbl">Drei mögliche Formen der Entschuldigung</div><ol class="forms-list">${d.formen.map(f=>`<li>${fmt(f)}</li>`).join('')}</ol></div>`:''}
       </div>
       ${intro}
@@ -957,18 +957,21 @@ function renderGram(){
 }
 
 /* ---------- Kurzvortrag ---------- */
-let KVD = null, kvGaps = false, kvTimer = null, kvT0 = 0, kvShowText = true;
+let KVALL = null, KVD = null, kvGaps = false, kvTimer = null, kvT0 = 0, kvShowText = true;
 let REC = null, recOn = false, recFinal = '', recPartial = '', recT0 = 0, recTick = null, kvResult = null;
 function kvTotal(){ return KVD.parts.reduce((a,p) => a + p.sec, 0); }
 function kvDefault(){ const m = KVD.mine.parts; return ['einleitung','struktur','hauptteil','schluss'].map(k => m[k]).join('\n\n'); }
+function kvKey(){ return 'text_' + KVD.id; }
 function kvMyText(){
-  if (typeof KV.text === 'string') return KV.text;
-  if (KV.einleitung || KV.struktur || KV.hauptteil || KV.schluss) return ['einleitung','struktur','hauptteil','schluss'].map(k => KV[k] !== undefined ? KV[k] : KVD.mine.parts[k]).join('\n\n');
+  if (typeof KV[kvKey()] === 'string') return KV[kvKey()];
+  if (KVD.id==='t1' && typeof KV.text === 'string') return KV.text;
+  if (KVD.id==='t1' && (KV.einleitung || KV.struktur || KV.hauptteil || KV.schluss)) return ['einleitung','struktur','hauptteil','schluss'].map(k => KV[k] !== undefined ? KV[k] : KVD.mine.parts[k]).join('\n\n');
   return kvDefault();
 }
+function kvSetTopic(i){ KVD = KVALL.topics[i] || KVALL.topics[0]; KV.topic = KVD.id; kvResult = null; }
 function rmHTML(t){ return fmt(t).replace(/\n/g,'<br>'); }
 function kvCards(){
-  return KVD.parts.map(p => ({front:'Kurzvortrag: '+p.title+' (ca. '+p.sec+' Sekunden)', def:'', ex:'', list:p.rm.map(([l,t]) => (l? l+' ':'')+t), notes:[], key:'kv:'+p.id, level:'S', lessonLabel:'Kurzvortrag', lesson:'kv', group:p.head}));
+  return KVD.parts.map(p => ({front:'Kurzvortrag: '+p.title+' (ca. '+p.sec+' Sekunden)', def:'', ex:'', list:p.rm.map(([l,t]) => (l? l+' ':'')+t), notes:[], key:'kv:'+KVD.id+':'+p.id, level:'S', lessonLabel:'Kurzvortrag · '+KVD.short.split(':')[0], lesson:'kv', group:p.head}));
 }
 /* words + Redemittel matching */
 const tokNorm = w => w.toLowerCase().replace(/[^a-zäöüß0-9]/g,'');
@@ -1030,7 +1033,8 @@ function renderKV(){
       <div class="lbl">So wurde dein Text erkannt <span class="legend-mini"><span class="ok-w">gesagt</span> <span class="miss-w">nicht erkannt</span></span></div>
       <div class="letter mine-read">${markText(text, r.tk, r.hits, r.ok)}</div>
     </div>` : '';
-  $('#kvArea').innerHTML = `
+  const tabs = `<div class="model-tabs" style="margin-bottom:14px">${KVALL.topics.map((tp,i) => `<button class="chip" data-kvtopic="${i}" aria-pressed="${tp.id===KVD.id}">${esc(tp.short)}</button>`).join('')}</div>`;
+  $('#kvArea').innerHTML = tabs + `
     <div class="w-intro">
       <div class="panel"><h2>${fmt(KVD.title)}</h2><div class="src">${esc(KVD.src)}</div><p class="task">${fmt(KVD.task)}</p>
         <div class="lbl" style="margin-top:14px">2. Struktur · vier Teile</div>
@@ -1046,13 +1050,13 @@ function renderKV(){
 
     <div class="section-head"><h2>Redemittel aus dem Unterricht</h2><button class="btn primary" id="kvStudy">Redemittel üben (${KVD.parts.length} Karten)</button></div>
     <div class="steps">${KVD.parts.map((p,i) => `
-      <div class="step"><div class="num">${i+3}</div><div>
-        <h3>${esc(p.head.replace(/^\d+\.\s*/,''))}</h3>
+      <div class="step"><div class="num">${esc((p.head.match(/^([0-9ivx]+)\./)||[,i+1])[1])}</div><div>
+        <h3>${esc(p.head.replace(/^[0-9ivx]+\.\s*/,''))}</h3>
         <div class="rm">${p.rm.map(([l,t]) => `<div class="rm-line"><span>${l?`<em class="rm-l">${esc(l)}</em> `:''}${rmHTML(t)}</span><button class="copy" data-copy="${esc(plainT(t))}">Kopieren</button></div>`).join('')}</div>
       </div></div>`).join('')}</div>
 
     <div class="section-head"><h2>Mein Text</h2><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="kvReset">Entwurf wiederherstellen</button></div></div>
-    <p class="hint" style="margin:-6px 0 10px">Kopiere deinen eigenen Vortrag hier hinein (oder passe den Entwurf an). Er wird automatisch gespeichert.</p>
+    <p class="hint" style="margin:-6px 0 10px">Kopiere deinen eigenen Vortrag hier hinein, oder passe den Entwurf an. ${esc(KVD.mine.note)}</p>
     <textarea class="kv-text" id="kvText" rows="12" aria-label="Mein Vortragstext">${esc(text)}</textarea>
     <div class="kv-info"><span id="kvWordInfo">${tk.length} Wörter · ca. ${fmtTime(tk.length/2.1)} beim Sprechen</span> · <span id="kvRmInfo">${hits.length} Redemittel aus dem Unterricht</span></div>
     <div class="letter" id="kvPreview">${markText(text, tk, hits, null)}</div>
@@ -1069,9 +1073,9 @@ function renderKV(){
       ${result}
     </div>
 
-    <div class="section-head"><h2>Beispiel aus dem Unterricht</h2><button class="chip" id="kvGapToggle" aria-pressed="${kvGaps}">Lückentext: Redemittel verstecken</button></div>
+    ${KVD.model ? `<div class="section-head"><h2>Beispiel aus dem Unterricht</h2><button class="chip" id="kvGapToggle" aria-pressed="${kvGaps}">Lückentext: Redemittel verstecken</button></div>
     <div class="letter ${kvGaps?'gaps':''}">${KVD.model.parts.map(([id,t]) => { const p = KVD.parts.find(x=>x.id===id); return `<p class="kv-par"><span class="kv-tag">${esc(p.title)} · ${p.sec} s</span>${fmt(t)}</p>`; }).join('')}</div>
-    <div class="letter-note">${esc(KVD.model.src)} · Gelb = Redemittel${kvGaps?' · Tippe auf eine Lücke, um sie zu sehen.':''}</div>`;
+    <div class="letter-note">${esc(KVD.model.src)} · Gelb = Redemittel${kvGaps?' · Tippe auf eine Lücke, um sie zu sehen.':''}</div>` : ''}`;
 }
 function kvTick(){
   const t = (Date.now()-kvT0)/1000, tot = kvTotal();
@@ -1117,7 +1121,7 @@ async function recStop(){
   const spoken = (recFinal + ' ' + recPartial).trim(); REC = null;
   if (!spoken){ renderKV(); const el = $('#recMsg'); if (el) el.textContent = 'Es wurde nichts erkannt. Sprich etwas lauter und näher am Mikrofon.'; return; }
   kvResult = scoreReading(kvMyText(), spoken, secs);
-  const hist = KV.scores || []; hist.push({t:Date.now(), s:kvResult.total}); KV.scores = hist.slice(-20); KV.__t = Date.now(); persist();
+  const hist = KV.scores || []; hist.push({t:Date.now(), s:kvResult.total, topic:KVD.id}); KV.scores = hist.slice(-40); KV.__t = Date.now(); persist();
   renderKV(); const sc = document.querySelector('.score-card'); if (sc) sc.scrollIntoView({behavior:'smooth', block:'start'});
 }
 
@@ -1182,7 +1186,7 @@ document.addEventListener('click', e => {
   if (e.target.closest('details') || e.target.closest('a.leo')) return;
   const t = e.target.closest('button, .flip'); if (!t) return;
   if (t.matches('.lesson')){ const id = t.dataset.id; selected.has(id) ? selected.delete(id) : selected.add(id); t.setAttribute('aria-pressed', String(selected.has(id))); renderDock(); return; }
-  if (t.matches('.seg button')){ level = t.dataset.lvl; saveLocal(); renderOverview(); return; }
+  if (t.matches('.seg button[data-lvl]')){ level = t.dataset.lvl; saveLocal(); renderOverview(); return; }
   if (t.id==='selAll'){ const ls = visibleLessons(); const all = ls.every(l => selected.has(l.id)); ls.forEach(l => all ? selected.delete(l.id) : selected.add(l.id)); renderOverview(); return; }
   if (t.id==='dockClear'){ selected.clear(); renderOverview(); return; }
   if (t.id==='dockStart'){
@@ -1219,7 +1223,8 @@ document.addEventListener('click', e => {
   if (t.id==='recBtn'){ if (recOn) recStop(); else recStart(); return; }
   if (t.id==='kvGapToggle'){ kvGaps = !kvGaps; renderKV(); return; }
   if (t.id==='kvStudy'){ startSession(kvCards(), 'Redemittel · Kurzvortrag'); return; }
-  if (t.id==='kvReset'){ delete KV.text; ['einleitung','struktur','hauptteil','schluss'].forEach(k => delete KV[k]); KV.__t = Date.now(); kvResult = null; persist(); renderKV(); return; }
+  if (t.dataset.kvtopic!==undefined){ kvStop(); kvSetTopic(+t.dataset.kvtopic); persist(); renderKV(); return; }
+  if (t.id==='kvReset'){ delete KV[kvKey()]; if (KVD.id==='t1'){ delete KV.text; ['einleitung','struktur','hauptteil','schluss'].forEach(k => delete KV[k]); } KV.__t = Date.now(); kvResult = null; persist(); renderKV(); return; }
   if (t.dataset.chapter){ bChapter = t.dataset.chapter; renderBuch(); window.scrollTo(0,0); return; }
   if (t.id==='bBack'){ bChapter = null; renderBuch(); return; }
   if (t.id==='bStudy'){ const ch = BUCH.find(x=>x.id===bChapter); startSession(bookCards(ch), 'Linie B2 · Kapitel '+ch.num); return; }
@@ -1235,10 +1240,10 @@ document.addEventListener('click', e => {
 });
 ['#q','#fLesson','#fStatus'].forEach(s => $(s).addEventListener('input', renderList));
 let kvSave = null;
-document.addEventListener('input', e => { if (e.target.id!=='kvText') return; KV.text = e.target.value; KV.__t = Date.now(); kvResult = null;
-  const tk = tokens(KV.text), hits = findPhrases(tk);
+document.addEventListener('input', e => { if (e.target.id!=='kvText') return; const txt = e.target.value; KV[kvKey()] = txt; KV.__t = Date.now(); kvResult = null;
+  const tk = tokens(txt), hits = findPhrases(tk);
   $('#kvWordInfo').textContent = tk.length+' Wörter · ca. '+fmtTime(tk.length/2.1)+' beim Sprechen'; $('#kvRmInfo').textContent = hits.length+' Redemittel aus dem Unterricht';
-  $('#kvPreview').innerHTML = markText(KV.text, tk, hits, null);
+  $('#kvPreview').innerHTML = markText(txt, tk, hits, null);
   clearTimeout(kvSave); kvSave = setTimeout(persist, 800); });
 document.addEventListener('keydown', e => {
   if (currentView()!=='lernen' || !S || $('#studyArea').hidden) return;
@@ -1351,7 +1356,7 @@ async function boot(){
   }catch(e){ $('#lessons').innerHTML = '<div class="empty">Die Wortliste konnte nicht geladen werden. Bitte Seite neu laden.</div>'; return; }
   assemble();
   route();
-  Promise.all([fetch('data/schreiben.json').then(r=>r.json()), fetch('data/grammatik.json').then(r=>r.json()), fetch('data/kurzvortrag.json').then(r=>r.json()), fetch('data/buch.json').then(r=>r.json()).catch(()=>[])]).then(([w,g,k,b]) => { WRITE = w; GRAM = g; KVD = k; BUCH = b; const v = currentView(); if (v==='schreiben') renderWrite(); if (v==='grammatik') renderGram(); if (v==='kurzvortrag') renderKV(); if (v==='buch') renderBuch(); }).catch(()=>{});
+  Promise.all([fetch('data/schreiben.json').then(r=>r.json()), fetch('data/grammatik.json').then(r=>r.json()), fetch('data/kurzvortrag.json').then(r=>r.json()), fetch('data/buch.json').then(r=>r.json()).catch(()=>[])]).then(([w,g,k,b]) => { WRITE = w; GRAM = g; KVALL = k; KVD = k.topics.find(x => x.id===KV.topic) || k.topics[0]; BUCH = b; const v = currentView(); if (v==='schreiben') renderWrite(); if (v==='grammatik') renderGram(); if (v==='kurzvortrag') renderKV(); if (v==='buch') renderBuch(); }).catch(()=>{});
   initCloud(); initTTS();
   if ('serviceWorker' in navigator && location.protocol==='https:' && !window.claude){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 }
