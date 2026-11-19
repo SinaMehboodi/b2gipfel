@@ -1,14 +1,23 @@
 {
-  "name": "Deutschkurs Karteikasten",
-  "short_name": "Karteikasten",
+  "name": "Gipfel · Deutsch bis B2",
+  "short_name": "Gipfel",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#eef0f5",
-  "theme_color": "#eef0f5",
+  "background_color": "#fafaf7",
+  "theme_color": "#059669",
   "lang": "de",
   "icons": [
-    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
-    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ]
 }

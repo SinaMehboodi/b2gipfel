@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Deutschkurs Karteikasten</title>
+<title>Gipfel · Deutsch bis B2</title>
+<link rel="icon" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Karteikasten">
+<meta name="apple-mobile-web-app-title" content="Gipfel">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#fafaf7" id="themeColor">
 <script>(function(){try{var t=localStorage.getItem('karteikasten-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
@@ -65,6 +66,8 @@ h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance;letter-spacing:
 header.top{position:sticky;top:0;padding-top:env(safe-area-inset-top);z-index:20;background:color-mix(in srgb,var(--surface) 78%,transparent);backdrop-filter:saturate(160%) blur(14px);-webkit-backdrop-filter:saturate(160%) blur(14px);border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
 .top .wrap{display:flex;align-items:center;gap:18px;height:62px}
 .brand{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:800;font-size:19px;white-space:nowrap}
+.brand-logo{width:36px;height:36px;flex-shrink:0;filter:drop-shadow(0 6px 14px rgba(5,150,105,.35))}
+.bname{display:flex;flex-direction:column;line-height:1.05;font:800 20px var(--f-display);letter-spacing:-.01em}.bname small{font:600 11px var(--f-body);color:var(--muted);letter-spacing:.02em}
 .brand-box{width:34px;height:34px;border-radius:10px;background:var(--brand-gradient);box-shadow:var(--shadow-brand);position:relative}
 .brand-box::before{content:"";position:absolute;left:8px;right:8px;top:10px;bottom:10px;border-radius:3px;background:#fff;box-shadow:3px -3px 0 rgba(255,255,255,.45)}
 nav.tabs{display:flex;gap:2px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
@@ -540,10 +543,9 @@ a.g-tile.hub{text-decoration:none;color:inherit}
 </head>
 <body>
 <header class="top"><div class="wrap">
-  <div class="brand"><div class="brand-box" aria-hidden="true"></div><span>Karteikasten</span></div>
+  <a class="brand" href="#wortschatz" style="text-decoration:none;color:inherit"><svg class="brand-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-hidden="true"> <defs> <linearGradient id="lgbg" x1="0" y1="0" x2="1" y2="1"> <stop offset="0" stop-color="#10b981"/><stop offset=".55" stop-color="#059669"/><stop offset="1" stop-color="#0d9488"/> </linearGradient> <linearGradient id="lgm" x1="0" y1="0" x2="0" y2="1"> <stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#d1fae5"/> </linearGradient> </defs> <rect width="512" height="512" rx="116" fill="url(#lgbg)"/> <circle cx="150" cy="150" r="38" fill="#fde68a" opacity=".9"/> <path d="M60 410 L190 220 L240 285 L300 160 L452 410 Z" fill="url(#lgm)"/> <path d="M300 160 L338 222 L318 214 L300 236 L282 212 L262 222 Z" fill="#059669" opacity=".18"/> <path d="M300 160 V78" stroke="#ffffff" stroke-width="14" stroke-linecap="round"/> <path d="M306 80 L378 100 L306 122 Z" fill="#f59e0b"/> <path d="M60 410 H452" stroke="#ffffff" stroke-width="0"/> </svg><span class="bname">Gipfel<small>Deutsch bis B2</small></span></a>
   <nav class="tabs" aria-label="Bereiche">
     <a href="#wortschatz" data-nav="wortschatz">Wortschatz</a>
-    <a href="#liste" data-nav="liste">Wortliste</a>
     <a href="#buch" data-nav="buch">Linie B2</a>
     <a href="#grammatik" data-nav="grammatik">Grammatik</a>
     <a href="#schreiben" data-nav="schreiben">Schreiben</a>
@@ -585,7 +587,6 @@ a.g-tile.hub{text-decoration:none;color:inherit}
     <div class="section-head">
       <h2>Unterrichte</h2>
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-        <a class="btn ghost" href="#liste" style="text-decoration:none">Wortliste</a>
         <button class="btn ghost" id="selAll">Alle auswählen</button>
         <button class="btn" id="openImport">+ Unterricht hinzufügen</button>
       </div>
@@ -1312,7 +1313,7 @@ function renderBuch(){
 }
 
 /* ---------- routing ---------- */
-const VIEWS = ['wortschatz','lernen','liste','buch','grammatik','schreiben','kurzvortrag','pruefung','profil'];
+const VIEWS = ['wortschatz','lernen','buch','grammatik','schreiben','kurzvortrag','pruefung','profil'];
 function currentView(){ const h = location.hash.replace('#',''); return VIEWS.includes(h) ? h : 'wortschatz'; }
 function route(){
   let v = currentView();
@@ -1322,7 +1323,6 @@ function route(){
   $$('nav.tabs a').forEach(a => a.setAttribute('aria-current', a.dataset.nav===navV ? 'page':'false'));
   $$('.bottomnav a').forEach(a => a.setAttribute('aria-current', (a.dataset.nav===navV || (a.dataset.nav==='pruefung' && ['schreiben','kurzvortrag'].includes(navV)) || (a.dataset.nav==='wortschatz' && navV==='liste')) ? 'page':'false'));
   if (v==='wortschatz') renderOverview();
-  if (v==='liste') { fillLessonSelect(); renderList(); }
   if (v==='schreiben') renderWrite();
   if (v==='grammatik') renderGram();
   if (v==='kurzvortrag') renderKV();
@@ -1333,7 +1333,7 @@ function route(){
   renderDock();
   window.scrollTo(0,0);
 }
-function renderAll(){ const v = currentView(); if (v==='grammatik') renderGram(); if (v==='wortschatz') renderOverview(); if (v==='liste') renderList(); if (v==='lernen' && S) renderCard(); if (v==='profil') renderProfil(); updateProfBtn(); }
+function renderAll(){ const v = currentView(); if (v==='grammatik') renderGram(); if (v==='wortschatz') renderOverview(); if (v==='lernen' && S) renderCard(); if (v==='profil') renderProfil(); updateProfBtn(); }
 function fillLessonSelect(){
   const sel = $('#fLesson'), cur = sel.value;
   sel.innerHTML = '<option value="">Alle Unterrichte ('+(level==='all'?'alle Niveaus':level)+')</option>' + LESSONS.map(l => `<option value="${l.id}">${l.level} · Unterricht ${l.num}</option>`).join('');
@@ -1349,7 +1349,8 @@ const dkey = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'
 let lastAct = Date.now(), tickN = 0;
 ['pointerdown','keydown','touchstart','scroll','input'].forEach(ev => addEventListener(ev, () => { lastAct = Date.now(); }, {passive:true, capture:true}));
 setInterval(() => {
-  const active = document.visibilityState==='visible' && (Date.now()-lastAct < 90000 || (typeof kvTimer!=='undefined' && kvTimer));
+  const studying = (currentView()==='lernen' && S) || (typeof kvTimer!=='undefined' && kvTimer);
+  const active = document.visibilityState==='visible' && studying && (Date.now()-lastAct < 90000 || kvTimer);
   if (!active) return;
   const k = todayKey(), before = PROF.tm[k]||0;
   PROF.tm[k] = before + 5;
@@ -1402,7 +1403,7 @@ function renderProfil(){
   $('#profArea').innerHTML = `
     <div class="panel"><div class="pf-head"><div class="pf-av">${PROF.name? esc(PROF.name.trim()[0].toUpperCase()) : '👤'}</div>
       <input class="pf-name" id="pfName" value="${esc(PROF.name||'')}" placeholder="Dein Name" maxlength="30" autocomplete="off"></div>
-      <p class="hint" style="margin:8px 0 0">Die Lernzeit zählt automatisch, solange du die App benutzt (Pausen über 1,5 Minuten zählen nicht). Alles bleibt nur auf deinem Gerät.</p></div>
+      <p class="hint" style="margin:8px 0 0">Gezählt wird nur echtes Lernen: wenn du Karteikarten übst (Wortschatz, Linie B2, Grammatik, Redemittel) oder der Kurzvortrag-Timer läuft. Blättern und Lesen zählt nicht, Pausen über 1,5 Minuten auch nicht. Alles bleibt nur auf deinem Gerät.</p></div>
     <div class="panel pf-sec"><div class="lbl">Heute</div><div class="pf-today">
       <div class="pf-ring" style="--p:${pct.toFixed(1)}"><div><span><b>${Math.floor(today/60)}</b><small>von ${PROF.goal} Min</small></span></div></div>
       <div class="pf-msg">${msg}<div class="pf-week">${wk.map((x,i) => `<i class="${x.s>=g?'ok':x.s>=60?'part':''}${x.k===todayKey()?' now':''}" title="${fmtMin(x.s)}">${WD[i]}</i>`).join('')}</div></div></div></div>
