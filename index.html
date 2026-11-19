@@ -447,6 +447,10 @@ table.dk.mini td b{font-weight:800;color:var(--brand-700);background:color-mix(i
 .kv-read{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 18px 22px;font-family:var(--f-word);line-height:1.7;color:var(--ink);box-shadow:var(--shadow)}
 .kv-read p{margin:0 0 .9em}
 @media (max-width:767px){.kv-rbar{top:58px}.kv-read{padding:14px 14px 18px}}
+.means{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:12px}
+.means li::marker{font-weight:800;color:var(--accent)}
+.means .def{margin-bottom:6px}
+.back-body .example + .example{margin-top:8px}
 .subtabs{display:flex;flex-wrap:wrap;gap:6px;overflow-x:auto;scrollbar-width:none;margin:4px 0 14px;padding-bottom:2px;-webkit-overflow-scrolling:touch}
 .subtabs::-webkit-scrollbar{display:none}
 .subtabs button{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font:700 14px var(--f-body);cursor:pointer;white-space:nowrap}
@@ -924,14 +928,16 @@ function cardBack(c){
       ${c.group ? `<div class="group" style="margin-bottom:4px">${esc(c.group)}</div>`:''}
       <div class="back-word">${fmtWord(c.front)}</div>
     </div>
-    ${c.def ? `<div><div class="lbl">${c.level==='G'?'Lösung':(c.level==='S'?'Wofür?':'Bedeutung')}${c.gd?'<span class="gen-tag" title="Nicht aus dem Protokoll – von Claude ergänzt">ergänzt</span>':''}</div><div class="def">${fmt(c.def)}</div></div>`:''}
+    ${c.m && c.m.length > 1 ? `<div><div class="lbl">${c.m.length} Bedeutungen</div><ol class="means">${c.m.map(([d,exs]) => `<li><div class="def">${fmt(d)}</div>${exs.map(e => `<div class="example">${fmt(e)}</div>`).join('')}</li>`).join('')}</ol></div>`
+    : (c.def ? `<div><div class="lbl">${c.level==='G'?'Lösung':(c.level==='S'?'Wofür?':'Bedeutung')}${c.gd?'<span class="gen-tag" title="Nicht aus dem Protokoll – von Claude ergänzt">ergänzt</span>':''}</div><div class="def">${fmt(c.def)}</div></div>`:'')}
     ${c.forms ? `<div><div class="lbl">Verbformen</div><div class="forms${c.pres?' four':''}">
         <div><small>Infinitiv</small><span>${esc(c.forms[0])}</span></div>${c.pres?`
         <div><small>Präsens</small><span>${esc(c.pres)}</span></div>`:''}
         <div><small>Präteritum</small><span>${esc(c.forms[1])}</span></div>
         <div><small>Perfekt</small><span>${esc(c.forms[2])}</span></div></div></div>`:''}
     ${c.list ? `<div><div class="lbl">Redemittel</div><div class="list-rm">${c.list.map(x=>`<div>${fmt(x)}</div>`).join('')}</div></div>`:''}
-    ${c.ex ? `<div><div class="lbl">${c.level==='G'?'Hinweis':'Beispiel'}${c.ge?'<span class="gen-tag" title="Nicht aus dem Protokoll – von Claude ergänzt">ergänzt</span>':''}</div><div class="example">${fmt(c.ex)}</div></div>`:''}
+    ${c.m && c.m.length > 1 ? '' : (() => { const exs = c.m && c.m[0] && c.m[0][1].length ? c.m[0][1] : (c.ex ? [c.ex] : []);
+      return exs.length ? `<div><div class="lbl">${c.level==='G'?'Hinweis':(exs.length>1?'Beispiele':'Beispiel')}${c.ge?'<span class="gen-tag" title="Nicht aus dem Protokoll – von Claude ergänzt">ergänzt</span>':''}</div>${exs.map(e => `<div class="example">${fmt(e)}</div>`).join('')}</div>` : ''; })()}
     ${fam ? `<div><div class="lbl">Wortfamilie</div><div class="fam">${fam}</div></div>`:''}
     <div class="note-box" data-key="${esc(c.key)}">${noteHTML(c)}</div>
     ${c.notes && c.notes.length ? `<details class="more"><summary>Alles aus dem Protokoll</summary><div class="items">${notesHTML(c.notes)}</div></details>`:''}
