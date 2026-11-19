@@ -351,6 +351,13 @@ table.g td.w{font-family:var(--f-word)}
 .kv-mine textarea{font:400 17px/1.55 var(--f-word);padding:12px 14px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--surface);color:var(--ink);resize:vertical}
 .kv-mine textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 20%,transparent)}
 a.g-tile.hub{text-decoration:none;color:inherit}
+.note-box{border-top:1px dashed var(--line);padding-top:12px}
+.note-add{border:1px dashed var(--accent);background:var(--brand-50);color:var(--brand-700);border-radius:var(--r-md);padding:10px 14px;font-weight:600;width:100%;text-align:left}
+.note-edit{border:0;background:none;color:var(--accent);font:600 12px var(--f-body);text-transform:none;letter-spacing:0;margin-left:6px;cursor:pointer}
+.note-text{font:400 18px/1.5 var(--f-word);background:var(--mark-bg);border-radius:var(--r-md);padding:10px 14px}
+.note-input{width:100%;font:400 18px/1.5 var(--f-word);padding:10px 12px;border:1px solid var(--accent);border-radius:var(--r-md);background:var(--surface);color:var(--ink);resize:vertical}
+.note-acts{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.note-inline{color:var(--mark)!important}
 .bottomnav{display:none}
 @media (max-width:767px){
   nav.tabs{display:none}
@@ -764,9 +771,17 @@ function cardBack(c){
     ${c.list ? `<div><div class="lbl">Redemittel</div><div class="list-rm">${c.list.map(x=>`<div>${fmt(x)}</div>`).join('')}</div></div>`:''}
     ${c.ex ? `<div><div class="lbl">${c.level==='G'?'Hinweis':'Beispiel'}${c.ge?'<span class="gen-tag" title="Nicht aus dem Protokoll – von Claude ergänzt">ergänzt</span>':''}</div><div class="example">${fmt(c.ex)}</div></div>`:''}
     ${fam ? `<div><div class="lbl">Wortfamilie</div><div class="fam">${fam}</div></div>`:''}
+    <div class="note-box" data-key="${esc(c.key)}">${noteHTML(c)}</div>
     ${c.notes && c.notes.length ? `<details class="more"><summary>Alles aus dem Protokoll</summary><div class="items">${notesHTML(c.notes)}</div></details>`:''}
     ${!c.def && !c.ex && !c.list && !(c.notes&&c.notes.length) ? '<div class="hint">Im Protokoll steht keine weitere Erklärung.</div>':''}
   </div>`;
+}
+function noteHTML(c, editing){
+  const n = (P[c.key] && P[c.key].note) || '';
+  if (editing) return `<div class="lbl">Meine Notiz</div><textarea class="note-input" dir="auto" rows="3" placeholder="z. B. Bedeutung auf Persisch, eigene Eselsbrücke …">${esc(n)}</textarea>
+    <div class="note-acts"><button class="btn primary note-save">Speichern</button><button class="btn ghost note-cancel">Abbrechen</button>${n?'<button class="btn ghost note-del">Löschen</button>':''}</div>`;
+  if (n) return `<div class="lbl">Meine Notiz <button class="note-edit" aria-label="Notiz bearbeiten">✎ Bearbeiten</button></div><div class="note-text" dir="auto">${esc(n).replace(/\n/g,'<br>')}</div>`;
+  return `<button class="note-add">+ Eigene Notiz hinzufügen</button>`;
 }
 function head(c){
   const s = st(c);
@@ -861,7 +876,7 @@ function renderList(){
     const s = st(c);
     return `<div class="wl-row" data-key="${esc(c.key)}" style="--c:${STATUS[s].c}">
       <div class="bar"></div>
-      <div><div class="w">${fmtWord(c.front)}</div>${c.def?`<div class="d">${fmt(c.def)}</div>`:''}<div class="src">${esc(c.lessonLabel)}${c.label?' · '+esc(c.label):''}${c.parent?' · zu „'+esc(c.parent)+'“':(c.group?' · '+esc(c.group):'')}</div></div>
+      <div><div class="w">${fmtWord(c.front)}</div>${c.def?`<div class="d">${fmt(c.def)}</div>`:''}${P[c.key]&&P[c.key].note?`<div class="d note-inline" dir="auto">✎ ${esc(P[c.key].note)}</div>`:''}<div class="src">${esc(c.lessonLabel)}${c.label?' · '+esc(c.label):''}${c.parent?' · zu „'+esc(c.parent)+'“':(c.group?' · '+esc(c.group):'')}</div></div>
       <div class="wl-acts">
         <button data-set="x" class="${s==='x'?'on':''}" style="--c:var(--bad)" title="Weiß ich nicht" aria-label="Weiß ich nicht">✗</button>
         <button data-set="u" class="${s==='u'?'on':''}" style="--c:var(--mid)" title="Unsicher" aria-label="Unsicher">?</button>
@@ -880,7 +895,7 @@ function listCards(q, fl, fs){
 /* ---------- swipe (phone) ---------- */
 (function(){
   const el = $('#flip'); let x0=null, y0=null, dx=0, moved=false;
-  el.addEventListener('touchstart', e => { if (!S || !S.flipped) return; x0=e.touches[0].clientX; y0=e.touches[0].clientY; dx=0; moved=false; }, {passive:true});
+  el.addEventListener('touchstart', e => { if (!S || !S.flipped || e.target.closest('.note-box')) return; x0=e.touches[0].clientX; y0=e.touches[0].clientY; dx=0; moved=false; }, {passive:true});
   el.addEventListener('touchmove', e => {
     if (x0===null) return; dx = e.touches[0].clientX-x0; const dy = e.touches[0].clientY-y0;
     if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy)){ moved=true; el.classList.add('drag'); el.style.transform = `rotateY(180deg) translateX(${-dx}px) rotate(${-dx/30}deg)`; }
@@ -958,7 +973,7 @@ function renderGram(){
 
 /* ---------- Kurzvortrag ---------- */
 let KVALL = null, KVD = null, kvGaps = false, kvTimer = null, kvT0 = 0, kvShowText = true;
-let REC = null, recOn = false, recFinal = '', recPartial = '', recT0 = 0, recTick = null, kvResult = null;
+let kvResult = null;
 function kvTotal(){ return KVD.parts.reduce((a,p) => a + p.sec, 0); }
 function kvDefault(){ const m = KVD.mine.parts; return ['einleitung','struktur','hauptteil','schluss'].map(k => m[k]).join('\n\n'); }
 function kvKey(){ return 'text_' + KVD.id; }
@@ -1021,7 +1036,7 @@ function renderKV(){
   if (!KVD){ $('#kvArea').innerHTML = '<div class="empty">Wird geladen …</div>'; return; }
   const text = kvMyText(), tk = tokens(text), hits = findPhrases(tk);
   const bar = KVD.parts.map((p,i) => `<div class="kv-seg" data-i="${i}" style="flex:${p.sec}"><b>${esc(p.title)}</b><span>${p.sec} s</span></div>`).join('');
-  const r = kvResult;
+  const r = null;
   const result = r ? `<div class="score-card">
       <div class="score-ring" style="--p:${r.total}"><b>${r.total}</b><span>von 100</span></div>
       <div class="score-rows">
@@ -1056,22 +1071,10 @@ function renderKV(){
       </div></div>`).join('')}</div>
 
     <div class="section-head"><h2>Mein Text</h2><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="kvReset">Entwurf wiederherstellen</button></div></div>
-    <p class="hint" style="margin:-6px 0 10px">Kopiere deinen eigenen Vortrag hier hinein, oder passe den Entwurf an. ${esc(KVD.mine.note)}</p>
+    <p class="hint" style="margin:-6px 0 10px">Kopiere deinen eigenen Vortrag hier hinein, oder passe den Entwurf an. Mit dem Timer oben kannst du ihn üben. ${esc(KVD.mine.note)}</p>
     <textarea class="kv-text" id="kvText" rows="12" aria-label="Mein Vortragstext">${esc(text)}</textarea>
     <div class="kv-info"><span id="kvWordInfo">${tk.length} Wörter · ca. ${fmtTime(tk.length/2.1)} beim Sprechen</span> · <span id="kvRmInfo">${hits.length} Redemittel aus dem Unterricht</span></div>
     <div class="letter" id="kvPreview">${markText(text, tk, hits, null)}</div>
-
-    <div class="section-head"><h2>Vorlesen und bewerten</h2></div>
-    <div class="panel read-panel">
-      <p style="margin:0 0 12px">Tippe auf <b>Aufnahme starten</b>, lies deinen Text laut vor und tippe am Ende auf <b>Stopp</b>. Die App vergleicht, was sie gehört hat, mit deinem Text. Am wichtigsten sind die <span class="hl rede">Redemittel</span>.</p>
-      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-        <button class="btn primary" id="recBtn">${recOn?'■ Stopp':'● Aufnahme starten'}</button>
-        <span class="kv-clock small" id="recClock">${recOn?fmtTime((Date.now()-recT0)/1000):'0:00'}</span>
-      </div>
-      <div class="rec-live" id="recLive">${recOn?esc(recFinal+' '+recPartial):''}</div>
-      <div class="rec-msg" id="recMsg"></div>
-      ${result}
-    </div>
 
     ${KVD.model ? `<div class="section-head"><h2>Beispiel aus dem Unterricht</h2><button class="chip" id="kvGapToggle" aria-pressed="${kvGaps}">Lückentext: Redemittel verstecken</button></div>
     <div class="letter ${kvGaps?'gaps':''}">${KVD.model.parts.map(([id,t]) => { const p = KVD.parts.find(x=>x.id===id); return `<p class="kv-par"><span class="kv-tag">${esc(p.title)} · ${p.sec} s</span>${fmt(t)}</p>`; }).join('')}</div>
@@ -1088,43 +1091,6 @@ function kvTick(){
   if (t >= tot + 5) kvStop();
 }
 function kvStop(){ clearInterval(kvTimer); kvTimer = null; const b = $('#kvStart'); if (b) b.textContent = 'Start'; }
-/* speech recognition: Claude dictation (in claude.ai) or the browser's own (Safari/Chrome) */
-async function recStart(){
-  recFinal = ''; recPartial = ''; kvResult = null;
-  const msg = t => { const el = $('#recMsg'); if (el) el.textContent = t; };
-  let dict = null;
-  try{ dict = window.claude && window.claude.use ? await Promise.race([window.claude.use('dictation'), new Promise(r => setTimeout(() => r(null), 300))]) : null; }catch(e){ dict = null; }
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (dict){
-    REC = {kind:'claude', d:dict};
-    dict.onPartial(({text}) => { recPartial = text; liveUpdate(); });
-    dict.onFinal(({text}) => { recFinal += ' ' + text; recPartial = ''; liveUpdate(); });
-    try{ await dict.start(); }catch(e){ msg('Das Mikrofon ist nicht erlaubt. Bitte erlaube es und versuche es nochmal.'); return; }
-  } else if (SR){
-    const r = new SR(); r.lang = 'de-DE'; r.continuous = true; r.interimResults = true;
-    r.onresult = ev => { let part = ''; for (let i=ev.resultIndex;i<ev.results.length;i++){ const x = ev.results[i]; if (x.isFinal) recFinal += ' ' + x[0].transcript; else part += x[0].transcript; } recPartial = part; liveUpdate(); };
-    r.onerror = ev => { if (ev.error==='not-allowed') msg('Das Mikrofon ist nicht erlaubt. Bitte in den Einstellungen erlauben.'); };
-    r.onend = () => { if (recOn){ try{ r.start(); }catch(e){} } };
-    REC = {kind:'web', r};
-    try{ r.start(); }catch(e){ msg('Spracherkennung konnte nicht starten.'); return; }
-  } else { msg('Dieser Browser hat keine Spracherkennung. Auf dem iPhone bitte in Safari öffnen, am Computer in Chrome.'); return; }
-  recOn = true; recT0 = Date.now();
-  $('#recBtn').textContent = '■ Stopp';
-  recTick = setInterval(() => { const c = $('#recClock'); if (c) c.textContent = fmtTime((Date.now()-recT0)/1000); }, 250);
-}
-function liveUpdate(){ const el = $('#recLive'); if (el) el.textContent = (recFinal + ' ' + recPartial).trim(); }
-async function recStop(){
-  if (!REC) return;
-  const secs = (Date.now()-recT0)/1000; recOn = false; clearInterval(recTick);
-  try{ if (REC.kind==='claude') await REC.d.stop(); else REC.r.stop(); }catch(e){}
-  await new Promise(r => setTimeout(r, 700));
-  const spoken = (recFinal + ' ' + recPartial).trim(); REC = null;
-  if (!spoken){ renderKV(); const el = $('#recMsg'); if (el) el.textContent = 'Es wurde nichts erkannt. Sprich etwas lauter und näher am Mikrofon.'; return; }
-  kvResult = scoreReading(kvMyText(), spoken, secs);
-  const hist = KV.scores || []; hist.push({t:Date.now(), s:kvResult.total, topic:KVD.id}); KV.scores = hist.slice(-40); KV.__t = Date.now(); persist();
-  renderKV(); const sc = document.querySelector('.score-card'); if (sc) sc.scrollIntoView({behavior:'smooth', block:'start'});
-}
-
 /* ---------- Buch (Linie B2) ---------- */
 let BUCH = [], bChapter = null;
 function bookCards(ch){
@@ -1168,7 +1134,7 @@ function route(){
   if (v==='grammatik') renderGram();
   if (v==='kurzvortrag') renderKV();
   if (v==='buch') renderBuch();
-  if (v!=='kurzvortrag'){ kvStop(); if (recOn) recStop(); }
+  if (v!=='kurzvortrag') kvStop();
   document.body.classList.toggle('studying', v==='lernen');
   renderDock();
   window.scrollTo(0,0);
@@ -1183,6 +1149,18 @@ function fillLessonSelect(){
 /* ---------- events ---------- */
 document.addEventListener('click', e => {
   const gap = e.target.closest('.letter.gaps .hl.rede'); if (gap){ gap.classList.toggle('shown'); return; }
+  const nb = e.target.closest('.note-box');
+  if (nb){
+    const key = nb.dataset.key, c = CARDS.find(x => x.key===key) || (S && S.cards.find(x => x.key===key)) || {key};
+    if (e.target.closest('.note-add') || e.target.closest('.note-edit')){ nb.innerHTML = noteHTML(c, true); const ta = nb.querySelector('textarea'); ta.focus(); }
+    else if (e.target.closest('.note-cancel')) nb.innerHTML = noteHTML(c);
+    else if (e.target.closest('.note-save') || e.target.closest('.note-del')){
+      const v = e.target.closest('.note-del') ? '' : nb.querySelector('textarea').value.trim();
+      const p = P[key] || {}; P[key] = {...p, note: v, t: Date.now()}; if (!v) delete P[key].note;
+      persist(); nb.innerHTML = noteHTML(c);
+    }
+    return;
+  }
   if (e.target.closest('details') || e.target.closest('a.leo')) return;
   const t = e.target.closest('button, .flip'); if (!t) return;
   if (t.matches('.lesson')){ const id = t.dataset.id; selected.has(id) ? selected.delete(id) : selected.add(id); t.setAttribute('aria-pressed', String(selected.has(id))); renderDock(); return; }
@@ -1220,7 +1198,6 @@ document.addEventListener('click', e => {
     persist(); renderList(); return;
   }
   if (t.id==='kvStart'){ if (kvTimer) kvStop(); else { kvT0 = Date.now(); kvTimer = setInterval(kvTick, 250); t.textContent = 'Stopp'; kvTick(); } return; }
-  if (t.id==='recBtn'){ if (recOn) recStop(); else recStart(); return; }
   if (t.id==='kvGapToggle'){ kvGaps = !kvGaps; renderKV(); return; }
   if (t.id==='kvStudy'){ startSession(kvCards(), 'Redemittel · Kurzvortrag'); return; }
   if (t.dataset.kvtopic!==undefined){ kvStop(); kvSetTopic(+t.dataset.kvtopic); persist(); renderKV(); return; }
