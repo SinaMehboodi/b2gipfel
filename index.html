@@ -183,7 +183,8 @@ main{padding:28px 0 120px}
 .lbl .gen-tag{margin-left:6px;font-size:10px;letter-spacing:.04em;text-transform:none;font-weight:600;color:var(--amber);background:color-mix(in srgb,var(--amber) 14%,transparent);padding:2px 6px;border-radius:999px}
 .lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:6px}
 .def{font:400 20px/1.45 var(--f-word)}
-.forms{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.forms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.forms span{overflow-wrap:anywhere;hyphens:auto}
 .forms div{background:var(--bg);border-radius:12px;padding:9px 12px;border:1px solid var(--line)}
 .forms small{display:block;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .forms span{font:400 18px/1.3 var(--f-word)}
@@ -1109,6 +1110,7 @@ function renderBuch(){
   }
   if (!bChapter){
     $('#buchArea').innerHTML = `<h1 style="font-size:32px">Linie B2 · Wortschatz aus dem Buch</h1>
+      <p class="hint" style="margin:6px 0 0">Die Wörter stammen aus dem Lernwortschatz des Buchs. Bedeutungen und Beispiele hat Claude in einfachem Deutsch ergänzt.</p>
       <div class="g-grid">${BUCH.map(ch => { const cs = bookCards(ch); const o = counts(cs);
         return `<button class="g-tile" data-chapter="${ch.id}"><span class="src">Kapitel ${ch.num}</span><h3>${esc(ch.title||'Kapitel '+ch.num)}</h3><span class="minibar">${bar(o,o.total)}</span><span class="meta"><span>${o.total} Karten</span><span>${o.k? o.k+' gekonnt':'noch neu'}</span></span></button>`; }).join('')}</div>`;
     return;
