@@ -77,7 +77,7 @@ nav.tabs a{padding:8px 14px;border-radius:999px;color:var(--muted);text-decorati
 nav.tabs a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
 nav.tabs a .soon{font-size:11px;font-weight:700;opacity:.7;margin-left:4px}
 
-main{padding:28px 0 120px}
+main.wrap{padding-top:28px;padding-bottom:120px}
 .view{display:none}
 .view.on{display:block}
 
@@ -296,6 +296,14 @@ details.more[open] summary::before{content:"▾ "}
 .pf-step{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface)}
 .pf-step button{border:0;padding:6px 12px}.pf-step b{min-width:58px;text-align:center;font-variant-numeric:tabular-nums}
 .pf-sec{margin-top:16px}
+.pf-seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;margin:8px 0 4px;background:var(--surface-2)}
+.pf-seg button{border:0;background:transparent;border-radius:999px;padding:6px 14px;font:700 13px var(--f-body);color:var(--muted);cursor:pointer}
+.pf-seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.pf-cats{display:flex;flex-direction:column;gap:12px;margin-top:10px}
+.pf-cat{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:2px 10px;align-items:center}
+.pf-cat .em{font-size:20px;grid-row:1/3}.pf-cat .nm{font-weight:700;font-size:15px}.pf-cat .tm{font-weight:800;font-variant-numeric:tabular-nums;font-size:15px;text-align:right}
+.pf-cat .tm small{color:var(--muted);font-weight:600;font-size:12px}
+.pf-cat .tr{grid-column:2/4;height:8px;border-radius:999px;background:var(--surface-2);overflow:hidden}.pf-cat .tr i{display:block;height:100%;border-radius:999px;background:var(--brand-gradient)}
 @media (max-width:700px){.pf-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .prof-btn[aria-current=page] .ini{background:var(--brand-50)}
 #toast{position:fixed;left:50%;top:calc(70px + env(safe-area-inset-top));transform:translate(-50%,-160%);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:14px;font:700 15px var(--f-body);z-index:60;box-shadow:var(--shadow-lg);transition:transform .3s;max-width:90vw;text-align:center}
@@ -375,10 +383,10 @@ table.g td.w{font-family:var(--f-word)}
 .g-feature .src{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
 .g-feature h3{font-size:20px;margin:4px 0 4px}.g-feature span.sub{color:var(--muted);font-size:14.5px}
 .b-sub.g{margin-top:28px}
-.dk-wrap{--cnom:color-mix(in srgb,#64748b 9%,var(--surface));--cakk:color-mix(in srgb,var(--akk) 8%,var(--surface));--cdat:color-mix(in srgb,var(--dat) 9%,var(--surface));--cgen:color-mix(in srgb,var(--gen) 8%,var(--surface));
-  --knom:#475569;--kakk:var(--akk);--kdat:var(--dat);--kgen:var(--gen)}
-:root[data-theme="dark"] .dk-wrap{--knom:#94a3b8;--kakk:#ff6b6b;--kdat:#4ade80;--kgen:#c084fc}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .dk-wrap{--knom:#94a3b8;--kakk:#ff6b6b;--kdat:#4ade80;--kgen:#c084fc}}
+.dk-wrap{--knom:var(--mark);--kakk:var(--akk);--kdat:var(--dat);--kgen:var(--gen);
+  --cnom:color-mix(in srgb,var(--knom) 8%,var(--surface));--cakk:color-mix(in srgb,var(--akk) 8%,var(--surface));--cdat:color-mix(in srgb,var(--dat) 9%,var(--surface));--cgen:color-mix(in srgb,var(--gen) 9%,var(--surface))}
+:root[data-theme="dark"] .dk-wrap{--cnom:color-mix(in srgb,var(--knom) 16%,var(--surface));--cakk:color-mix(in srgb,var(--akk) 16%,var(--surface));--cdat:color-mix(in srgb,var(--dat) 16%,var(--surface));--cgen:color-mix(in srgb,var(--gen) 22%,var(--surface))}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .dk-wrap{--cnom:color-mix(in srgb,var(--knom) 16%,var(--surface));--cakk:color-mix(in srgb,var(--akk) 16%,var(--surface));--cdat:color-mix(in srgb,var(--dat) 16%,var(--surface));--cgen:color-mix(in srgb,var(--gen) 22%,var(--surface))}}
 .dk-lead{margin:0 0 10px;color:var(--muted);font-size:14px}
 .dk-s{font-size:16px;margin:18px 0 8px}
 .dk-wrap .tbl-wrap{border:1px solid var(--line);border-radius:14px;overflow:auto;background:var(--surface)}
@@ -389,22 +397,22 @@ table.dk tbody tr:last-child td,table.dk tbody tr:last-child th{border-bottom:0}
 table.dk b{font-weight:800}
 table.dk tr.nom td{background:var(--cnom)}table.dk tr.akk td{background:var(--cakk)}table.dk tr.dat td{background:var(--cdat)}table.dk tr.gen td{background:var(--cgen)}
 table.dk th.k{font:800 13px var(--f-body);letter-spacing:.04em;vertical-align:middle;text-align:center;width:56px;border-right:1px solid var(--line)}
-table.dk tr.nom th.k{color:var(--knom);background:var(--cnom)}table.dk tr.akk th.k{color:var(--kakk);background:var(--cakk)}table.dk tr.dat th.k{color:var(--kdat);background:var(--cdat)}table.dk tr.gen th.k{color:var(--kgen);background:var(--cgen)}
+table.dk th.k{color:#fff!important}table.dk tr.nom th.k{background:var(--knom)}table.dk tr.akk th.k{background:var(--kakk)}table.dk tr.dat th.k{background:var(--kdat)}table.dk tr.gen th.k{background:var(--kgen)}
 table.dk tr.case-start td,table.dk tr.case-start th{border-top:2px solid color-mix(in srgb,var(--ink) 14%,transparent)}
 table.dk td.t{font:600 12.5px var(--f-body);color:var(--muted);white-space:nowrap}
 table.dk.cols td.nom,table.dk.cols th.nom{background:var(--cnom)}table.dk.cols td.akk,table.dk.cols th.akk{background:var(--cakk)}
 table.dk.cols td.dat,table.dk.cols th.dat{background:var(--cdat)}table.dk.cols td.gen,table.dk.cols th.gen{background:var(--cgen)}
-table.dk.cols th.akk{color:var(--kakk)}table.dk.cols th.dat{color:var(--kdat)}table.dk.cols th.gen{color:var(--kgen)}table.dk.cols th.nom{color:var(--knom)}
+table.dk.cols thead th.akk,table.dk.cols thead th.dat,table.dk.cols thead th.gen,table.dk.cols thead th.nom{color:#fff}table.dk.cols thead th.akk{background:var(--kakk)}table.dk.cols thead th.dat{background:var(--kdat)}table.dk.cols thead th.gen{background:var(--kgen)}table.dk.cols thead th.nom{background:var(--knom)}
 table.dk.cols td.pos,table.dk.cols th.pos{background:var(--surface-2)}table.dk.cols td.hint{font:13.5px/1.45 var(--f-body);color:var(--muted)}
-.minis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:12px 0 6px}
+.minis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:8px 0 8px}
 .mini-card{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
-.mini-t{font:700 13px var(--f-body);padding:8px 12px;background:var(--brand-50);color:var(--brand-700)}
-table.dk.mini{font-size:14.5px}
+.mini-t{font:800 14px var(--f-body);padding:9px 12px;background:var(--surface-2);color:var(--ink);border-bottom:1px solid var(--line)}
+table.dk.mini{font-size:16px}table.dk.mini td{font-weight:600;font-family:var(--f-body)}
 table.dk.mini th,table.dk.mini td{text-align:center;padding:5px 4px}
 table.dk.mini thead th{text-transform:none;letter-spacing:0}
-table.dk.mini tbody th{font:800 12px var(--f-body);text-align:left;padding-left:12px;width:46px}
-table.dk.mini tr.nom th{color:var(--knom);background:var(--cnom)}table.dk.mini tr.akk th{color:var(--kakk);background:var(--cakk)}table.dk.mini tr.dat th{color:var(--kdat);background:var(--cdat)}table.dk.mini tr.gen th{color:var(--kgen);background:var(--cgen)}
-table.dk.mini td b{color:var(--accent)}
+table.dk.mini tbody th{font:800 12px var(--f-body);text-align:center;width:50px;padding:6px 4px}
+table.dk.mini tbody th{color:#fff}table.dk.mini tr.nom th{background:var(--knom)}table.dk.mini tr.akk th{background:var(--kakk)}table.dk.mini tr.dat th{background:var(--kdat)}table.dk.mini tr.gen th{background:var(--kgen)}
+table.dk.mini td b{font-weight:800;color:var(--brand-700);background:color-mix(in srgb,var(--accent) 16%,transparent);padding:1px 6px;border-radius:6px}
 .dk-wrap .rules{margin-top:14px}.dk-wrap .rule ul{margin:8px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:5px;font-size:15px;line-height:1.5}
 .preps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
 .pp{border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.45;border:1px solid var(--line);background:var(--surface);border-top:4px solid var(--c)}
@@ -423,6 +431,22 @@ table.dk.mini td b{color:var(--accent)}
 .model-card{text-align:left;border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 12px;cursor:pointer;color:var(--ink)}
 .model-card b{display:block;font-size:14.5px}.model-card small{color:var(--muted);font-size:12px}
 .model-card[aria-pressed="true"]{border-color:var(--accent);background:var(--brand-50)}
+.kv-tool{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.kv-reader{margin-top:2px}
+.kv-rbar{position:sticky;top:64px;z-index:5;display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:14px;padding:8px 10px;margin-bottom:10px}
+.kv-rbar{flex-wrap:nowrap}
+.kv-rbar .kv-now{min-height:0;font-size:13px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kv-rbar .iconbtn{flex-shrink:0}.kv-rbar .btn{flex-shrink:0}
+.kv-rbar .iconbtn[data-kvhl][aria-pressed="false"]{opacity:.45}
+.kv-read .hl.rede{background:linear-gradient(transparent 12%,color-mix(in srgb,var(--rede) 75%,transparent) 12%,color-mix(in srgb,var(--rede) 75%,transparent) 92%,transparent 92%);color:inherit;padding:0;border-radius:0;box-shadow:none}
+:root[data-theme="dark"] .kv-read .hl.rede{background:color-mix(in srgb,var(--rede) 28%,transparent)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .kv-read .hl.rede{background:color-mix(in srgb,var(--rede) 28%,transparent)}}
+.kv-read.nohl .hl.rede{background:none!important}
+.kv-rbar .iconbtn{width:34px;height:34px;font:800 12.5px var(--f-body)}
+.kv-rbar .btn{padding:8px 12px}
+.kv-read{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 18px 22px;font-family:var(--f-word);line-height:1.7;color:var(--ink);box-shadow:var(--shadow)}
+.kv-read p{margin:0 0 .9em}
+@media (max-width:767px){.kv-rbar{top:58px}.kv-read{padding:14px 14px 18px}}
 .subtabs{display:flex;flex-wrap:wrap;gap:6px;overflow-x:auto;scrollbar-width:none;margin:4px 0 14px;padding-bottom:2px;-webkit-overflow-scrolling:touch}
 .subtabs::-webkit-scrollbar{display:none}
 .subtabs button{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font:700 14px var(--f-body);cursor:pointer;white-space:nowrap}
@@ -497,7 +521,7 @@ a.g-tile.hub{text-decoration:none;color:inherit}
   .bottomnav a[aria-current="page"] svg{transform:scale(1.1)}
   .bottomnav .fab{justify-self:center;margin-top:-26px;width:58px;height:58px;border-radius:50%;border:0;background:var(--brand-gradient);color:#fff;box-shadow:var(--shadow-brand);display:grid;place-items:center}
   .bottomnav .fab svg{width:26px;height:26px;margin-left:3px}
-  main{padding-bottom:140px}
+  main.wrap{padding-bottom:calc(150px + env(safe-area-inset-bottom))}
   .dock{bottom:calc(72px + env(safe-area-inset-bottom));padding:8px 10px}
   .dock-inner{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:100%;padding:12px;border-radius:18px}
   .dock .info{grid-column:1/-1;font-size:14px}
@@ -505,8 +529,8 @@ a.g-tile.hub{text-decoration:none;color:inherit}
   .dock #dockClear{grid-column:1/2;padding:9px 6px;font-size:14px}
   .dock #dockStart{grid-column:2/4;padding:9px 6px;font-size:15px}
   body.studying .bottomnav{display:none}
-  body.studying main{padding-bottom:40px}
-  .wrap{padding:0 12px}
+  body.studying main.wrap{padding-bottom:40px}
+  .wrap{padding-left:12px;padding-right:12px}
   .panel{padding:16px}
   .step{grid-template-columns:30px minmax(0,1fr);gap:6px 10px;padding:12px}
   .step>div:last-child{display:contents}
@@ -528,7 +552,7 @@ a.g-tile.hub{text-decoration:none;color:inherit}
   .flipbtn{margin-top:14px}
   .study-top{gap:10px;margin-bottom:12px}
   .study-top .btn{padding:8px 12px}
-  main{padding-top:16px}
+  main.wrap{padding-top:16px}
   .sync{display:none}
 }
 @media (max-width:820px){.w-intro{grid-template-columns:minmax(0,1fr)}.letter{padding:20px}}
@@ -781,7 +805,8 @@ function mergeRemote(r){
   const rd = r.d || {};
   for (const k in rd){ DAYS[k] = Math.max(DAYS[k]||0, rd[k]); }
   if (r.pr){ const tm = {...PROF.tm}; for (const k in (r.pr.tm||{})) tm[k] = Math.max(tm[k]||0, r.pr.tm[k]);
-    if ((r.pr.t||0) > (PROF.t||0)) PROF = {...PROF, goal:r.pr.goal||PROF.goal, name:r.pr.name||'', t:r.pr.t}; PROF.tm = tm; }
+    const cat = {...(PROF.cat||{})}; for (const d in (r.pr.cat||{})){ cat[d] = {...(cat[d]||{})}; for (const c in r.pr.cat[d]) cat[d][c] = Math.max(cat[d][c]||0, r.pr.cat[d][c]); }
+    if ((r.pr.t||0) > (PROF.t||0)) PROF = {...PROF, goal:r.pr.goal||PROF.goal, name:r.pr.name||'', t:r.pr.t}; PROF.tm = tm; PROF.cat = cat; }
 }
 async function initCloud(){
   if (!window.claude || !window.claude.use) return;
@@ -1075,7 +1100,7 @@ function renderWrite(){
         ${d.formen?`<div style="margin-top:14px"><div class="lbl">Drei mögliche Formen der Entschuldigung</div><ol class="forms-list">${d.formen.map(f=>`<li>${fmt(f)}</li>`).join('')}</ol></div>`:''}
       </div>${intro}</div>`;
   } else if (wsub==='redemittel'){
-    body = `<div class="section-head" style="margin-top:0"><span class="hint">Gelb = Redemittel aus dem Unterricht</span><button class="btn primary" id="rmStudy">Redemittel üben (${d.steps.length} Karten)</button></div>
+    body = `<div class="section-head" style="margin-top:0"><span class="hint">Gelb = Redemittel aus dem Unterricht</span></div>
     <div class="steps">${d.steps.map(st => `
       <div class="step"><div class="num">${esc(st.n)}</div><div>
         <h3>${fmt(st.title)}</h3><div class="hint">${fmt(st.hint)}</div>
@@ -1129,7 +1154,7 @@ function renderGram(){
 }
 
 /* ---------- Kurzvortrag ---------- */
-let kvOpen = false, kvSub = 'aufgabe';
+let kvOpen = false, kvSub = 'aufgabe', kvEdit = false;
 let KVALL = null, KVD = null, kvGaps = false, kvTimer = null, kvT0 = 0, kvShowText = true;
 let kvResult = null;
 function kvTotal(){ return KVD.parts.reduce((a,p) => a + p.sec, 0); }
@@ -1163,6 +1188,18 @@ function findPhrases(tk){
 function markText(text, tk, hits, matched){
   // build HTML: Redemittel yellow; when matched given: said = normal, missed = red underline
   let out = '', pos = 0; const inHit = new Map(); hits.forEach(h => { for (let j=0;j<h.len;j++) inHit.set(h.start+j, h); });
+  if (!matched){
+    let open = null;
+    tk.forEach((t,i) => {
+      const h = inHit.get(i);
+      if (open && open!==h){ out += '</span>'; open = null; }
+      out += esc(text.slice(pos, t.i)).replace(/\n/g,'<br>');
+      if (h && !open){ out += '<span class="hl rede">'; open = h; }
+      out += esc(t.w); pos = t.i + t.w.length;
+    });
+    if (open) out += '</span>';
+    return out + esc(text.slice(pos)).replace(/\n/g,'<br>');
+  }
   tk.forEach((t,i) => {
     out += esc(text.slice(pos, t.i)).replace(/\n/g,'<br>');
     let cls = [];
@@ -1224,35 +1261,49 @@ function renderKV(){
         <div class="kv-now" id="kvNow">Tippe auf Start und halte deinen Vortrag frei. Der Timer zeigt, in welchem Teil du sein solltest.</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" id="kvStart">${kvTimer?'Stopp':'Start'}</button><button class="btn" data-kvsub="text">Meinen Text ansehen</button></div>
       </div>`;
-  else if (kvSub==='redemittel') body = `<div class="section-head" style="margin-top:0"><span class="hint">Redemittel aus dem Unterricht</span><button class="btn primary" id="kvStudy">Redemittel üben (${KVD.parts.length} Karten)</button></div>
+  else if (kvSub==='redemittel') body = `<div class="section-head" style="margin-top:0"><span class="hint">Redemittel aus dem Unterricht</span></div>
     <div class="steps">${KVD.parts.map((p,i) => `
       <div class="step"><div class="num">${esc((p.head.match(/^([0-9ivx]+)\./)||[,i+1])[1])}</div><div>
         <h3>${esc(p.head.replace(/^[0-9ivx]+\.\s*/,''))}</h3>
         <div class="rm">${p.rm.map(([l,t]) => `<div class="rm-line"><span>${l?`<em class="rm-l">${esc(l)}</em> `:''}${rmHTML(t)}</span><button class="copy" data-copy="${esc(plainT(t))}" aria-label="Kopieren" title="Kopieren">⧉</button></div>`).join('')}</div>
       </div></div>`).join('')}</div>`;
-  else if (kvSub==='text') body = `<div class="section-head" style="margin-top:0"><span class="hint">Kopiere deinen eigenen Vortrag hier hinein oder passe den Entwurf an. ${esc(KVD.mine.note)}</span><button class="btn" id="kvReset">Entwurf wiederherstellen</button></div>
-    <textarea class="kv-text" id="kvText" rows="10" aria-label="Mein Vortragstext">${esc(text)}</textarea>
-    <div class="kv-info"><span id="kvWordInfo">${tk.length} Wörter · ca. ${fmtTime(tk.length/2.1)} beim Sprechen</span> · <span id="kvRmInfo">${hits.length} Redemittel aus dem Unterricht</span></div>
-    <div class="letter" id="kvPreview">${markText(text, tk, hits, null)}</div>`;
+  else if (kvSub==='text'){
+    const fs = KV.fs || 21;
+    const paras = text.split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
+    body = kvEdit || !text.trim() ? `<div class="kv-tool"><button class="btn primary" data-kvmode="read">📖 Fertig: Lesen</button><button class="btn" id="kvReset">Entwurf wiederherstellen</button></div>
+      <p class="hint" style="margin:0 0 10px">Kopiere deinen eigenen Vortrag hier hinein oder passe den Entwurf an. Leere Zeile = neuer Absatz. ${esc(KVD.mine.note)}</p>
+      <textarea class="kv-text" id="kvText" rows="12" aria-label="Mein Vortragstext">${esc(text)}</textarea>
+      <div class="kv-info"><span id="kvWordInfo">${tk.length} Wörter · ca. ${fmtTime(tk.length/2.1)} beim Sprechen</span> · <span id="kvRmInfo">${hits.length} Redemittel aus dem Unterricht</span></div>`
+    : `<div class="kv-reader">
+        <div class="kv-rbar">
+          <span class="kv-clock small" id="kvClock">0:00</span><span class="kv-now" id="kvNow">${kvTimer?'':'ca. '+fmtTime(tk.length/2.1)}</span>
+          <button class="iconbtn" data-kvhl aria-pressed="${KV.hl!==false}" aria-label="Redemittel gelb markieren" title="Redemittel markieren">🖍</button>
+          <button class="iconbtn" data-kvfs="-1" aria-label="Schrift kleiner">A−</button><button class="iconbtn" data-kvfs="1" aria-label="Schrift größer">A+</button>
+          <button class="btn primary" id="kvStart">${kvTimer?'Stopp':'▶ Start'}</button>
+        </div>
+        <div class="kv-read${KV.hl===false?' nohl':''}" style="font-size:${fs}px">${markText(text, tk, hits, null)}</div>
+        <div class="kv-tool" style="margin-top:12px"><button class="btn" data-kvmode="edit">✏️ Text bearbeiten</button><span class="hint">${tk.length} Wörter · ${hits.length} Redemittel (gelb)</span></div>
+      </div>`;
+  }
   else body = `<div class="model-tabs"><span class="sp"></span><button class="chip" id="kvGapToggle" aria-pressed="${kvGaps}">Lückentext: Redemittel verstecken</button></div>
     <div class="letter ${kvGaps?'gaps':''}">${KVD.model.parts.map(([id,t]) => { const p = KVD.parts.find(x=>x.id===id); return `<p class="kv-par"><span class="kv-tag">${esc(p.title)} · ${p.sec} s</span>${fmt(t)}</p>`; }).join('')}</div>
     <div class="letter-note">${esc(KVD.model.src)} · Gelb = Redemittel${kvGaps?' · Tippe auf eine Lücke, um sie zu sehen.':''}</div>`;
   $('#kvArea').innerHTML = `<div class="g-head"><button class="btn" id="kvBack">← Kurzvortrag</button><h1>${fmt(KVD.title)}</h1></div>
     <div class="subtabs">${SUBS.map(([id,l]) => `<button data-kvsub="${id}" aria-pressed="${kvSub===id}">${l}</button>`).join('')}</div>${body}`;
-  if (kvTimer && kvSub==='timer') kvTick();
+  if (kvTimer && (kvSub==='timer' || kvSub==='text')) kvTick();
 }
 function kvTick(){
   if (!$('#kvClock')) return;
   const t = (Date.now()-kvT0)/1000, tot = kvTotal();
   $('#kvClock').textContent = fmtTime(t);
-  $('#kvNeedle').style.left = Math.min(100, t/tot*100)+'%';
+  if ($('#kvNeedle')) $('#kvNeedle').style.left = Math.min(100, t/tot*100)+'%';
   let acc = 0, cur = KVD.parts.length-1;
   for (let i=0;i<KVD.parts.length;i++){ acc += KVD.parts[i].sec; if (t < acc){ cur = i; break; } }
   $$('#kvBar .kv-seg').forEach((el,i) => el.classList.toggle('on', i===cur));
-  $('#kvNow').innerHTML = t >= tot ? '<b>Zeit ist um.</b>' : `<b>Jetzt: ${esc(KVD.parts[cur].title)}</b>`;
+  if ($('#kvNow')) $('#kvNow').innerHTML = t >= tot ? '<b>Zeit ist um.</b>' : `<b>Jetzt: ${esc(KVD.parts[cur].title)}</b>`;
   if (t >= tot + 5) kvStop();
 }
-function kvStop(){ clearInterval(kvTimer); kvTimer = null; const b = $('#kvStart'); if (b) b.textContent = 'Start'; }
+function kvStop(){ clearInterval(kvTimer); kvTimer = null; const b = $('#kvStart'); if (b) b.textContent = b.closest('.kv-rbar') ? '▶ Start' : 'Start'; }
 /* ---------- Buch (Linie B2) ---------- */
 let BUCH = [], bChapter = null;
 const chName = ch => ch.label ? ch.title : 'Kapitel '+ch.num;
@@ -1343,16 +1394,32 @@ function fillLessonSelect(){
 /* ---------- events ---------- */
 
 /* ---------- Profil: Lernzeit, Ziel, Serie ---------- */
+const CATS = [['wortschatz','🗂️','Wortschatz (Unterricht)'],['buch','📘','Linie B2'],['grammatik','📐','Grammatik'],['schreiben','✉️','Schreiben'],['kurzvortrag','🎤','Kurzvortrag']];
+function studyCat(){
+  if (typeof kvTimer!=='undefined' && kvTimer) return 'kurzvortrag';
+  const v = currentView();
+  if (v==='lernen' && S){ const c = S.cards[0]||{};
+    if (String(c.lesson||'').startsWith('buch')) return 'buch';
+    if (c.level==='G') return 'grammatik';
+    if (c.lesson==='kv') return 'kurzvortrag';
+    if (c.lesson==='rm') return 'schreiben';
+    return 'wortschatz'; }
+  if (v==='grammatik' && gTopic) return 'grammatik';
+  if (v==='schreiben' && wkind) return 'schreiben';
+  if (v==='kurzvortrag' && kvOpen) return 'kurzvortrag';
+  return null;
+}
 function toast(t){ let el = document.getElementById('toast'); if (!el){ el = document.createElement('div'); el.id = 'toast'; document.body.appendChild(el); }
   el.textContent = t; el.classList.add('show'); clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove('show'), 3500); }
 const dkey = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 let lastAct = Date.now(), tickN = 0;
 ['pointerdown','keydown','touchstart','scroll','input'].forEach(ev => addEventListener(ev, () => { lastAct = Date.now(); }, {passive:true, capture:true}));
 setInterval(() => {
-  const studying = (currentView()==='lernen' && S) || (typeof kvTimer!=='undefined' && kvTimer);
-  const active = document.visibilityState==='visible' && studying && (Date.now()-lastAct < 90000 || kvTimer);
+  const cat = studyCat();
+  const active = document.visibilityState==='visible' && cat && (Date.now()-lastAct < 90000 || kvTimer);
   if (!active) return;
   const k = todayKey(), before = PROF.tm[k]||0;
+  PROF.cat = PROF.cat || {}; const dc = PROF.cat[k] = PROF.cat[k] || {}; dc[cat] = (dc[cat]||0) + 5;
   PROF.tm[k] = before + 5;
   if (before < PROF.goal*60 && PROF.tm[k] >= PROF.goal*60) toast('🎉 Tagesziel geschafft: '+PROF.goal+' Minuten!');
   updateProfBtn();
@@ -1360,6 +1427,7 @@ setInterval(() => {
   if (currentView()==='profil' && tickN % 2 === 0 && !document.activeElement.matches('.pf-name')) renderProfil();
 }, 5000);
 addEventListener('visibilitychange', () => { if (document.visibilityState==='hidden') persist(); });
+let pfRange = 'week';
 const fmtMin = sec => { const m = Math.floor(sec/60); return m < 60 ? m+' Min' : Math.floor(m/60)+' Std '+(m%60? (m%60)+' Min':''); };
 const goalSec = () => PROF.goal*60;
 const fmtBig = sec => { const m = Math.floor(sec/60); return m < 60 ? m+' Min' : Math.floor(m/60)+':'+String(m%60).padStart(2,'0')+' Std'; };
@@ -1403,7 +1471,7 @@ function renderProfil(){
   $('#profArea').innerHTML = `
     <div class="panel"><div class="pf-head"><div class="pf-av">${PROF.name? esc(PROF.name.trim()[0].toUpperCase()) : '👤'}</div>
       <input class="pf-name" id="pfName" value="${esc(PROF.name||'')}" placeholder="Dein Name" maxlength="30" autocomplete="off"></div>
-      <p class="hint" style="margin:8px 0 0">Gezählt wird nur echtes Lernen: wenn du Karteikarten übst (Wortschatz, Linie B2, Grammatik, Redemittel) oder der Kurzvortrag-Timer läuft. Blättern und Lesen zählt nicht, Pausen über 1,5 Minuten auch nicht. Alles bleibt nur auf deinem Gerät.</p></div>
+      <p class="hint" style="margin:8px 0 0">Gezählt wird nur echtes Lernen: Karteikarten üben, ein Grammatik-Thema, eine Schreib-Aufgabe oder dein Kurzvortrag. Menüs und Übersichten zählen nicht, Pausen über 1,5 Minuten auch nicht. Alles bleibt nur auf deinem Gerät.</p></div>
     <div class="panel pf-sec"><div class="lbl">Heute</div><div class="pf-today">
       <div class="pf-ring" style="--p:${pct.toFixed(1)}"><div><span><b>${Math.floor(today/60)}</b><small>von ${PROF.goal} Min</small></span></div></div>
       <div class="pf-msg">${msg}<div class="pf-week">${wk.map((x,i) => `<i class="${x.s>=g?'ok':x.s>=60?'part':''}${x.k===todayKey()?' now':''}" title="${fmtMin(x.s)}">${WD[i]}</i>`).join('')}</div></div></div></div>
@@ -1417,6 +1485,16 @@ function renderProfil(){
       <div class="pf-stat"><b>📅 ${days.length}</b><span>Lerntage</span></div>
       <div class="pf-stat"><b>${cardsTotal}</b><span>Karten beantwortet</span></div>
     </div>
+    <div class="panel pf-sec"><div class="lbl">Wofür du deine Zeit nutzt</div>
+      <div class="pf-seg"><button data-pfrange="week" aria-pressed="${pfRange==='week'}">Diese Woche</button><button data-pfrange="all" aria-pressed="${pfRange==='all'}">Gesamt</button></div>
+      ${(() => { const sum = {}; const keys = Object.keys(PROF.cat||{}).filter(k => pfRange==='all' || wk.some(x => x.k===k));
+        keys.forEach(k => { for (const c in PROF.cat[k]) sum[c] = (sum[c]||0) + PROF.cat[k][c]; });
+        const tot = Object.values(sum).reduce((a,b)=>a+b,0);
+        if (!tot) return '<p class="hint" style="margin:10px 0 0">Noch keine Lernzeit in diesem Zeitraum.</p>';
+        const mx = Math.max(...Object.values(sum));
+        return `<div class="pf-cats">${CATS.map(([id,em,l]) => { const v = sum[id]||0;
+          return `<div class="pf-cat"><span class="em">${em}</span><span class="nm">${l}</span><span class="tm">${fmtMin(v)}${v? ` <small>${Math.round(v/tot*100)} %</small>`:''}</span><span class="tr"><i style="width:${(v/mx*100).toFixed(1)}%"></i></span></div>`; }).join('')}</div>`; })()}
+    </div>
     <div class="panel pf-sec"><div class="lbl">Letzte 7 Tage (Minuten)</div>${chart(last7, g)}</div>
     <div class="panel pf-sec"><div class="lbl">Letzte 8 Wochen (Minuten)</div>${chart(last8, 0)}</div>
     <div class="panel pf-sec"><div class="lbl">Tagesziel</div>
@@ -1426,6 +1504,7 @@ function renderProfil(){
 }
 document.addEventListener('input', e => { if (e.target.id==='pfName'){ PROF.name = e.target.value.slice(0,30); PROF.t = Date.now(); updateProfBtn(); const av = document.querySelector('.pf-av'); if (av) av.textContent = PROF.name.trim()? PROF.name.trim()[0].toUpperCase() : '👤'; persist(); } });
 document.addEventListener('click', e => {
+  const r = e.target.closest('[data-pfrange]'); if (r){ pfRange = r.dataset.pfrange; renderProfil(); return; }
   const b = e.target.closest('[data-goal],[data-goalstep]'); if (!b) return;
   PROF.goal = b.dataset.goal ? +b.dataset.goal : Math.min(240, Math.max(10, PROF.goal + (+b.dataset.goalstep)));
   PROF.t = Date.now(); persist(); updateProfBtn(); renderProfil();
@@ -1501,6 +1580,9 @@ document.addEventListener('click', e => {
   if (t.dataset.kvtopic!==undefined){ kvStop(); kvSetTopic(+t.dataset.kvtopic); kvOpen = true; kvSub = 'aufgabe'; persist(); renderKV(); window.scrollTo(0,0); return; }
   if (t.id==='kvBack'){ kvStop(); kvOpen = false; renderKV(); return; }
   if (t.dataset.kvsub){ kvSub = t.dataset.kvsub; renderKV(); return; }
+  if (t.dataset.kvmode){ kvEdit = t.dataset.kvmode==='edit'; renderKV(); window.scrollTo(0,0); return; }
+  if (t.dataset.kvhl!==undefined){ KV.hl = KV.hl===false; KV.__t = Date.now(); persist(); t.setAttribute('aria-pressed', String(KV.hl!==false)); const r = document.querySelector('.kv-read'); if (r) r.classList.toggle('nohl', KV.hl===false); return; }
+  if (t.dataset.kvfs){ KV.fs = Math.min(30, Math.max(16, (KV.fs||21) + 2*(+t.dataset.kvfs))); KV.__t = Date.now(); persist(); const r = document.querySelector('.kv-read'); if (r) r.style.fontSize = KV.fs+'px'; return; }
   if (t.id==='kvReset'){ delete KV[kvKey()]; if (KVD.id==='t1'){ delete KV.text; ['einleitung','struktur','hauptteil','schluss'].forEach(k => delete KV[k]); } KV.__t = Date.now(); kvResult = null; persist(); renderKV(); return; }
   if (t.dataset.bsec!==undefined){ bSection = t.dataset.bsec || null; bStatus = ''; renderBuch(); return; }
   if (t.dataset.bstat!==undefined){ bStatus = t.dataset.bstat; renderBuch(); return; }
