@@ -347,7 +347,7 @@ dialog::backdrop{background:rgba(16,19,29,.45)}
 .step h3{font-size:18px}
 .step .hint{margin:2px 0 10px}
 .rm{display:flex;flex-direction:column;gap:6px}
-.rm-line{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;padding:8px 10px;border-radius:10px;background:var(--bg);font:400 16.5px/1.6 var(--f-word)}
+.rm-line{display:block;padding:8px 10px;border-radius:10px;background:var(--bg);font:400 16.5px/1.6 var(--f-word)}
 .rm-line .copy{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:8px;font:600 15px/1 var(--f-body);width:30px;height:30px;padding:0;color:var(--muted);display:grid;place-items:center}
 .rm-line .copy.done{color:var(--ok);border-color:var(--ok)}
 .models{margin-top:8px}
@@ -1122,7 +1122,7 @@ function renderWrite(){
     <div class="steps">${d.steps.map(st => `
       <div class="step"><div class="num">${esc(st.n)}</div><div>
         <h3>${fmt(st.title)}</h3><div class="hint">${fmt(st.hint)}</div>
-        <div class="rm">${st.rm.map(r => `<div class="rm-line"><span>${fmt(r)}</span><button class="copy" data-copy="${esc(plainT(r))}" aria-label="Kopieren" title="Kopieren">⧉</button></div>`).join('')}</div>
+        <div class="rm">${st.rm.map(r => `<div class="rm-line"><span>${fmt(r)}</span></div>`).join('')}</div>
       </div></div>`).join('')}</div>`;
   } else {
     const m = d.models[Math.min(wmodel, d.models.length-1)];
@@ -1283,7 +1283,7 @@ function renderKV(){
     <div class="steps">${KVD.parts.map((p,i) => `
       <div class="step"><div class="num">${esc((p.head.match(/^([0-9ivx]+)\./)||[,i+1])[1])}</div><div>
         <h3>${esc(p.head.replace(/^[0-9ivx]+\.\s*/,''))}</h3>
-        <div class="rm">${p.rm.map(([l,t]) => `<div class="rm-line"><span>${l?`<em class="rm-l">${esc(l)}</em> `:''}${rmHTML(t)}</span><button class="copy" data-copy="${esc(plainT(t))}" aria-label="Kopieren" title="Kopieren">⧉</button></div>`).join('')}</div>
+        <div class="rm">${p.rm.map(([l,t]) => `<div class="rm-line"><span>${l?`<em class="rm-l">${esc(l)}</em> `:''}${rmHTML(t)}</span></div>`).join('')}</div>
       </div></div>`).join('')}</div>`;
   else if (kvSub==='text'){
     const fs = KV.fs || 21;
