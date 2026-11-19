@@ -67,7 +67,9 @@ header.top{position:sticky;top:0;padding-top:env(safe-area-inset-top);z-index:20
 .brand{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:800;font-size:19px;white-space:nowrap}
 .brand-box{width:34px;height:34px;border-radius:10px;background:var(--brand-gradient);box-shadow:var(--shadow-brand);position:relative}
 .brand-box::before{content:"";position:absolute;left:8px;right:8px;top:10px;bottom:10px;border-radius:3px;background:#fff;box-shadow:3px -3px 0 rgba(255,255,255,.45)}
-nav.tabs{display:flex;gap:4px;margin-left:auto;overflow-x:auto}
+nav.tabs{display:flex;gap:2px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+@media (max-width:1420px){.top .sync{display:none}}
+@media (max-width:1100px){nav.tabs a{padding:8px 10px;font-size:14px}}
 nav.tabs a{padding:8px 14px;border-radius:999px;color:var(--muted);text-decoration:none;font-weight:700;font-size:15px;white-space:nowrap}
 nav.tabs a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
 nav.tabs a .soon{font-size:11px;font-weight:700;opacity:.7;margin-left:4px}
@@ -123,7 +125,7 @@ main{padding:28px 0 120px}
 
 .dock{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:12px 16px calc(12px + env(safe-area-inset-bottom));display:flex;justify-content:center;pointer-events:none}
 .dock-inner{pointer-events:auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--ink);color:var(--bg);padding:10px 10px 10px 18px;border-radius:var(--r-lg);box-shadow:var(--shadow);transform:translateY(140%);transition:transform .25s}
-.dock.show .dock-inner{transform:none}
+.dock .dock-inner{visibility:hidden}.dock.show .dock-inner{transform:none;visibility:visible}
 .dock .info{font-weight:700;font-size:15px}
 .dock select{font:inherit;font-size:14px;background:transparent;color:var(--bg);border:1px solid color-mix(in srgb,var(--bg) 35%,transparent);border-radius:8px;padding:6px 8px}
 .dock select option{color:#18203a}
@@ -254,7 +256,48 @@ details.more[open] summary::before{content:"▾ "}
 .soon-page{max-width:620px;margin:40px auto;text-align:center}
 .soon-page h2{font-size:30px;margin-bottom:10px}
 .soon-page p{color:var(--muted)}
-.theme-btn{flex-shrink:0;width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:18px;line-height:1;display:grid;place-items:center;padding:0;margin-left:auto}
+.theme-btn{margin-left:0}
+.prof-btn{flex-shrink:0;position:relative;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;text-decoration:none;color:var(--ink)}
+.prof-btn .ring{position:absolute;inset:0;border-radius:50%;background:conic-gradient(var(--accent) calc(var(--p,0)*1%),var(--line) 0)}
+.prof-btn .ini{position:relative;width:32px;height:32px;border-radius:50%;background:var(--surface);display:grid;place-items:center;font:800 15px var(--f-body)}
+.prof-btn.done .ring{background:var(--accent)}
+.pf-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.pf-av{width:56px;height:56px;border-radius:50%;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font:800 24px var(--f-display);flex-shrink:0}
+.pf-name{font:800 26px var(--f-display);border:0;background:transparent;color:var(--ink);padding:2px 0;min-width:0;flex:1;border-bottom:1px dashed var(--line);outline:none}
+.pf-name:focus{border-bottom-color:var(--accent)}
+.pf-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:14px}
+.pf-stat{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.pf-stat b{display:block;font:800 26px/1.15 var(--f-display);font-variant-numeric:tabular-nums}
+.pf-stat span{font-size:13px;color:var(--muted)}
+.pf-today{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.pf-ring{--p:0;width:132px;height:132px;border-radius:50%;background:conic-gradient(var(--accent) calc(var(--p)*1%),var(--surface-2) 0);display:grid;place-items:center;flex-shrink:0}
+.pf-ring div{width:104px;height:104px;border-radius:50%;background:var(--surface);display:grid;place-items:center;text-align:center}
+.pf-ring b{font:800 28px/1 var(--f-display);display:block}.pf-ring small{font-size:12px;color:var(--muted)}
+.pf-msg{font-size:16px;line-height:1.5;flex:1;min-width:180px}
+.pf-week{display:flex;gap:6px;margin-top:10px}
+.pf-week i{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font:700 11px var(--f-body);font-style:normal;background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
+.pf-week i.ok{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.pf-week i.part{background:var(--brand-50);color:var(--brand-700);border-color:var(--accent)}
+.pf-week i.now{outline:2px solid var(--ink);outline-offset:1px}
+.pf-chart{display:flex;align-items:flex-end;gap:8px;height:150px;position:relative;margin-top:16px;padding-top:6px}
+.pf-chart .col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px;min-width:0}
+.pf-chart .bar{width:100%;max-width:38px;border-radius:7px 7px 3px 3px;background:var(--accent);min-height:3px}
+.pf-chart .bar.low{background:color-mix(in srgb,var(--accent) 45%,var(--surface-2))}
+.pf-chart .v{font:700 11px var(--f-body);color:var(--muted);font-variant-numeric:tabular-nums}
+.pf-chart .lb{font:600 11.5px var(--f-body);color:var(--muted);white-space:nowrap}
+.pf-chart .goal{position:absolute;left:0;right:0;border-top:2px dashed var(--mid);pointer-events:none}
+.pf-chart .goal span{position:absolute;right:0;top:-18px;font:700 11px var(--f-body);color:var(--mid);background:var(--surface);padding:0 4px}
+.pf-goals{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}
+.pf-goals button{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font:700 14px var(--f-body);cursor:pointer}
+.pf-goals button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.pf-step{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface)}
+.pf-step button{border:0;padding:6px 12px}.pf-step b{min-width:58px;text-align:center;font-variant-numeric:tabular-nums}
+.pf-sec{margin-top:16px}
+@media (max-width:700px){.pf-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.prof-btn[aria-current=page] .ini{background:var(--brand-50)}
+#toast{position:fixed;left:50%;top:calc(70px + env(safe-area-inset-top));transform:translate(-50%,-160%);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:14px;font:700 15px var(--f-body);z-index:60;box-shadow:var(--shadow-lg);transition:transform .3s;max-width:90vw;text-align:center}
+#toast.show{transform:translate(-50%,0)}
+.theme-btn{flex-shrink:0;width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:18px;line-height:1;display:grid;place-items:center;padding:0;margin-left:0}
 .theme-btn .t-moon{display:none}
 :root[data-theme="dark"] .theme-btn .t-sun{display:none}:root[data-theme="dark"] .theme-btn .t-moon{display:inline}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .theme-btn .t-sun{display:none}:root:not([data-theme="light"]) .theme-btn .t-moon{display:inline}}
@@ -419,6 +462,7 @@ a.g-tile.hub{text-decoration:none;color:inherit}
 .bottomnav{display:none}
 @media (max-width:767px){
   nav.tabs{display:none}
+  .prof-btn{margin-left:auto}
   .top .wrap{height:56px}
   .bottomnav{display:grid;grid-template-columns:repeat(5,1fr);align-items:end;position:fixed;left:0;right:0;bottom:0;z-index:35;padding:8px 8px max(env(safe-area-inset-bottom),8px);
     background:color-mix(in srgb,var(--surface) 80%,transparent);backdrop-filter:saturate(160%) blur(14px);-webkit-backdrop-filter:saturate(160%) blur(14px);border-top:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
@@ -474,6 +518,7 @@ a.g-tile.hub{text-decoration:none;color:inherit}
     <a href="#schreiben" data-nav="schreiben">Schreiben</a>
     <a href="#kurzvortrag" data-nav="kurzvortrag">Kurzvortrag</a>
   </nav>
+  <a class="prof-btn" id="profBtn" href="#profil" aria-label="Profil" title="Profil"><span class="ring"></span><span class="ini" id="profIni">👤</span></a>
   <button class="theme-btn" id="themeBtn" type="button" aria-label="Hell / Dunkel umschalten" title="Hell / Dunkel"><span class="t-sun">☀️</span><span class="t-moon">🌙</span></button>
   <div class="sync" id="sync" title="Speicherort deines Lernstands"><i></i><span id="syncText">Auf diesem Gerät</span></div>
 </div></header>
@@ -577,6 +622,7 @@ a.g-tile.hub{text-decoration:none;color:inherit}
 
   <section class="view" id="v-kurzvortrag"><div id="kvArea"></div></section>
   <section class="view" id="v-buch"><div id="buchArea"></div></section>
+  <section class="view" id="v-profil"><div id="profArea"></div></section>
   <section class="view" id="v-pruefung">
     <h1 style="font-size:32px">Prüfungsvorbereitung</h1>
     <p class="hint" style="margin:6px 0 16px">Schreiben und Sprechen für die B2-Prüfung.</p>
@@ -687,9 +733,10 @@ function leoTerm(front){
 }
 /* ---------- storage: account (db) with local fallback ---------- */
 const LS = 'karteikasten-v1';
+let PROF = {tm:{}, goal:10, name:'', t:0};
 let db = null, docRef = null, saveTimer = null, saving = false, dirty = false;
-function loadLocal(){ try{ const o = JSON.parse(localStorage.getItem(LS)||'{}'); P = o.p||{}; DAYS = o.d||{}; level = ['B1+','B2','all'].includes(o.l) ? o.l : level; KV = o.kv||{}; }catch(e){} }
-function saveLocal(){ try{ localStorage.setItem(LS, JSON.stringify({p:P,d:DAYS,l:level,kv:KV})); }catch(e){} }
+function loadLocal(){ try{ const o = JSON.parse(localStorage.getItem(LS)||'{}'); P = o.p||{}; DAYS = o.d||{}; level = ['B1+','B2','all'].includes(o.l) ? o.l : level; KV = o.kv||{}; if (o.pr) PROF = {...PROF, ...o.pr, tm:o.pr.tm||{}}; }catch(e){} }
+function saveLocal(){ try{ localStorage.setItem(LS, JSON.stringify({p:P,d:DAYS,l:level,kv:KV,pr:PROF})); }catch(e){} }
 function setSync(cloud, text){ $('#sync').classList.toggle('cloud', cloud); $('#syncText').textContent = text; }
 function persist(){
   saveLocal();
@@ -701,7 +748,7 @@ function persist(){
 async function flush(){
   if (!docRef || saving || !dirty) return;
   saving = true; dirty = false;
-  try{ await docRef.set({p:P, d:DAYS, l:level, kv:KV, kvt:KV.__t||0, v:1}); setSync(true,'Im Konto gespeichert'); }
+  try{ await docRef.set({p:P, d:DAYS, l:level, kv:KV, kvt:KV.__t||0, pr:PROF, v:1}); setSync(true,'Im Konto gespeichert'); }
   catch(e){ if (e && e.code === 'invalid_argument'){ docRef = null; setSync(false,'Nur in diesem Browser'); } else { dirty = true; setSync(false,'Speichern fehlgeschlagen, neuer Versuch …'); setTimeout(flush, 4000); } }
   saving = false;
   if (dirty) flush();
@@ -712,6 +759,8 @@ function mergeRemote(r){
   if (r.kv && r.kvt && (!KV.__t || r.kvt > KV.__t)) KV = r.kv;
   const rd = r.d || {};
   for (const k in rd){ DAYS[k] = Math.max(DAYS[k]||0, rd[k]); }
+  if (r.pr){ const tm = {...PROF.tm}; for (const k in (r.pr.tm||{})) tm[k] = Math.max(tm[k]||0, r.pr.tm[k]);
+    if ((r.pr.t||0) > (PROF.t||0)) PROF = {...PROF, goal:r.pr.goal||PROF.goal, name:r.pr.name||'', t:r.pr.t}; PROF.tm = tm; }
 }
 async function initCloud(){
   if (!window.claude || !window.claude.use) return;
@@ -1219,7 +1268,7 @@ function renderBuch(){
 }
 
 /* ---------- routing ---------- */
-const VIEWS = ['wortschatz','lernen','liste','buch','grammatik','schreiben','kurzvortrag','pruefung'];
+const VIEWS = ['wortschatz','lernen','liste','buch','grammatik','schreiben','kurzvortrag','pruefung','profil'];
 function currentView(){ const h = location.hash.replace('#',''); return VIEWS.includes(h) ? h : 'wortschatz'; }
 function route(){
   let v = currentView();
@@ -1234,12 +1283,13 @@ function route(){
   if (v==='grammatik') renderGram();
   if (v==='kurzvortrag') renderKV();
   if (v==='buch') renderBuch();
+  if (v==='profil') renderProfil();
   if (v!=='kurzvortrag') kvStop();
   document.body.classList.toggle('studying', v==='lernen');
   renderDock();
   window.scrollTo(0,0);
 }
-function renderAll(){ const v = currentView(); if (v==='grammatik') renderGram(); if (v==='wortschatz') renderOverview(); if (v==='liste') renderList(); if (v==='lernen' && S) renderCard(); }
+function renderAll(){ const v = currentView(); if (v==='grammatik') renderGram(); if (v==='wortschatz') renderOverview(); if (v==='liste') renderList(); if (v==='lernen' && S) renderCard(); if (v==='profil') renderProfil(); updateProfBtn(); }
 function fillLessonSelect(){
   const sel = $('#fLesson'), cur = sel.value;
   sel.innerHTML = '<option value="">Alle Unterrichte ('+(level==='all'?'alle Niveaus':level)+')</option>' + LESSONS.map(l => `<option value="${l.id}">${l.level} · Unterricht ${l.num}</option>`).join('');
@@ -1247,9 +1297,98 @@ function fillLessonSelect(){
 }
 
 /* ---------- events ---------- */
+
+/* ---------- Profil: Lernzeit, Ziel, Serie ---------- */
+function toast(t){ let el = document.getElementById('toast'); if (!el){ el = document.createElement('div'); el.id = 'toast'; document.body.appendChild(el); }
+  el.textContent = t; el.classList.add('show'); clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove('show'), 3500); }
+const dkey = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+let lastAct = Date.now(), tickN = 0;
+['pointerdown','keydown','touchstart','scroll','input'].forEach(ev => addEventListener(ev, () => { lastAct = Date.now(); }, {passive:true, capture:true}));
+setInterval(() => {
+  const active = document.visibilityState==='visible' && (Date.now()-lastAct < 90000 || (typeof kvTimer!=='undefined' && kvTimer));
+  if (!active) return;
+  const k = todayKey(), before = PROF.tm[k]||0;
+  PROF.tm[k] = before + 5;
+  if (before < PROF.goal*60 && PROF.tm[k] >= PROF.goal*60) toast('🎉 Tagesziel geschafft: '+PROF.goal+' Minuten!');
+  updateProfBtn();
+  if (++tickN % 6 === 0) persist();
+  if (currentView()==='profil' && tickN % 2 === 0 && !document.activeElement.matches('.pf-name')) renderProfil();
+}, 5000);
+addEventListener('visibilitychange', () => { if (document.visibilityState==='hidden') persist(); });
+const fmtMin = sec => { const m = Math.floor(sec/60); return m < 60 ? m+' Min' : Math.floor(m/60)+' Std '+(m%60? (m%60)+' Min':''); };
+const goalSec = () => PROF.goal*60;
+const fmtBig = sec => { const m = Math.floor(sec/60); return m < 60 ? m+' Min' : Math.floor(m/60)+':'+String(m%60).padStart(2,'0')+' Std'; };
+function streakInfo(){
+  const g = goalSec(), tm = PROF.tm;
+  const d = new Date(); let cur = 0;
+  if (!((tm[dkey(d)]||0) >= g)) d.setDate(d.getDate()-1);
+  while ((tm[dkey(d)]||0) >= g){ cur++; d.setDate(d.getDate()-1); }
+  const keys = Object.keys(tm).filter(k => tm[k]>=g).sort(); let best = 0, run = 0, prev = null;
+  for (const k of keys){ const t = new Date(k+'T12:00'); if (prev && (t-prev)/864e5 < 1.5) run++; else run = 1; best = Math.max(best, run); prev = t; }
+  return {cur, best: Math.max(best, cur)};
+}
+function weekStart(d){ const x = new Date(d); x.setHours(12,0,0,0); x.setDate(x.getDate() - ((x.getDay()+6)%7)); return x; }
+function updateProfBtn(){
+  const b = document.getElementById('profBtn'); if (!b) return;
+  const p = Math.min(100, (PROF.tm[todayKey()]||0) / goalSec() * 100);
+  b.style.setProperty('--p', p.toFixed(1)); b.classList.toggle('done', p>=100);
+  document.getElementById('profIni').textContent = PROF.name ? PROF.name.trim()[0].toUpperCase() : '👤';
+}
+function renderProfil(){
+  const tm = PROF.tm, g = goalSec(), today = tm[todayKey()]||0;
+  const days = Object.keys(tm).filter(k => tm[k] >= 60).sort();
+  const total = Object.values(tm).reduce((a,b)=>a+b,0);
+  const ws = weekStart(new Date());
+  let thisWeek = 0; const wk = [];
+  for (let i=0;i<7;i++){ const d = new Date(ws); d.setDate(ws.getDate()+i); const k = dkey(d); thisWeek += tm[k]||0; wk.push({k, d, s:tm[k]||0}); }
+  const first = days.length ? new Date(days[0]+'T12:00') : new Date();
+  const nWeeks = Math.max(1, Math.floor((ws - weekStart(first))/(7*864e5)) + 1);
+  const avgWeek = total / nWeeks, avgDay = days.length ? total / days.length : 0;
+  const sk = streakInfo();
+  const cardsTotal = Object.values(DAYS).reduce((a,b)=>a+b,0);
+  const pct = Math.min(100, today/g*100);
+  const left = Math.max(0, g - today);
+  const msg = today >= g ? `<b>Tagesziel geschafft!</b> 🎉 Du hast heute ${fmtMin(today)} gelernt.` : today ? `Noch <b>${Math.ceil(left/60)} Min</b> bis zu deinem Tagesziel. Weiter so!` : `Heute noch nicht gelernt. Schon <b>${PROF.goal} Minuten</b> reichen für dein Ziel.`;
+  const WD = ['Mo','Di','Mi','Do','Fr','Sa','So'];
+  const last7 = []; for (let i=6;i>=0;i--){ const d = new Date(); d.setDate(d.getDate()-i); last7.push({lb: i===0?'Heute':WD[(d.getDay()+6)%7], s: tm[dkey(d)]||0}); }
+  const last8 = []; for (let i=7;i>=0;i--){ const w0 = new Date(ws); w0.setDate(ws.getDate()-7*i); let sum = 0; for (let j=0;j<7;j++){ const d = new Date(w0); d.setDate(w0.getDate()+j); sum += tm[dkey(d)]||0; } last8.push({lb: i===0?'Diese':w0.getDate()+'.'+(w0.getMonth()+1)+'.', s:sum}); }
+  const chart = (arr, goal) => { const mx = Math.max(goal||0, ...arr.map(x=>x.s), 60) * 1.12;
+    return `<div class="pf-chart">${goal? `<div class="goal" style="bottom:calc(${(goal/mx*100).toFixed(1)}% * (150 - 40) / 150 + 22px)"><span>Ziel</span></div>`:''}${arr.map(x => `<div class="col"><span class="v">${x.s>=60? Math.round(x.s/60):''}</span><div class="bar${goal && x.s<goal?' low':''}" style="height:${(x.s/mx*100*(110/150)).toFixed(1)}%"></div><span class="lb">${x.lb}</span></div>`).join('')}</div>`; };
+  const presets = [10,15,20,30,45,60];
+  $('#profArea').innerHTML = `
+    <div class="panel"><div class="pf-head"><div class="pf-av">${PROF.name? esc(PROF.name.trim()[0].toUpperCase()) : '👤'}</div>
+      <input class="pf-name" id="pfName" value="${esc(PROF.name||'')}" placeholder="Dein Name" maxlength="30" autocomplete="off"></div>
+      <p class="hint" style="margin:8px 0 0">Die Lernzeit zählt automatisch, solange du die App benutzt (Pausen über 1,5 Minuten zählen nicht). Alles bleibt nur auf deinem Gerät.</p></div>
+    <div class="panel pf-sec"><div class="lbl">Heute</div><div class="pf-today">
+      <div class="pf-ring" style="--p:${pct.toFixed(1)}"><div><span><b>${Math.floor(today/60)}</b><small>von ${PROF.goal} Min</small></span></div></div>
+      <div class="pf-msg">${msg}<div class="pf-week">${wk.map((x,i) => `<i class="${x.s>=g?'ok':x.s>=60?'part':''}${x.k===todayKey()?' now':''}" title="${fmtMin(x.s)}">${WD[i]}</i>`).join('')}</div></div></div></div>
+    <div class="pf-grid">
+      <div class="pf-stat"><b>🔥 ${sk.cur}</b><span>Tage in Folge (Ziel erreicht)</span></div>
+      <div class="pf-stat"><b>🏆 ${sk.best}</b><span>Längste Serie</span></div>
+      <div class="pf-stat"><b>${fmtBig(thisWeek)}</b><span>Diese Woche</span></div>
+      <div class="pf-stat"><b>${fmtBig(avgWeek)}</b><span>Ø pro Woche</span></div>
+      <div class="pf-stat"><b>${fmtBig(avgDay)}</b><span>Ø pro Lerntag</span></div>
+      <div class="pf-stat"><b>${fmtBig(total)}</b><span>Gesamt</span></div>
+      <div class="pf-stat"><b>📅 ${days.length}</b><span>Lerntage</span></div>
+      <div class="pf-stat"><b>${cardsTotal}</b><span>Karten beantwortet</span></div>
+    </div>
+    <div class="panel pf-sec"><div class="lbl">Letzte 7 Tage (Minuten)</div>${chart(last7, g)}</div>
+    <div class="panel pf-sec"><div class="lbl">Letzte 8 Wochen (Minuten)</div>${chart(last8, 0)}</div>
+    <div class="panel pf-sec"><div class="lbl">Tagesziel</div>
+      <p style="margin:6px 0 0">Wie viele Minuten möchtest du jeden Tag lernen? (mindestens 10)</p>
+      <div class="pf-goals">${presets.map(m => `<button data-goal="${m}" class="${PROF.goal===m?'on':''}">${m} Min</button>`).join('')}
+        <span class="pf-step"><button data-goalstep="-5" aria-label="5 Minuten weniger">−</button><b>${PROF.goal} Min</b><button data-goalstep="5" aria-label="5 Minuten mehr">+</button></span></div></div>`;
+}
+document.addEventListener('input', e => { if (e.target.id==='pfName'){ PROF.name = e.target.value.slice(0,30); PROF.t = Date.now(); updateProfBtn(); const av = document.querySelector('.pf-av'); if (av) av.textContent = PROF.name.trim()? PROF.name.trim()[0].toUpperCase() : '👤'; persist(); } });
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-goal],[data-goalstep]'); if (!b) return;
+  PROF.goal = b.dataset.goal ? +b.dataset.goal : Math.min(240, Math.max(10, PROF.goal + (+b.dataset.goalstep)));
+  PROF.t = Date.now(); persist(); updateProfBtn(); renderProfil();
+});
+
 function isDark(){ const t = document.documentElement.getAttribute('data-theme'); return t ? t==='dark' : matchMedia('(prefers-color-scheme: dark)').matches; }
 function syncThemeColor(){ const m = document.getElementById('themeColor'); if (m) m.content = isDark() ? '#0b0d0c' : '#fafaf7'; }
-syncThemeColor();
+syncThemeColor(); updateProfBtn();
 document.getElementById('themeBtn').addEventListener('click', () => {
   const next = isDark() ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', next);
