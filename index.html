@@ -192,7 +192,7 @@ main.wrap{padding-top:28px;padding-bottom:120px}
 .lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:6px}
 .def{font:400 20px/1.45 var(--f-word)}
 .forms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.forms span{overflow-wrap:anywhere;hyphens:auto}
+.forms span{overflow-wrap:anywhere;hyphens:manual}
 .forms.four{grid-template-columns:repeat(2,minmax(0,1fr))}
 .b-sub{font-size:19px;margin:26px 0 0}
 .b-secs{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
@@ -746,22 +746,34 @@ const marked = c => !!(P[c.key] && P[c.key].b);
 const MKR = /[\ue000-\ue006]/g;
 const plainT = s => String(s).replace(MKR, '');
 function hl(h){
-  let color = null, bold = false, out = '', open = false;
-  const C = {'\ue001':'akk','\ue002':'dat','\ue003':'gen','\ue004':'rede'};
-  const reopen = () => { if (open){ out += '</span>'; open = false; }
-    if (color || bold){ out += '<span class="'+[color?'hl '+color:'', bold?'b':''].join(' ').trim()+'">'; open = true; } };
+  // Lazy spans: markers only change the wanted style; a span is (re)opened when the next visible character
+  // needs a different style. Whitespace between two parts with the same style stays inside one span,
+  // so "eine Strafe" becomes one continuous highlight and no empty boxes appear.
+  const C = {'':'akk','':'dat','':'gen','':'rede'};
+  let color = null, bold = false, cur = '', out = '', ws = '';
+  const want = () => [color ? 'hl '+color : '', bold ? 'b' : ''].join(' ').trim();
+  let inTag = false;
   for (const ch of h){
-    if (ch==='\ue000'){ color = null; reopen(); }
-    else if (C[ch]){ color = C[ch]; reopen(); }
-    else if (ch==='\ue005'){ bold = true; reopen(); }
-    else if (ch==='\ue006'){ bold = false; reopen(); }
-    else out += ch;
+    if (ch===''){ color = null; continue; }
+    if (C[ch]){ color = C[ch]; continue; }
+    if (ch===''){ bold = true; continue; }
+    if (ch===''){ bold = false; continue; }
+    if (inTag || ch==='<'){ // HTML from fmt (e.g. case pills) passes through unchanged
+      if (ch==='<') inTag = true; else if (ch==='>') inTag = false;
+      out += ws; ws = ''; out += ch; continue; }
+    if (/\s/.test(ch)){ ws += ch; continue; }
+    const w = want();
+    if (w !== cur){ if (cur) out += '</span>'; out += ws; ws = ''; if (w) out += '<span class="'+w+'">'; cur = w; }
+    else { out += ws; ws = ''; }
+    out += ch;
   }
-  if (open) out += '</span>';
-  return out;
+  if (cur) out += '</span>';
+  return out + ws;
 }
 function fmt(text){
   let h = esc(text);
+  // a colour marker around the bare word AKK/DAT/GEN would draw a second box around the case pill: drop it
+  h = h.replace(/[\ue001-\ue003]([\ue005\ue006\s]*)(AKK|DAT|GEN)([\ue005\ue006\s]*)\ue000/g, '$1$2$3');
   h = h.replace(/(^|[\s(+\/\ue000-\ue006])(AKK|DAT|GEN)(?=$|[\s),.;:\/=\ue000-\ue006])/g, '$1<span class="case $2">$2</span>');
   return hl(h);
 }
