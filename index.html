@@ -152,6 +152,8 @@ main{padding:28px 0 120px}
 .face-head{display:flex;align-items:center;gap:8px;padding:16px 18px 0 22px;flex:none}
 .tag{font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--new-bg);color:var(--muted);white-space:nowrap}
 .tag.lv{background:color-mix(in srgb,var(--lvc) 14%,transparent);color:var(--lvc)}
+.tag.lv{min-width:0;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto}
+.face-head .iconbtn{flex-shrink:0}.face-head .sp{min-width:0}
 .tag.st-k{background:var(--ok-bg);color:var(--ok)} .tag.st-u{background:var(--mid-bg);color:var(--mid)} .tag.st-x{background:var(--bad-bg);color:var(--bad)}
 .tag.lab{background:transparent;border:1px solid var(--line)}
 .face-head .sp{flex:1}
@@ -185,6 +187,13 @@ main{padding:28px 0 120px}
 .def{font:400 20px/1.45 var(--f-word)}
 .forms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .forms span{overflow-wrap:anywhere;hyphens:auto}
+.forms.four{grid-template-columns:repeat(2,minmax(0,1fr))}
+.b-sub{font-size:19px;margin:26px 0 0}
+.b-secs{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
+.b-secs .chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 13px;font:600 13.5px var(--f-body);color:var(--ink);cursor:pointer}
+.b-secs .chip b{color:var(--muted);font-weight:600;margin-left:4px}
+.b-secs .chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.b-secs .chip.on b{color:inherit;opacity:.7}
 .forms div{background:var(--bg);border-radius:12px;padding:9px 12px;border:1px solid var(--line)}
 .forms small{display:block;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .forms span{font:400 18px/1.3 var(--f-word)}
@@ -765,8 +774,9 @@ function cardBack(c){
       <div class="back-word">${fmtWord(c.front)}</div>
     </div>
     ${c.def ? `<div><div class="lbl">${c.level==='G'?'Lösung':(c.level==='S'?'Wofür?':'Bedeutung')}${c.gd?'<span class="gen-tag" title="Nicht aus dem Protokoll – von Claude ergänzt">ergänzt</span>':''}</div><div class="def">${fmt(c.def)}</div></div>`:''}
-    ${c.forms ? `<div><div class="lbl">Verbformen</div><div class="forms">
-        <div><small>Infinitiv</small><span>${esc(c.forms[0])}</span></div>
+    ${c.forms ? `<div><div class="lbl">Verbformen</div><div class="forms${c.pres?' four':''}">
+        <div><small>Infinitiv</small><span>${esc(c.forms[0])}</span></div>${c.pres?`
+        <div><small>Präsens</small><span>${esc(c.pres)}</span></div>`:''}
         <div><small>Präteritum</small><span>${esc(c.forms[1])}</span></div>
         <div><small>Perfekt</small><span>${esc(c.forms[2])}</span></div></div></div>`:''}
     ${c.list ? `<div><div class="lbl">Redemittel</div><div class="list-rm">${c.list.map(x=>`<div>${fmt(x)}</div>`).join('')}</div></div>`:''}
@@ -1094,8 +1104,10 @@ function kvTick(){
 function kvStop(){ clearInterval(kvTimer); kvTimer = null; const b = $('#kvStart'); if (b) b.textContent = 'Start'; }
 /* ---------- Buch (Linie B2) ---------- */
 let BUCH = [], bChapter = null;
+const chName = ch => ch.label ? ch.title : 'Kapitel '+ch.num;
+let bSection = null;
 function bookCards(ch){
-  return ch.cards.map((c,i) => ({...c, key: 'b:'+norm(c.front), lesson:'buch-'+ch.id, level:'Buch', lessonLabel:'Linie B2 · Kapitel '+ch.num, notes:c.notes||[], def:c.def||'', ex:c.ex||''}));
+  return ch.cards.map((c,i) => ({...c, key: 'b:'+norm(c.front), lesson:'buch-'+ch.id, level:'Buch', lessonLabel:'Linie B2 · '+chName(ch), notes:c.notes||[], def:c.def||'', ex:c.ex||''}));
 }
 function renderBuch(){
   if (!BUCH.length){
@@ -1109,15 +1121,24 @@ function renderBuch(){
     return;
   }
   if (!bChapter){
+    const tile = ch => { const cs = bookCards(ch); const o = counts(cs);
+      return `<button class="g-tile" data-chapter="${ch.id}"><span class="src">${ch.label? esc(ch.label) : 'Kapitel '+ch.num}</span><h3>${esc(ch.label? ch.title : (ch.title||'Kapitel '+ch.num))}</h3><span class="minibar">${bar(o,o.total)}</span><span class="meta"><span>${o.total} Karten</span><span>${o.k? o.k+' gekonnt':'noch neu'}</span></span></button>`; };
+    const kap = BUCH.filter(c => !c.label), anh = BUCH.filter(c => c.label);
     $('#buchArea').innerHTML = `<h1 style="font-size:32px">Linie B2 · Wortschatz aus dem Buch</h1>
-      <p class="hint" style="margin:6px 0 0">Die Wörter stammen aus dem Lernwortschatz des Buchs. Bedeutungen und Beispiele hat Claude in einfachem Deutsch ergänzt.</p>
-      <div class="g-grid">${BUCH.map(ch => { const cs = bookCards(ch); const o = counts(cs);
-        return `<button class="g-tile" data-chapter="${ch.id}"><span class="src">Kapitel ${ch.num}</span><h3>${esc(ch.title||'Kapitel '+ch.num)}</h3><span class="minibar">${bar(o,o.total)}</span><span class="meta"><span>${o.total} Karten</span><span>${o.k? o.k+' gekonnt':'noch neu'}</span></span></button>`; }).join('')}</div>`;
+      <p class="hint" style="margin:6px 0 0">Die Wörter und Listen stammen aus dem Buch. Bedeutungen (und Beispiele, wo das Buch keine hat) hat Claude in einfachem Deutsch ergänzt.</p>
+      <h2 class="b-sub">Lernwortschatz der Kapitel</h2><div class="g-grid">${kap.map(tile).join('')}</div>
+      ${anh.length? `<h2 class="b-sub">Anhang: Listen am Ende des Buchs</h2><div class="g-grid">${anh.map(tile).join('')}</div>`:''}`;
     return;
   }
-  const ch = BUCH.find(x => x.id===bChapter), cs = bookCards(ch);
-  $('#buchArea').innerHTML = `<div class="g-head"><button class="btn" id="bBack">← Alle Kapitel</button><h1>Kapitel ${ch.num}: ${esc(ch.title||'')}</h1><button class="btn primary" id="bStudy">Lernen (${cs.length} Karten)</button></div>
-    <div class="wl">${cs.map(c => `<div class="wl-row" style="--c:${STATUS[st(c)].c}"><div class="bar"></div><div><div class="w">${fmtWord(c.front)}</div><div class="d">${fmt(c.def)}</div></div></div>`).join('')}</div>`;
+  const ch = BUCH.find(x => x.id===bChapter), all = bookCards(ch);
+  const secs = [...new Set(all.map(c => c.group||''))];
+  const multi = ch.label && secs.length > 1;
+  const cs = multi && bSection ? all.filter(c => c.group===bSection) : all;
+  const secBtns = multi ? `<div class="b-secs">${[''].concat(secs).map(sname => { const n = sname ? all.filter(c => c.group===sname).length : all.length; const short = sname.replace(/^(Unregelmäßige Verben|Nomen-Verb-Verbindungen) /,'');
+      return `<button class="chip${(bSection||'')===sname?' on':''}" data-bsec="${esc(sname)}">${sname? esc(short) : 'Alle'} <b>${n}</b></button>`; }).join('')}</div>` : '';
+  $('#buchArea').innerHTML = `<div class="g-head"><button class="btn" id="bBack">← Alle Listen</button><h1>${ch.label? esc(ch.title) : 'Kapitel '+ch.num+': '+esc(ch.title||'')}</h1><button class="btn primary" id="bStudy">Lernen (${cs.length} Karten)</button></div>
+    ${secBtns}
+    <div class="wl">${cs.map(c => `<div class="wl-row" style="--c:${STATUS[st(c)].c}"><div class="bar"></div><div><div class="w">${fmtWord(c.front)}</div><div class="d">${fmt(c.def)}</div>${c.forms? `<div class="src">${esc(c.pres? c.pres+' · ':'')}${esc(c.forms[1])} · ${esc(c.forms[2])}</div>`:''}</div></div>`).join('')}</div>`;
 }
 
 /* ---------- routing ---------- */
@@ -1204,9 +1225,10 @@ document.addEventListener('click', e => {
   if (t.id==='kvStudy'){ startSession(kvCards(), 'Redemittel · Kurzvortrag'); return; }
   if (t.dataset.kvtopic!==undefined){ kvStop(); kvSetTopic(+t.dataset.kvtopic); persist(); renderKV(); return; }
   if (t.id==='kvReset'){ delete KV[kvKey()]; if (KVD.id==='t1'){ delete KV.text; ['einleitung','struktur','hauptteil','schluss'].forEach(k => delete KV[k]); } KV.__t = Date.now(); kvResult = null; persist(); renderKV(); return; }
-  if (t.dataset.chapter){ bChapter = t.dataset.chapter; renderBuch(); window.scrollTo(0,0); return; }
+  if (t.dataset.bsec!==undefined){ bSection = t.dataset.bsec || null; renderBuch(); return; }
+  if (t.dataset.chapter){ bChapter = t.dataset.chapter; bSection = null; renderBuch(); window.scrollTo(0,0); return; }
   if (t.id==='bBack'){ bChapter = null; renderBuch(); return; }
-  if (t.id==='bStudy'){ const ch = BUCH.find(x=>x.id===bChapter); startSession(bookCards(ch), 'Linie B2 · Kapitel '+ch.num); return; }
+  if (t.id==='bStudy'){ const ch = BUCH.find(x=>x.id===bChapter); let cs = bookCards(ch); if (bSection) cs = cs.filter(c => c.group===bSection); startSession(cs, 'Linie B2 · '+chName(ch)+(bSection? ' · '+bSection.replace(/^(Unregelmäßige Verben|Nomen-Verb-Verbindungen) /,''):'')); return; }
   if (t.dataset.wkind){ wkind = t.dataset.wkind; wmodel = 0; renderWrite(); return; }
   if (t.dataset.model){ wmodel = +t.dataset.model; renderWrite(); return; }
   if (t.id==='gapToggle'){ wgaps = !wgaps; renderWrite(); return; }
