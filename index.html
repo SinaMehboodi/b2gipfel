@@ -323,6 +323,28 @@ table.g td.w{font-family:var(--f-word)}
 .kv-prompt{margin-top:6px;font:400 17px/1.5 var(--f-word);color:var(--ink);background:var(--surface-2);border-radius:10px;padding:10px 12px;max-height:180px;overflow:auto}
 .kv-par{margin:0 0 14px!important}
 .kv-tag{display:block;font:700 11px var(--f-body);text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:2px}
+.kv-bar.static{height:46px;margin-top:6px}
+.rm-l{font-style:normal;font:700 12px var(--f-body);color:var(--accent);margin-right:4px;text-transform:uppercase;letter-spacing:.04em}
+.kv-text{width:100%;font:400 18px/1.55 var(--f-word);padding:14px 16px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--surface);color:var(--ink);resize:vertical}
+.kv-text:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 20%,transparent)}
+.kv-info{font-size:13px;color:var(--muted);margin:8px 0 12px}
+#kvPreview{font-size:17px}
+.read-panel{display:flex;flex-direction:column;gap:12px}
+.kv-clock.small{font-size:24px}
+.rec-live{min-height:24px;font:400 16px/1.5 var(--f-word);color:var(--muted);font-style:italic}
+.rec-msg{color:var(--bad);font-weight:600;font-size:14px}
+.score-card{display:flex;flex-direction:column;gap:14px;border-top:1px dashed var(--line);padding-top:16px}
+.score-ring{--p:0;width:120px;height:120px;border-radius:50%;display:grid;place-content:center;text-align:center;background:radial-gradient(closest-side,var(--surface) 78%,transparent 79%),conic-gradient(var(--accent) calc(var(--p)*1%),var(--line) 0)}
+.score-ring b{font:800 36px/1 var(--f-display)} .score-ring span{font-size:12px;color:var(--muted)}
+.score-rows{display:flex;flex-direction:column;gap:10px}
+.score-rows div{display:grid;grid-template-columns:1fr auto;gap:4px 10px;font-size:15px}
+.score-rows i{grid-column:1/-1;height:8px;border-radius:999px;background:linear-gradient(90deg,var(--accent) var(--w),var(--line) var(--w))}
+.score-msg{margin:0;font-weight:600}
+.ok-w{color:var(--ok)} .miss-w{color:var(--bad);text-decoration:underline wavy;text-underline-offset:3px}
+.hl.rede.ok-w{color:#14532d} .hl.rede.miss-w{color:#b91c1c}
+.legend-mini{margin-left:8px;text-transform:none;letter-spacing:0;font-weight:600}
+.mine-read{font-size:17px}
+.mine-read .hl,#kvPreview .hl{padding:0 .08em;border-radius:2px}
 .kv-mine{display:flex;flex-direction:column;gap:14px}
 .kv-mine label{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:14px}
 .kv-mine label em{font-style:normal;font-weight:500;color:var(--muted);margin-left:6px}
@@ -345,6 +367,12 @@ a.g-tile.hub{text-decoration:none;color:inherit}
   .dock{bottom:calc(72px + env(safe-area-inset-bottom))}
   body.studying .bottomnav{display:none}
   body.studying main{padding-bottom:40px}
+  .step{grid-template-columns:1fr;gap:10px;padding:14px}
+  .step .num{width:36px;height:36px;font-size:14px}
+  .rm-line{flex-direction:column;gap:6px}
+  .rm-line .copy{align-self:flex-end}
+  .w-intro .panel{padding:18px}
+  .score-ring{width:104px;height:104px}
   .flip{min-height:calc(100vh - 300px);min-height:calc(100dvh - 300px)}
   .answer{gap:8px;margin-top:14px}
   .answer button{padding:12px 4px;font-size:15px}
@@ -930,56 +958,168 @@ function renderGram(){
 
 /* ---------- Kurzvortrag ---------- */
 let KVD = null, kvGaps = false, kvTimer = null, kvT0 = 0, kvShowText = true;
+let REC = null, recOn = false, recFinal = '', recPartial = '', recT0 = 0, recTick = null, kvResult = null;
 function kvTotal(){ return KVD.parts.reduce((a,p) => a + p.sec, 0); }
-function kvText(id){ return (KV[id] !== undefined ? KV[id] : KVD.mine.parts[id]) || ''; }
-function kvCards(){
-  return KVD.parts.map(p => ({front:'Kurzvortrag: '+p.title, def:plainT(p.hint)+' (ca. '+p.sec+' Sekunden)', ex:'', list:p.rm, notes:[], key:'kv:'+p.id, level:'S', lessonLabel:'Kurzvortrag', lesson:'kv', group:'Welche Redemittel passen?'}));
+function kvDefault(){ const m = KVD.mine.parts; return ['einleitung','struktur','hauptteil','schluss'].map(k => m[k]).join('\n\n'); }
+function kvMyText(){
+  if (typeof KV.text === 'string') return KV.text;
+  if (KV.einleitung || KV.struktur || KV.hauptteil || KV.schluss) return ['einleitung','struktur','hauptteil','schluss'].map(k => KV[k] !== undefined ? KV[k] : KVD.mine.parts[k]).join('\n\n');
+  return kvDefault();
 }
+function rmHTML(t){ return fmt(t).replace(/\n/g,'<br>'); }
+function kvCards(){
+  return KVD.parts.map(p => ({front:'Kurzvortrag: '+p.title+' (ca. '+p.sec+' Sekunden)', def:'', ex:'', list:p.rm.map(([l,t]) => (l? l+' ':'')+t), notes:[], key:'kv:'+p.id, level:'S', lessonLabel:'Kurzvortrag', lesson:'kv', group:p.head}));
+}
+/* words + Redemittel matching */
+const tokNorm = w => w.toLowerCase().replace(/[^a-zäöüß0-9]/g,'');
+function tokens(text){ const out = []; const re = /[^\s]+/g; let m; while ((m = re.exec(text))){ const n = tokNorm(m[0]); if (n) out.push({w:m[0], n, i:m.index}); } return out; }
+function findPhrases(tk){
+  const ph = KVD.phrases.map(p => p.split(/\s+/).map(tokNorm)).sort((a,b) => b.length-a.length);
+  const used = new Array(tk.length).fill(false), hits = [];
+  for (const p of ph){
+    for (let i=0; i+p.length<=tk.length; i++){
+      if (used.slice(i,i+p.length).some(Boolean)) continue;
+      if (p.every((w,j) => tk[i+j].n===w)){ hits.push({start:i, len:p.length}); for (let j=0;j<p.length;j++) used[i+j]=true; }
+    }
+  }
+  return hits.sort((a,b) => a.start-b.start);
+}
+function markText(text, tk, hits, matched){
+  // build HTML: Redemittel yellow; when matched given: said = normal, missed = red underline
+  let out = '', pos = 0; const inHit = new Map(); hits.forEach(h => { for (let j=0;j<h.len;j++) inHit.set(h.start+j, h); });
+  tk.forEach((t,i) => {
+    out += esc(text.slice(pos, t.i)).replace(/\n/g,'<br>');
+    let cls = [];
+    if (inHit.has(i)) cls.push('hl rede');
+    if (matched) cls.push(matched[i] ? 'ok-w' : 'miss-w');
+    out += cls.length ? `<span class="${cls.join(' ')}">${esc(t.w)}</span>` : esc(t.w);
+    pos = t.i + t.w.length;
+  });
+  return out + esc(text.slice(pos)).replace(/\n/g,'<br>');
+}
+function align(a, b){ // LCS on normalized tokens; returns matched flags for a
+  const n = a.length, m = b.length, dp = Array.from({length:n+1}, () => new Uint16Array(m+1));
+  for (let i=n-1;i>=0;i--) for (let j=m-1;j>=0;j--) dp[i][j] = a[i].n===b[j].n ? dp[i+1][j+1]+1 : Math.max(dp[i+1][j], dp[i][j+1]);
+  const ok = new Array(n).fill(false); let i=0, j=0;
+  while (i<n && j<m){ if (a[i].n===b[j].n){ ok[i]=true; i++; j++; } else if (dp[i+1][j] >= dp[i][j+1]) i++; else j++; }
+  return ok;
+}
+function scoreReading(text, spoken, secs){
+  const tk = tokens(text), sp = tokens(spoken), hits = findPhrases(tk), ok = align(tk, sp);
+  const acc = tk.length ? ok.filter(Boolean).length / tk.length : 0;
+  const rmSaid = hits.filter(h => { for (let j=0;j<h.len;j++) if (!ok[h.start+j]) return false; return true; });
+  const rmScore = hits.length ? rmSaid.length / hits.length : acc;
+  const t = secs, timeScore = t>=100 && t<=140 ? 1 : Math.max(0, 1 - (t<100 ? 100-t : t-140)/60);
+  const total = Math.round(100*(0.5*rmScore + 0.35*acc + 0.15*timeScore));
+  return {total, acc, rmScore, timeScore, secs, hits, rmSaid, ok, tk};
+}
+function fmtTime(s){ s = Math.round(s); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); }
 function renderKV(){
   if (!KVD){ $('#kvArea').innerHTML = '<div class="empty">Wird geladen …</div>'; return; }
-  const tot = kvTotal();
+  const text = kvMyText(), tk = tokens(text), hits = findPhrases(tk);
   const bar = KVD.parts.map((p,i) => `<div class="kv-seg" data-i="${i}" style="flex:${p.sec}"><b>${esc(p.title)}</b><span>${p.sec} s</span></div>`).join('');
+  const r = kvResult;
+  const result = r ? `<div class="score-card">
+      <div class="score-ring" style="--p:${r.total}"><b>${r.total}</b><span>von 100</span></div>
+      <div class="score-rows">
+        <div><span>Redemittel richtig gesagt</span><b>${r.rmSaid.length} / ${r.hits.length}</b><i style="--w:${Math.round(r.rmScore*100)}%"></i></div>
+        <div><span>Text genau gelesen</span><b>${Math.round(r.acc*100)} %</b><i style="--w:${Math.round(r.acc*100)}%"></i></div>
+        <div><span>Zeit (Ziel ca. 2:00)</span><b>${fmtTime(r.secs)}</b><i style="--w:${Math.round(r.timeScore*100)}%"></i></div>
+      </div>
+      <p class="score-msg">${r.total>=85?'Sehr gut! So kannst du in die Prüfung gehen.':r.total>=65?'Gut. Übe die rot markierten Stellen noch einmal.':'Weiter üben: Lies langsamer und deutlich, besonders die gelben Redemittel.'} ${r.secs<100?'Du warst etwas zu schnell.':r.secs>140?'Du warst etwas zu langsam – kürze den Hauptteil.':''}</p>
+      <div class="lbl">So wurde dein Text erkannt <span class="legend-mini"><span class="ok-w">gesagt</span> <span class="miss-w">nicht erkannt</span></span></div>
+      <div class="letter mine-read">${markText(text, r.tk, r.hits, r.ok)}</div>
+    </div>` : '';
   $('#kvArea').innerHTML = `
     <div class="w-intro">
-      <div class="panel"><h2>${fmt(KVD.title)}</h2><div class="src">${esc(KVD.src)}</div><p class="task">${fmt(KVD.task)}</p></div>
+      <div class="panel"><h2>${fmt(KVD.title)}</h2><div class="src">${esc(KVD.src)}</div><p class="task">${fmt(KVD.task)}</p>
+        <div class="lbl" style="margin-top:14px">2. Struktur · vier Teile</div>
+        <div class="kv-bar static">${bar}</div></div>
       <div class="panel kv-trainer">
         <div class="lbl">Probe mit Timer · ca. 2 Minuten</div>
         <div class="kv-clock" id="kvClock">0:00</div>
         <div class="kv-bar" id="kvBar">${bar}<i id="kvNeedle"></i></div>
-        <div class="kv-now" id="kvNow">Tippe auf Start und halte deinen Vortrag. Der Timer zeigt dir, in welchem Teil du sein solltest.</div>
-        <div class="row" style="display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn primary" id="kvStart">${kvTimer?'Stopp':'Start'}</button>
-          <button class="chip" id="kvTextToggle" aria-pressed="${kvShowText}">Meinen Text zeigen</button>
-        </div>
+        <div class="kv-now" id="kvNow">Tippe auf Start und halte deinen Vortrag frei. Der Timer zeigt, in welchem Teil du sein solltest.</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" id="kvStart">${kvTimer?'Stopp':'Start'}</button></div>
       </div>
     </div>
-    <div class="section-head"><h2>Struktur und Redemittel</h2><button class="btn primary" id="kvStudy">Redemittel üben (${KVD.parts.length} Karten)</button></div>
+
+    <div class="section-head"><h2>Redemittel aus dem Unterricht</h2><button class="btn primary" id="kvStudy">Redemittel üben (${KVD.parts.length} Karten)</button></div>
     <div class="steps">${KVD.parts.map((p,i) => `
-      <div class="step"><div class="num">${i+1}</div><div>
-        <h3>${esc(p.title)} <span class="src">· ca. ${p.sec} Sekunden</span></h3><div class="hint">${fmt(p.hint)}</div>
-        <div class="rm">${p.rm.map(r => `<div class="rm-line"><span>${fmt(r)}</span><button class="copy" data-copy="${esc(plainT(r))}">Kopieren</button></div>`).join('')}</div>
+      <div class="step"><div class="num">${i+3}</div><div>
+        <h3>${esc(p.head.replace(/^\d+\.\s*/,''))}</h3>
+        <div class="rm">${p.rm.map(([l,t]) => `<div class="rm-line"><span>${l?`<em class="rm-l">${esc(l)}</em> `:''}${rmHTML(t)}</span><button class="copy" data-copy="${esc(plainT(t))}">Kopieren</button></div>`).join('')}</div>
       </div></div>`).join('')}</div>
+
+    <div class="section-head"><h2>Mein Text</h2><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="kvReset">Entwurf wiederherstellen</button></div></div>
+    <p class="hint" style="margin:-6px 0 10px">Kopiere deinen eigenen Vortrag hier hinein (oder passe den Entwurf an). Er wird automatisch gespeichert.</p>
+    <textarea class="kv-text" id="kvText" rows="12" aria-label="Mein Vortragstext">${esc(text)}</textarea>
+    <div class="kv-info"><span id="kvWordInfo">${tk.length} Wörter · ca. ${fmtTime(tk.length/2.1)} beim Sprechen</span> · <span id="kvRmInfo">${hits.length} Redemittel aus dem Unterricht</span></div>
+    <div class="letter" id="kvPreview">${markText(text, tk, hits, null)}</div>
+
+    <div class="section-head"><h2>Vorlesen und bewerten</h2></div>
+    <div class="panel read-panel">
+      <p style="margin:0 0 12px">Tippe auf <b>Aufnahme starten</b>, lies deinen Text laut vor und tippe am Ende auf <b>Stopp</b>. Die App vergleicht, was sie gehört hat, mit deinem Text. Am wichtigsten sind die <span class="hl rede">Redemittel</span>.</p>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <button class="btn primary" id="recBtn">${recOn?'■ Stopp':'● Aufnahme starten'}</button>
+        <span class="kv-clock small" id="recClock">${recOn?fmtTime((Date.now()-recT0)/1000):'0:00'}</span>
+      </div>
+      <div class="rec-live" id="recLive">${recOn?esc(recFinal+' '+recPartial):''}</div>
+      <div class="rec-msg" id="recMsg"></div>
+      ${result}
+    </div>
+
     <div class="section-head"><h2>Beispiel aus dem Unterricht</h2><button class="chip" id="kvGapToggle" aria-pressed="${kvGaps}">Lückentext: Redemittel verstecken</button></div>
     <div class="letter ${kvGaps?'gaps':''}">${KVD.model.parts.map(([id,t]) => { const p = KVD.parts.find(x=>x.id===id); return `<p class="kv-par"><span class="kv-tag">${esc(p.title)} · ${p.sec} s</span>${fmt(t)}</p>`; }).join('')}</div>
-    <div class="letter-note">${esc(KVD.model.src)} · Gelb = Redemittel${kvGaps?' · Tippe auf eine Lücke, um sie zu sehen.':''}</div>
-    <div class="section-head"><h2>${esc(KVD.mine.title)}</h2><button class="btn" id="kvReset">Entwurf wiederherstellen</button></div>
-    <p class="hint" style="margin:-6px 0 12px">${esc(KVD.mine.note)}</p>
-    <div class="kv-mine">${KVD.parts.map(p => `<label for="kv-${p.id}"><span>${esc(p.title)} · ca. ${p.sec} s <em id="kvw-${p.id}"></em></span><textarea id="kv-${p.id}" data-kv="${p.id}" rows="${p.id==='hauptteil'?8:3}">${esc(kvText(p.id))}</textarea></label>`).join('')}</div>`;
-  KVD.parts.forEach(p => kvWords(p.id));
+    <div class="letter-note">${esc(KVD.model.src)} · Gelb = Redemittel${kvGaps?' · Tippe auf eine Lücke, um sie zu sehen.':''}</div>`;
 }
-function kvWords(id){ const n = kvText(id).trim().split(/\s+/).filter(Boolean).length; const el = $('#kvw-'+id); if (el) el.textContent = n + ' Wörter (≈ ' + Math.round(n/2.2) + ' s)'; }
 function kvTick(){
   const t = (Date.now()-kvT0)/1000, tot = kvTotal();
-  $('#kvClock').textContent = Math.floor(t/60)+':'+String(Math.floor(t%60)).padStart(2,'0');
+  $('#kvClock').textContent = fmtTime(t);
   $('#kvNeedle').style.left = Math.min(100, t/tot*100)+'%';
   let acc = 0, cur = KVD.parts.length-1;
   for (let i=0;i<KVD.parts.length;i++){ acc += KVD.parts[i].sec; if (t < acc){ cur = i; break; } }
-  $$('.kv-seg').forEach((el,i) => el.classList.toggle('on', i===cur));
-  const p = KVD.parts[cur];
-  $('#kvNow').innerHTML = t >= tot ? '<b>Zeit ist um.</b> Gut gemacht!' : `<b>Jetzt: ${esc(p.title)}</b>${kvShowText ? '<div class="kv-prompt">'+esc(kvText(p.id))+'</div>' : ''}`;
+  $$('#kvBar .kv-seg').forEach((el,i) => el.classList.toggle('on', i===cur));
+  $('#kvNow').innerHTML = t >= tot ? '<b>Zeit ist um.</b>' : `<b>Jetzt: ${esc(KVD.parts[cur].title)}</b>`;
   if (t >= tot + 5) kvStop();
 }
 function kvStop(){ clearInterval(kvTimer); kvTimer = null; const b = $('#kvStart'); if (b) b.textContent = 'Start'; }
+/* speech recognition: Claude dictation (in claude.ai) or the browser's own (Safari/Chrome) */
+async function recStart(){
+  recFinal = ''; recPartial = ''; kvResult = null;
+  const msg = t => { const el = $('#recMsg'); if (el) el.textContent = t; };
+  let dict = null;
+  try{ dict = window.claude && window.claude.use ? await Promise.race([window.claude.use('dictation'), new Promise(r => setTimeout(() => r(null), 300))]) : null; }catch(e){ dict = null; }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (dict){
+    REC = {kind:'claude', d:dict};
+    dict.onPartial(({text}) => { recPartial = text; liveUpdate(); });
+    dict.onFinal(({text}) => { recFinal += ' ' + text; recPartial = ''; liveUpdate(); });
+    try{ await dict.start(); }catch(e){ msg('Das Mikrofon ist nicht erlaubt. Bitte erlaube es und versuche es nochmal.'); return; }
+  } else if (SR){
+    const r = new SR(); r.lang = 'de-DE'; r.continuous = true; r.interimResults = true;
+    r.onresult = ev => { let part = ''; for (let i=ev.resultIndex;i<ev.results.length;i++){ const x = ev.results[i]; if (x.isFinal) recFinal += ' ' + x[0].transcript; else part += x[0].transcript; } recPartial = part; liveUpdate(); };
+    r.onerror = ev => { if (ev.error==='not-allowed') msg('Das Mikrofon ist nicht erlaubt. Bitte in den Einstellungen erlauben.'); };
+    r.onend = () => { if (recOn){ try{ r.start(); }catch(e){} } };
+    REC = {kind:'web', r};
+    try{ r.start(); }catch(e){ msg('Spracherkennung konnte nicht starten.'); return; }
+  } else { msg('Dieser Browser hat keine Spracherkennung. Auf dem iPhone bitte in Safari öffnen, am Computer in Chrome.'); return; }
+  recOn = true; recT0 = Date.now();
+  $('#recBtn').textContent = '■ Stopp';
+  recTick = setInterval(() => { const c = $('#recClock'); if (c) c.textContent = fmtTime((Date.now()-recT0)/1000); }, 250);
+}
+function liveUpdate(){ const el = $('#recLive'); if (el) el.textContent = (recFinal + ' ' + recPartial).trim(); }
+async function recStop(){
+  if (!REC) return;
+  const secs = (Date.now()-recT0)/1000; recOn = false; clearInterval(recTick);
+  try{ if (REC.kind==='claude') await REC.d.stop(); else REC.r.stop(); }catch(e){}
+  await new Promise(r => setTimeout(r, 700));
+  const spoken = (recFinal + ' ' + recPartial).trim(); REC = null;
+  if (!spoken){ renderKV(); const el = $('#recMsg'); if (el) el.textContent = 'Es wurde nichts erkannt. Sprich etwas lauter und näher am Mikrofon.'; return; }
+  kvResult = scoreReading(kvMyText(), spoken, secs);
+  const hist = KV.scores || []; hist.push({t:Date.now(), s:kvResult.total}); KV.scores = hist.slice(-20); KV.__t = Date.now(); persist();
+  renderKV(); const sc = document.querySelector('.score-card'); if (sc) sc.scrollIntoView({behavior:'smooth', block:'start'});
+}
 
 /* ---------- Buch (Linie B2) ---------- */
 let BUCH = [], bChapter = null;
@@ -1024,7 +1164,7 @@ function route(){
   if (v==='grammatik') renderGram();
   if (v==='kurzvortrag') renderKV();
   if (v==='buch') renderBuch();
-  if (v!=='kurzvortrag') kvStop();
+  if (v!=='kurzvortrag'){ kvStop(); if (recOn) recStop(); }
   document.body.classList.toggle('studying', v==='lernen');
   renderDock();
   window.scrollTo(0,0);
@@ -1076,10 +1216,10 @@ document.addEventListener('click', e => {
     persist(); renderList(); return;
   }
   if (t.id==='kvStart'){ if (kvTimer) kvStop(); else { kvT0 = Date.now(); kvTimer = setInterval(kvTick, 250); t.textContent = 'Stopp'; kvTick(); } return; }
-  if (t.id==='kvTextToggle'){ kvShowText = !kvShowText; t.setAttribute('aria-pressed', String(kvShowText)); return; }
+  if (t.id==='recBtn'){ if (recOn) recStop(); else recStart(); return; }
   if (t.id==='kvGapToggle'){ kvGaps = !kvGaps; renderKV(); return; }
   if (t.id==='kvStudy'){ startSession(kvCards(), 'Redemittel · Kurzvortrag'); return; }
-  if (t.id==='kvReset'){ KV = {}; persist(); renderKV(); return; }
+  if (t.id==='kvReset'){ delete KV.text; ['einleitung','struktur','hauptteil','schluss'].forEach(k => delete KV[k]); KV.__t = Date.now(); kvResult = null; persist(); renderKV(); return; }
   if (t.dataset.chapter){ bChapter = t.dataset.chapter; renderBuch(); window.scrollTo(0,0); return; }
   if (t.id==='bBack'){ bChapter = null; renderBuch(); return; }
   if (t.id==='bStudy'){ const ch = BUCH.find(x=>x.id===bChapter); startSession(bookCards(ch), 'Linie B2 · Kapitel '+ch.num); return; }
@@ -1095,7 +1235,11 @@ document.addEventListener('click', e => {
 });
 ['#q','#fLesson','#fStatus'].forEach(s => $(s).addEventListener('input', renderList));
 let kvSave = null;
-document.addEventListener('input', e => { const id = e.target.dataset && e.target.dataset.kv; if (!id) return; KV[id] = e.target.value; KV.__t = Date.now(); kvWords(id); clearTimeout(kvSave); kvSave = setTimeout(persist, 800); });
+document.addEventListener('input', e => { if (e.target.id!=='kvText') return; KV.text = e.target.value; KV.__t = Date.now(); kvResult = null;
+  const tk = tokens(KV.text), hits = findPhrases(tk);
+  $('#kvWordInfo').textContent = tk.length+' Wörter · ca. '+fmtTime(tk.length/2.1)+' beim Sprechen'; $('#kvRmInfo').textContent = hits.length+' Redemittel aus dem Unterricht';
+  $('#kvPreview').innerHTML = markText(KV.text, tk, hits, null);
+  clearTimeout(kvSave); kvSave = setTimeout(persist, 800); });
 document.addEventListener('keydown', e => {
   if (currentView()!=='lernen' || !S || $('#studyArea').hidden) return;
   if (e.target.matches('input,select,textarea')) return;
