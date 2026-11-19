@@ -198,7 +198,7 @@ main{padding:28px 0 120px}
 .b-secs .chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .b-secs .chip.on b{color:inherit;opacity:.7}
 .b-secs .chip:disabled{opacity:.45;cursor:default}
-.b-secs.st{margin-top:6px}
+.b-secs.st{margin-top:6px;padding-top:8px;border-top:1px dashed var(--line)}
 .emo{font-style:normal;margin-right:1px}
 .b-piles{margin-top:12px}
 .forms div{background:var(--bg);border-radius:12px;padding:9px 12px;border:1px solid var(--line)}
@@ -337,7 +337,7 @@ dialog::backdrop{background:rgba(16,19,29,.45)}
 .step .hint{margin:2px 0 10px}
 .rm{display:flex;flex-direction:column;gap:6px}
 .rm-line{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;padding:8px 10px;border-radius:10px;background:var(--bg);font:400 16.5px/1.6 var(--f-word)}
-.rm-line .copy{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:8px;font:600 12px var(--f-body);padding:4px 8px;color:var(--muted)}
+.rm-line .copy{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:8px;font:600 15px/1 var(--f-body);width:30px;height:30px;padding:0;color:var(--muted);display:grid;place-items:center}
 .rm-line .copy.done{color:var(--ok);border-color:var(--ok)}
 .models{margin-top:8px}
 .model-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
@@ -372,37 +372,59 @@ table.g td.w{font-family:var(--f-word)}
 .g-feature .src{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
 .g-feature h3{font-size:20px;margin:4px 0 4px}.g-feature span.sub{color:var(--muted);font-size:14.5px}
 .b-sub.g{margin-top:28px}
-.dk-wrap{--cnom:#dbe6f0;--cakk:#f6dad6;--cdat:#dbe8d3;--cgen:#e3dcef;--knom:#3d5a73;--kakk:#9a4a42;--kdat:#55704a;--kgen:#6b5687}
-.dk-h{font-size:21px;margin:22px 0 10px}.dk-s{font-size:16.5px;margin:20px 0 8px}
-table.dk{border-collapse:collapse;width:100%;font:15px/1.35 var(--f-word);color:#1c1917}
-table.dk th,table.dk td{border:1px solid rgba(0,0,0,.14);padding:6px 9px;vertical-align:top;text-align:left}
-table.dk thead th{background:#e9e7f0;font:700 13px var(--f-body);color:#1c1917}
+.dk-wrap{--cnom:color-mix(in srgb,#64748b 9%,var(--surface));--cakk:color-mix(in srgb,var(--akk) 8%,var(--surface));--cdat:color-mix(in srgb,var(--dat) 9%,var(--surface));--cgen:color-mix(in srgb,var(--gen) 8%,var(--surface));
+  --knom:#475569;--kakk:var(--akk);--kdat:var(--dat);--kgen:var(--gen)}
+:root[data-theme="dark"] .dk-wrap{--knom:#94a3b8;--kakk:#ff6b6b;--kdat:#4ade80;--kgen:#c084fc}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .dk-wrap{--knom:#94a3b8;--kakk:#ff6b6b;--kdat:#4ade80;--kgen:#c084fc}}
+.dk-lead{margin:0 0 10px;color:var(--muted);font-size:14px}
+.dk-s{font-size:16px;margin:18px 0 8px}
+.dk-wrap .tbl-wrap{border:1px solid var(--line);border-radius:14px;overflow:auto;background:var(--surface)}
+table.dk{border-collapse:collapse;width:100%;font:15px/1.4 var(--f-word);color:var(--ink)}
+table.dk th,table.dk td{border-bottom:1px solid var(--line);padding:7px 10px;vertical-align:top;text-align:left}
+table.dk thead th{background:var(--surface-2);font:700 12px var(--f-body);letter-spacing:.03em;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--line)}
+table.dk tbody tr:last-child td,table.dk tbody tr:last-child th{border-bottom:0}
+table.dk b{font-weight:800}
 table.dk tr.nom td{background:var(--cnom)}table.dk tr.akk td{background:var(--cakk)}table.dk tr.dat td{background:var(--cdat)}table.dk tr.gen td{background:var(--cgen)}
-table.dk th.k{color:#fff;font:800 15px var(--f-body);vertical-align:middle;text-align:center;width:52px}
-table.dk tr.nom th.k{background:var(--knom)}table.dk tr.akk th.k{background:var(--kakk)}table.dk tr.dat th.k{background:var(--kdat)}table.dk tr.gen th.k{background:var(--kgen)}
-table.dk td.t{font:13px var(--f-body);color:#44403c;white-space:nowrap}
+table.dk th.k{font:800 13px var(--f-body);letter-spacing:.04em;vertical-align:middle;text-align:center;width:56px;border-right:1px solid var(--line)}
+table.dk tr.nom th.k{color:var(--knom);background:var(--cnom)}table.dk tr.akk th.k{color:var(--kakk);background:var(--cakk)}table.dk tr.dat th.k{color:var(--kdat);background:var(--cdat)}table.dk tr.gen th.k{color:var(--kgen);background:var(--cgen)}
+table.dk tr.case-start td,table.dk tr.case-start th{border-top:2px solid color-mix(in srgb,var(--ink) 14%,transparent)}
+table.dk td.t{font:600 12.5px var(--f-body);color:var(--muted);white-space:nowrap}
 table.dk.cols td.nom,table.dk.cols th.nom{background:var(--cnom)}table.dk.cols td.akk,table.dk.cols th.akk{background:var(--cakk)}
 table.dk.cols td.dat,table.dk.cols th.dat{background:var(--cdat)}table.dk.cols td.gen,table.dk.cols th.gen{background:var(--cgen)}
-table.dk.cols td.pos,table.dk.cols th.pos{background:#eceae5}table.dk.cols td.hint{background:#fff;font:13.5px var(--f-body)}
-.minis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:12px 0 6px}
-table.dk.mini caption{caption-side:top;background:#2b2a33;color:#fff;font:700 13px var(--f-body);padding:6px;border-radius:8px 8px 0 0}
+table.dk.cols th.akk{color:var(--kakk)}table.dk.cols th.dat{color:var(--kdat)}table.dk.cols th.gen{color:var(--kgen)}table.dk.cols th.nom{color:var(--knom)}
+table.dk.cols td.pos,table.dk.cols th.pos{background:var(--surface-2)}table.dk.cols td.hint{font:13.5px/1.45 var(--f-body);color:var(--muted)}
+.minis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:12px 0 6px}
+.mini-card{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+.mini-t{font:700 13px var(--f-body);padding:8px 12px;background:var(--brand-50);color:var(--brand-700)}
+table.dk.mini{font-size:14.5px}
 table.dk.mini th,table.dk.mini td{text-align:center;padding:5px 4px}
-table.dk.mini tbody th{font:700 13px var(--f-body)}table.dk.mini tr.nom th{background:var(--cnom)}table.dk.mini tr.akk th{background:var(--cakk)}table.dk.mini tr.dat th{background:var(--cdat)}table.dk.mini tr.gen th{background:var(--cgen)}
-.dk-wrap .rules{margin-top:14px}.dk-wrap .rule ul{margin:8px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:5px;font-size:15px;line-height:1.5}
+table.dk.mini thead th{text-transform:none;letter-spacing:0}
+table.dk.mini tbody th{font:800 12px var(--f-body);text-align:left;padding-left:12px;width:46px}
+table.dk.mini tr.nom th{color:var(--knom);background:var(--cnom)}table.dk.mini tr.akk th{color:var(--kakk);background:var(--cakk)}table.dk.mini tr.dat th{color:var(--kdat);background:var(--cdat)}table.dk.mini tr.gen th{color:var(--kgen);background:var(--cgen)}
+table.dk.mini td b{color:var(--accent)}
+.dk-wrap .rules{margin-top:14px}.dk-wrap .rule ul{margin:8px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:5px;font-size:15px;line-height:1.5}
 .preps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
-.pp{border-radius:14px;padding:14px 16px;color:#1c1917;font-size:14.5px;line-height:1.45;border:1px solid rgba(0,0,0,.1)}
-.pp h4{font-size:15.5px;margin:0 0 6px}.pp p{margin:8px 0 0}
-.pp.akk{background:var(--cakk)}.pp.dat{background:var(--cdat)}.pp.gen{background:var(--cgen)}.pp.wech{background:linear-gradient(90deg,var(--cakk) 0 50%,var(--cdat) 50%) top/100% 5px no-repeat,#f1eee6}
-
-:root[data-theme="dark"] .dk-wrap{--cnom:#1c2a36;--cakk:#3a1f1c;--cdat:#1e3020;--cgen:#2a2238;--knom:#5b7f9e;--kakk:#c0675d;--kdat:#76a067;--kgen:#9a82bd}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .dk-wrap{--cnom:#1c2a36;--cakk:#3a1f1c;--cdat:#1e3020;--cgen:#2a2238;--knom:#5b7f9e;--kakk:#c0675d;--kdat:#76a067;--kgen:#9a82bd}}
-.dk-wrap table.dk,.dk-wrap .pp{color:var(--ink)}
-.dk-wrap table.dk th,.dk-wrap table.dk td{border-color:color-mix(in srgb,var(--ink) 16%,transparent)}
-.dk-wrap table.dk thead th{background:var(--surface-2);color:var(--ink)}
-.dk-wrap table.dk td.t{color:var(--muted)}
-.dk-wrap table.dk.cols td.pos,.dk-wrap table.dk.cols th.pos{background:var(--surface-2)}.dk-wrap table.dk.cols td.hint{background:var(--surface)}
-.dk-wrap .pp.wech{background:linear-gradient(90deg,var(--cakk) 0 50%,var(--cdat) 50%) top/100% 5px no-repeat,var(--surface-2)}
-@media (max-width:640px){table.dk{font-size:13.5px}.tbl-wrap table.dk{min-width:620px}.tbl-wrap table.dk.cols{min-width:560px}table.dk th,table.dk td{padding:5px 6px}table.dk th.k{width:34px;font-size:12px}table.dk td.t{white-space:normal}}
+.pp{border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.45;border:1px solid var(--line);background:var(--surface);border-top:4px solid var(--c)}
+.pp h4{font-size:15.5px;margin:0 0 6px;color:var(--c)}.pp p{margin:8px 0 0;color:var(--ink)}
+.pp.akk{--c:var(--kakk)}.pp.dat{--c:var(--kdat)}.pp.gen{--c:var(--kgen)}.pp.wech{--c:var(--accent)}
+.dk-wrap section{display:none}.dk-wrap section.on{display:block}
+.lvl-tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 14px}
+.lvl-tab{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:center;text-align:left;border:1.5px solid var(--line);background:var(--surface);border-radius:16px;padding:12px 14px;cursor:pointer;color:var(--ink)}
+.lvl-tab .lv{grid-row:1/3;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font:800 15px var(--f-display);background:var(--surface-2);color:var(--muted)}
+.lvl-tab .lt b{display:block;font-size:16px}.lvl-tab .lt small{color:var(--muted);font-size:12.5px}
+.lvl-tab .minibar{grid-column:2}
+.lvl-tab[aria-pressed="true"]{border-color:var(--accent);background:var(--brand-50)}
+.lvl-tab[aria-pressed="true"] .lv{background:var(--brand-gradient);color:#fff}
+@media (max-width:480px){.lvl-tab{grid-template-columns:1fr;padding:10px 12px}.lvl-tab .lv{display:none}.lvl-tab .minibar{grid-column:1}}
+.model-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-bottom:10px}
+.model-card{text-align:left;border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 12px;cursor:pointer;color:var(--ink)}
+.model-card b{display:block;font-size:14.5px}.model-card small{color:var(--muted);font-size:12px}
+.model-card[aria-pressed="true"]{border-color:var(--accent);background:var(--brand-50)}
+.subtabs{display:flex;flex-wrap:wrap;gap:6px;overflow-x:auto;scrollbar-width:none;margin:4px 0 14px;padding-bottom:2px;-webkit-overflow-scrolling:touch}
+.subtabs::-webkit-scrollbar{display:none}
+.subtabs button{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font:700 14px var(--f-body);cursor:pointer;white-space:nowrap}
+.subtabs button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+@media (max-width:640px){table.dk{font-size:14px}table.dk th,table.dk td{padding:6px 7px}table.dk th.k{width:40px;font-size:11.5px}.tbl-wrap table.dk{min-width:600px}.tbl-wrap table.dk.cols{min-width:540px}}
 .rules{display:flex;flex-direction:column;gap:12px;margin-bottom:16px}
 .rule{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
 .rule h3{font-size:17px}
@@ -481,11 +503,20 @@ a.g-tile.hub{text-decoration:none;color:inherit}
   .dock #dockStart{grid-column:2/4;padding:9px 6px;font-size:15px}
   body.studying .bottomnav{display:none}
   body.studying main{padding-bottom:40px}
-  .step{grid-template-columns:1fr;gap:10px;padding:14px}
-  .step .num{width:36px;height:36px;font-size:14px}
-  .rm-line{flex-direction:column;gap:6px}
-  .rm-line .copy{align-self:flex-end}
-  .w-intro .panel{padding:18px}
+  .wrap{padding:0 12px}
+  .panel{padding:16px}
+  .step{grid-template-columns:30px minmax(0,1fr);gap:6px 10px;padding:12px}
+  .step>div:last-child{display:contents}
+  .step h3{align-self:center;font-size:16.5px}
+  .step .hint,.step .rm{grid-column:1/-1}
+  .step .hint{margin:0 0 4px}
+  .step .num{width:30px;height:30px;font-size:13px;border-radius:9px;box-shadow:none}
+  .rm-line{padding:7px 8px;font-size:16px;gap:6px}
+  .w-intro .panel{padding:16px}
+  .letter{padding:16px!important;font-size:16.5px}
+  .g-head{gap:10px}
+  .g-head h1{font-size:24px;flex-basis:100%;min-width:0}
+  .subtabs button{padding:7px 12px;font-size:13.5px}
   .score-ring{width:104px;height:104px}
   .flip{min-height:calc(100vh - 300px);min-height:calc(100dvh - 300px)}
   .answer{gap:8px;margin-top:14px}
@@ -554,16 +585,12 @@ a.g-tile.hub{text-decoration:none;color:inherit}
     <div class="section-head">
       <h2>Unterrichte</h2>
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-        <div class="seg" role="group" aria-label="Niveau">
-          <button data-lvl="B1+" aria-pressed="false">B1+</button>
-          <button data-lvl="B2" aria-pressed="true">B2</button>
-          <button data-lvl="all" aria-pressed="false">Alle</button>
-        </div>
         <a class="btn ghost" href="#liste" style="text-decoration:none">Wortliste</a>
         <button class="btn ghost" id="selAll">Alle auswählen</button>
         <button class="btn" id="openImport">+ Unterricht hinzufügen</button>
       </div>
     </div>
+    <div class="lvl-tabs" id="lvlTabs" role="tablist" aria-label="Niveau"></div>
     <div class="lessons" id="lessons"></div>
     <div class="panel datapanel">
       <p id="dataNote">Dein Lernstand wird auf diesem Gerät gespeichert. Mach ab und zu ein Backup, besonders bevor du das Handy wechselst.</p>
@@ -632,13 +659,6 @@ a.g-tile.hub{text-decoration:none;color:inherit}
     </div>
   </section>
   <section class="view" id="v-schreiben">
-    <div class="section-head" style="margin-top:0">
-      <h1 style="font-size:32px">Schreiben</h1>
-      <div class="seg" role="group" aria-label="Textsorte">
-        <button data-wkind="email" aria-pressed="true">E-Mail</button>
-        <button data-wkind="forum" aria-pressed="false">Forumsbeitrag</button>
-      </div>
-    </div>
     <div id="writeArea"></div>
   </section>
   <section class="view" id="v-grammatik">
@@ -735,7 +755,7 @@ function leoTerm(front){
 const LS = 'karteikasten-v1';
 let PROF = {tm:{}, goal:10, name:'', t:0};
 let db = null, docRef = null, saveTimer = null, saving = false, dirty = false;
-function loadLocal(){ try{ const o = JSON.parse(localStorage.getItem(LS)||'{}'); P = o.p||{}; DAYS = o.d||{}; level = ['B1+','B2','all'].includes(o.l) ? o.l : level; KV = o.kv||{}; if (o.pr) PROF = {...PROF, ...o.pr, tm:o.pr.tm||{}}; }catch(e){} }
+function loadLocal(){ try{ const o = JSON.parse(localStorage.getItem(LS)||'{}'); P = o.p||{}; DAYS = o.d||{}; level = ['B1+','B2'].includes(o.l) ? o.l : level; KV = o.kv||{}; if (o.pr) PROF = {...PROF, ...o.pr, tm:o.pr.tm||{}}; }catch(e){} }
 function saveLocal(){ try{ localStorage.setItem(LS, JSON.stringify({p:P,d:DAYS,l:level,kv:KV,pr:PROF})); }catch(e){} }
 function setSync(cloud, text){ $('#sync').classList.toggle('cloud', cloud); $('#syncText').textContent = text; }
 function persist(){
@@ -828,7 +848,8 @@ function renderOverview(){
   const sq = smartQueue().length; $('#nSmart').textContent = sq;
   $$('.pile').forEach(b => { const p = b.dataset.pile; b.disabled = p==='smart' ? !sq : !o[p]; });
 
-  $$('.seg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lvl===level)));
+  $('#lvlTabs').innerHTML = ['B2','B1+'].map(lv => { const ls = LESSONS.filter(l => l.level===lv); const o = counts(CARDS.filter(c => c.level===lv));
+    return `<button class="lvl-tab" data-lvl="${lv}" role="tab" aria-pressed="${lv===level}"><span class="lv">${lv}</span><span class="lt"><b>${lv==='B2'?'B2-Kurs':'B1+ Kurs'}</b><small>${ls.length} Unterrichte · ${o.total} Wörter</small></span><span class="minibar">${bar(o,o.total)}</span></button>`; }).join('');
   const ls = visibleLessons();
   $('#lessons').innerHTML = ls.map(l => {
     const lo = counts(l.cards);
@@ -1025,8 +1046,8 @@ function listCards(q, fl, fs){
 let suppressClick = false;
 
 /* ---------- Schreiben ---------- */
-let ALLG = '';
-let WRITE = null, GRAM = [], wkind = 'email', wmodel = 0, wgaps = false, gTopic = null;
+let ALLG = '', gSub = 'artikel';
+let WRITE = null, GRAM = [], wkind = null, wsub = 'aufgabe', wmodel = 0, wgaps = false, gTopic = null;
 function rmCards(kind){
   const d = WRITE[kind]; const label = kind==='email' ? 'E-Mail' : 'Forum';
   return d.steps.map((st, i) => ({front: label+': '+st.title, def: st.hint, ex:'', list: st.rm, notes:[], key:'rm:'+kind+':'+st.n,
@@ -1034,33 +1055,42 @@ function rmCards(kind){
 }
 function renderWrite(){
   if (!WRITE){ $('#writeArea').innerHTML = '<div class="empty">Wird geladen …</div>'; return; }
+  if (!wkind){
+    $('#writeArea').innerHTML = `<div class="g-head"><a class="btn" href="#pruefung" style="text-decoration:none">← Prüfung</a><h1>Schreiben</h1></div>
+      <div class="g-grid">${[['email','✉️ E-Mail'],['forum','💬 Forumsbeitrag']].map(([k,l]) => { const d = WRITE[k];
+        return `<button class="g-tile" data-wkind="${k}"><span class="src">${l}</span><h3>${fmt(d.title)}</h3><span class="sub">${esc(d.src)}</span><span class="meta"><span>${d.steps.length} Schritte mit Redemitteln</span><span>${d.models.length} Modelltext${d.models.length>1?'e':''}</span></span></button>`; }).join('')}</div>`;
+    return;
+  }
   const d = WRITE[wkind];
-  $$('[data-wkind]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.wkind===wkind)));
-  const intro = wkind==='email'
-    ? `<div class="panel"><div class="qa"><div class="lbl">Vor dem Schreiben: beim Lesen fragen</div>${d.lesen.map(([q,a]) => `<div><b>${fmt(q)}</b><span>${fmt(a)}</span></div>`).join('')}</div></div>`
-    : `<div class="panel"><div class="lbl">Struktur</div><ol class="forms-list">${d.steps.filter(x=>x.n!=='0').map(x => `<li><b>${fmt(x.title)}</b>: ${fmt(x.hint)}</li>`).join('')}</ol></div>`;
-  const m = d.models[Math.min(wmodel, d.models.length-1)];
-  $('#writeArea').innerHTML = `
-    <div class="w-intro">
-      <div class="panel"><h2>${fmt(d.title)}</h2><div class="src">${esc(d.src)}</div>
+  const SUBS = [['aufgabe','Aufgabe'],['redemittel','Struktur & Redemittel'],['modell','Modelltext'+(d.models.length>1?'e':'')]];
+  let body = '';
+  if (wsub==='aufgabe'){
+    const intro = wkind==='email'
+      ? `<div class="panel"><div class="qa"><div class="lbl">Vor dem Schreiben: beim Lesen fragen</div>${d.lesen.map(([q,a]) => `<div><b>${fmt(q)}</b><span>${fmt(a)}</span></div>`).join('')}</div></div>`
+      : `<div class="panel"><div class="lbl">Struktur</div><ol class="forms-list">${d.steps.filter(x=>x.n!=='0').map(x => `<li><b>${fmt(x.title)}</b>: ${fmt(x.hint)}</li>`).join('')}</ol></div>`;
+    body = `<div class="w-intro">
+      <div class="panel"><div class="src">${esc(d.src)}</div>
         <p class="task">${fmt(d.task)}</p>${d.themen ? d.themen.map(([t,src,x]) => `<div class="thema"><b>${esc(t)}</b> <span class="src">· ${esc(src)}</span><br>${fmt(x)}</div>`).join('') : (d.thema?`<div class="thema">${fmt(d.thema)}</div>`:'')}
         ${d.formen?`<div style="margin-top:14px"><div class="lbl">Drei mögliche Formen der Entschuldigung</div><ol class="forms-list">${d.formen.map(f=>`<li>${fmt(f)}</li>`).join('')}</ol></div>`:''}
-      </div>
-      ${intro}
-    </div>
-    <div class="section-head"><h2>Struktur und Redemittel</h2><button class="btn primary" id="rmStudy">Redemittel üben (${d.steps.length} Karten)</button></div>
+      </div>${intro}</div>`;
+  } else if (wsub==='redemittel'){
+    body = `<div class="section-head" style="margin-top:0"><span class="hint">Gelb = Redemittel aus dem Unterricht</span><button class="btn primary" id="rmStudy">Redemittel üben (${d.steps.length} Karten)</button></div>
     <div class="steps">${d.steps.map(st => `
       <div class="step"><div class="num">${esc(st.n)}</div><div>
         <h3>${fmt(st.title)}</h3><div class="hint">${fmt(st.hint)}</div>
-        <div class="rm">${st.rm.map(r => `<div class="rm-line"><span>${fmt(r)}</span><button class="copy" data-copy="${esc(plainT(r))}">Kopieren</button></div>`).join('')}</div>
-      </div></div>`).join('')}</div>
-    <div class="section-head"><h2>Modelltext${d.models.length>1?'e':''}</h2></div>
-    <div class="models">
-      <div class="model-tabs">${d.models.map((x,i) => `<button class="chip" data-model="${i}" aria-pressed="${i===wmodel}">${esc(x.title)}</button>`).join('')}
-        <span class="sp"></span><button class="chip" id="gapToggle" aria-pressed="${wgaps}">Lückentext: Redemittel verstecken</button></div>
+        <div class="rm">${st.rm.map(r => `<div class="rm-line"><span>${fmt(r)}</span><button class="copy" data-copy="${esc(plainT(r))}" aria-label="Kopieren" title="Kopieren">⧉</button></div>`).join('')}</div>
+      </div></div>`).join('')}</div>`;
+  } else {
+    const m = d.models[Math.min(wmodel, d.models.length-1)];
+    body = `<div class="models">
+      ${d.models.length>1 ? `<div class="model-list">${d.models.map((x,i) => `<button class="model-card" data-model="${i}" aria-pressed="${i===wmodel}"><b>${esc(x.title)}</b><small>${esc(x.src)}</small></button>`).join('')}</div>`:''}
+      <div class="model-tabs"><span class="sp"></span><button class="chip" id="gapToggle" aria-pressed="${wgaps}">Lückentext: Redemittel verstecken</button></div>
       <div class="letter ${wgaps?'gaps':''}" id="letter">${m.lines.map(l => l ? `<p>${fmt(l)}</p>` : '<div class="gap-p"></div>').join('')}</div>
       <div class="letter-note">${esc(m.src)}${wgaps?' · Tippe auf eine gelbe Lücke, um das Redemittel zu sehen.':' · Gelb = Redemittel'}</div>
     </div>`;
+  }
+  $('#writeArea').innerHTML = `<div class="g-head"><button class="btn" id="wBack">← Schreiben</button><h1>${fmt(d.title)}</h1></div>
+    <div class="subtabs">${SUBS.map(([id,l]) => `<button data-wsub="${id}" aria-pressed="${wsub===id}">${l}</button>`).join('')}</div>${body}`;
 }
 
 /* ---------- Grammatik ---------- */
@@ -1071,14 +1101,16 @@ function cellHTML(c){ return fmt(c).replace(/&lt;br&gt;/g,'<br>'); }
 function renderGram(){
   if (!GRAM.length){ $('#gramArea').innerHTML = '<div class="empty">Wird geladen …</div>'; return; }
   if (gTopic==='allg'){
-    $('#gramArea').innerHTML = `<div class="g-head"><button class="btn" id="gBack">← Alle Themen</button><h1>Deklination: Artikel, Adjektiv, Pronomen</h1></div>
-      <div class="src" style="margin:-8px 0 6px">Allgemeine Grammatik · Masterchart (2 Seiten)</div>
+    const SUBS = [['artikel','Artikel-Tabelle'],['adjektiv','Adjektivendungen'],['pronomen','Pronomen'],['kasus','Kasus & Präpositionen'],['nomen','Nomen']];
+    $('#gramArea').innerHTML = `<div class="g-head"><button class="btn" id="gBack">← Alle Themen</button><h1>Deklination</h1></div>
+      <div class="subtabs" role="tablist">${SUBS.map(([id,l]) => `<button data-gsub="${id}" aria-pressed="${gSub===id}">${l}</button>`).join('')}</div>
       <div class="dk-wrap">${ALLG || '<div class="empty">Wird geladen …</div>'}</div>`;
+    const sec = $('#gramArea').querySelector(`section[data-sub="${gSub}"]`); if (sec) sec.classList.add('on');
     return;
   }
   if (!gTopic){
     $('#gramArea').innerHTML = `<h1 style="font-size:32px">Grammatik</h1>
-      <button class="g-feature" data-topic="allg"><span class="src">Allgemeine Grammatik</span><h3>Deklination: Artikel, Adjektiv, Pronomen</h3><span class="sub">Alle Tabellen auf einer Seite: Artikel- und Adjektivendungen, Pronomen, Präpositionen, Kasus und Besonderheiten</span></button>
+      <button class="g-feature" data-topic="allg"><span class="src">Allgemeine Grammatik</span><h3>Deklination: Artikel, Adjektiv, Pronomen</h3><span class="sub">Artikel-Tabelle · Adjektivendungen · Pronomen · Kasus & Präpositionen · Nomen</span></button>
       <h2 class="b-sub g">Grammatik aus dem Unterricht</h2>
       <p class="hint" style="margin:6px 0 0">Jedes Thema hat die Übersicht aus dem Protokoll und Übungskarten.</p>
       <div class="g-grid">${GRAM.map(t => { const cs = gCards(t); const k = cs.filter(c => st(c)==='k').length;
@@ -1096,6 +1128,7 @@ function renderGram(){
 }
 
 /* ---------- Kurzvortrag ---------- */
+let kvOpen = false, kvSub = 'aufgabe';
 let KVALL = null, KVD = null, kvGaps = false, kvTimer = null, kvT0 = 0, kvShowText = true;
 let kvResult = null;
 function kvTotal(){ return KVD.parts.reduce((a,p) => a + p.sec, 0); }
@@ -1172,39 +1205,43 @@ function renderKV(){
       <div class="lbl">So wurde dein Text erkannt <span class="legend-mini"><span class="ok-w">gesagt</span> <span class="miss-w">nicht erkannt</span></span></div>
       <div class="letter mine-read">${markText(text, r.tk, r.hits, r.ok)}</div>
     </div>` : '';
-  const tabs = `<div class="model-tabs" style="margin-bottom:14px">${KVALL.topics.map((tp,i) => `<button class="chip" data-kvtopic="${i}" aria-pressed="${tp.id===KVD.id}">${esc(tp.short)}</button>`).join('')}</div>`;
-  $('#kvArea').innerHTML = tabs + `
-    <div class="w-intro">
-      <div class="panel"><h2>${fmt(KVD.title)}</h2><div class="src">${esc(KVD.src)}</div><p class="task">${fmt(KVD.task)}</p>
-        <div class="lbl" style="margin-top:14px">2. Struktur · vier Teile</div>
-        <div class="kv-bar static">${bar}</div></div>
-      <div class="panel kv-trainer">
+  if (!kvOpen){
+    $('#kvArea').innerHTML = `<div class="g-head"><a class="btn" href="#pruefung" style="text-decoration:none">← Prüfung</a><h1>Kurzvortrag</h1></div>
+      <p class="hint" style="margin:-6px 0 0">Mündliche Prüfung · ca. 2 Minuten. Wähle dein Thema.</p>
+      <div class="g-grid">${KVALL.topics.map((tp,i) => `<button class="g-tile" data-kvtopic="${i}"><span class="src">🎤 ${esc(tp.short.split(':')[0])}</span><h3>${esc((tp.short.split(':')[1]||tp.short).trim())}</h3><span class="sub">${esc(tp.src)}</span><span class="meta"><span>${tp.parts.length} Teile mit Redemitteln</span><span>${tp.model?'mit Beispiel':''}</span></span></button>`).join('')}</div>`;
+    return;
+  }
+  const SUBS = [['aufgabe','Aufgabe'],['redemittel','Redemittel'],['text','Mein Text'],['timer','⏱ Timer']].concat(KVD.model ? [['beispiel','Beispiel']] : []);
+  if (!SUBS.some(x => x[0]===kvSub)) kvSub = 'aufgabe';
+  let body = '';
+  if (kvSub==='aufgabe') body = `<div class="panel"><div class="src">${esc(KVD.src)}</div><p class="task">${fmt(KVD.task)}</p>
+        <div class="lbl" style="margin-top:14px">Struktur · vier Teile</div><div class="kv-bar static">${bar}</div></div>`;
+  else if (kvSub==='timer') body = `<div class="panel kv-trainer">
         <div class="lbl">Probe mit Timer · ca. 2 Minuten</div>
         <div class="kv-clock" id="kvClock">0:00</div>
         <div class="kv-bar" id="kvBar">${bar}<i id="kvNeedle"></i></div>
         <div class="kv-now" id="kvNow">Tippe auf Start und halte deinen Vortrag frei. Der Timer zeigt, in welchem Teil du sein solltest.</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" id="kvStart">${kvTimer?'Stopp':'Start'}</button></div>
-      </div>
-    </div>
-
-    <div class="section-head"><h2>Redemittel aus dem Unterricht</h2><button class="btn primary" id="kvStudy">Redemittel üben (${KVD.parts.length} Karten)</button></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" id="kvStart">${kvTimer?'Stopp':'Start'}</button><button class="btn" data-kvsub="text">Meinen Text ansehen</button></div>
+      </div>`;
+  else if (kvSub==='redemittel') body = `<div class="section-head" style="margin-top:0"><span class="hint">Redemittel aus dem Unterricht</span><button class="btn primary" id="kvStudy">Redemittel üben (${KVD.parts.length} Karten)</button></div>
     <div class="steps">${KVD.parts.map((p,i) => `
       <div class="step"><div class="num">${esc((p.head.match(/^([0-9ivx]+)\./)||[,i+1])[1])}</div><div>
         <h3>${esc(p.head.replace(/^[0-9ivx]+\.\s*/,''))}</h3>
-        <div class="rm">${p.rm.map(([l,t]) => `<div class="rm-line"><span>${l?`<em class="rm-l">${esc(l)}</em> `:''}${rmHTML(t)}</span><button class="copy" data-copy="${esc(plainT(t))}">Kopieren</button></div>`).join('')}</div>
-      </div></div>`).join('')}</div>
-
-    <div class="section-head"><h2>Mein Text</h2><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="kvReset">Entwurf wiederherstellen</button></div></div>
-    <p class="hint" style="margin:-6px 0 10px">Kopiere deinen eigenen Vortrag hier hinein, oder passe den Entwurf an. Mit dem Timer oben kannst du ihn üben. ${esc(KVD.mine.note)}</p>
-    <textarea class="kv-text" id="kvText" rows="12" aria-label="Mein Vortragstext">${esc(text)}</textarea>
+        <div class="rm">${p.rm.map(([l,t]) => `<div class="rm-line"><span>${l?`<em class="rm-l">${esc(l)}</em> `:''}${rmHTML(t)}</span><button class="copy" data-copy="${esc(plainT(t))}" aria-label="Kopieren" title="Kopieren">⧉</button></div>`).join('')}</div>
+      </div></div>`).join('')}</div>`;
+  else if (kvSub==='text') body = `<div class="section-head" style="margin-top:0"><span class="hint">Kopiere deinen eigenen Vortrag hier hinein oder passe den Entwurf an. ${esc(KVD.mine.note)}</span><button class="btn" id="kvReset">Entwurf wiederherstellen</button></div>
+    <textarea class="kv-text" id="kvText" rows="10" aria-label="Mein Vortragstext">${esc(text)}</textarea>
     <div class="kv-info"><span id="kvWordInfo">${tk.length} Wörter · ca. ${fmtTime(tk.length/2.1)} beim Sprechen</span> · <span id="kvRmInfo">${hits.length} Redemittel aus dem Unterricht</span></div>
-    <div class="letter" id="kvPreview">${markText(text, tk, hits, null)}</div>
-
-    ${KVD.model ? `<div class="section-head"><h2>Beispiel aus dem Unterricht</h2><button class="chip" id="kvGapToggle" aria-pressed="${kvGaps}">Lückentext: Redemittel verstecken</button></div>
+    <div class="letter" id="kvPreview">${markText(text, tk, hits, null)}</div>`;
+  else body = `<div class="model-tabs"><span class="sp"></span><button class="chip" id="kvGapToggle" aria-pressed="${kvGaps}">Lückentext: Redemittel verstecken</button></div>
     <div class="letter ${kvGaps?'gaps':''}">${KVD.model.parts.map(([id,t]) => { const p = KVD.parts.find(x=>x.id===id); return `<p class="kv-par"><span class="kv-tag">${esc(p.title)} · ${p.sec} s</span>${fmt(t)}</p>`; }).join('')}</div>
-    <div class="letter-note">${esc(KVD.model.src)} · Gelb = Redemittel${kvGaps?' · Tippe auf eine Lücke, um sie zu sehen.':''}</div>` : ''}`;
+    <div class="letter-note">${esc(KVD.model.src)} · Gelb = Redemittel${kvGaps?' · Tippe auf eine Lücke, um sie zu sehen.':''}</div>`;
+  $('#kvArea').innerHTML = `<div class="g-head"><button class="btn" id="kvBack">← Kurzvortrag</button><h1>${fmt(KVD.title)}</h1></div>
+    <div class="subtabs">${SUBS.map(([id,l]) => `<button data-kvsub="${id}" aria-pressed="${kvSub===id}">${l}</button>`).join('')}</div>${body}`;
+  if (kvTimer && kvSub==='timer') kvTick();
 }
 function kvTick(){
+  if (!$('#kvClock')) return;
   const t = (Date.now()-kvT0)/1000, tot = kvTotal();
   $('#kvClock').textContent = fmtTime(t);
   $('#kvNeedle').style.left = Math.min(100, t/tot*100)+'%';
@@ -1218,7 +1255,7 @@ function kvStop(){ clearInterval(kvTimer); kvTimer = null; const b = $('#kvStart
 /* ---------- Buch (Linie B2) ---------- */
 let BUCH = [], bChapter = null;
 const chName = ch => ch.label ? ch.title : 'Kapitel '+ch.num;
-let bSection = null, bStatus = '';
+let bSection = null, bStatus = '', bCat = null;
 const bookAll = () => BUCH.flatMap(bookCards);
 const PILES = [['x','Weiß ich nicht','--bad'],['u','Unsicher','--mid'],['b','Markiert','--mark'],['k','Kann ich','--ok']];
 const pileFilter = (cs, p) => !p ? cs : cs.filter(c => p==='b' ? marked(c) : p==='new' ? st(c)==='new' : st(c)===p);
@@ -1245,11 +1282,18 @@ function renderBuch(){
     const tile = ch => { const cs = bookCards(ch); const o = counts(cs);
       return `<button class="g-tile" data-chapter="${ch.id}"><span class="src">${ch.label? esc(ch.label) : 'Kapitel '+ch.num}</span><h3>${esc(ch.label? ch.title : (ch.title||'Kapitel '+ch.num))}</h3><span class="minibar">${bar(o,o.total)}</span><span class="meta"><span>${o.total} Karten</span><span>${o.k? o.k+' gekonnt':'noch neu'}</span></span></button>`; };
     const kap = BUCH.filter(c => !c.label), anh = BUCH.filter(c => c.label);
-    $('#buchArea').innerHTML = `<h1 style="font-size:32px">Linie B2 · Wortschatz aus dem Buch</h1>
-      <p class="hint" style="margin:6px 0 0">Die Wörter und Listen stammen aus dem Buch. Bedeutungen (und Beispiele, wo das Buch keine hat) hat Claude in einfachem Deutsch ergänzt.</p>
-      <h2 class="b-sub">Wiederholen (alle Buch-Karten)</h2>${pilesHTML(bookAll(), 'data-bpile')}
-      <h2 class="b-sub">Lernwortschatz der Kapitel</h2><div class="g-grid">${kap.map(tile).join('')}</div>
-      ${anh.length? `<h2 class="b-sub">Anhang: Listen am Ende des Buchs</h2><div class="g-grid">${anh.map(tile).join('')}</div>`:''}`;
+    if (!bCat){
+      const cat = (id, src, title, list) => { const cs = list.flatMap(bookCards), o = counts(cs);
+        return `<button class="g-tile cat" data-bcat="${id}"><span class="src">${src}</span><h3>${title}</h3><span class="sub">${list.map(c => c.label? c.title : 'Kapitel '+c.num).join(' · ')}</span><span class="minibar">${bar(o,o.total)}</span><span class="meta"><span>${list.length} ${id==='kap'?'Kapitel':'Listen'} · ${o.total} Karten</span><span>${o.k? o.k+' gekonnt':'noch neu'}</span></span></button>`; };
+      $('#buchArea').innerHTML = `<h1 style="font-size:32px">Linie B2</h1>
+        <p class="hint" style="margin:6px 0 0">Wortschatz aus dem Buch. Bedeutungen (und Beispiele, wo das Buch keine hat) hat Claude in einfachem Deutsch ergänzt.</p>
+        <div class="g-grid">${cat('kap','📘 Kapitel','Lernwortschatz der Kapitel',kap)}${anh.length? cat('anh','📎 Anhang','Listen am Ende des Buchs',anh):''}</div>
+        <h2 class="b-sub">Wiederholen (alle Buch-Karten)</h2>${pilesHTML(bookAll(), 'data-bpile')}`;
+      return;
+    }
+    const list = bCat==='kap' ? kap : anh;
+    $('#buchArea').innerHTML = `<div class="g-head"><button class="btn" id="bCatBack">← Linie B2</button><h1>${bCat==='kap'?'Lernwortschatz der Kapitel':'Anhang: Listen am Ende des Buchs'}</h1></div>
+      <div class="g-grid">${list.map(tile).join('')}</div>`;
     return;
   }
   const ch = BUCH.find(x => x.id===bChapter), all = bookCards(ch);
@@ -1258,10 +1302,10 @@ function renderBuch(){
   const inSec = multi && bSection ? all.filter(c => c.group===bSection) : all;
   const cs = pileFilter(inSec, bStatus);
   const oc = counts(inSec);
-  const stBtns = `<div class="b-secs st">${[['','Alle',inSec.length],['new','Neu',oc.new]].concat(PILES.map(([p,l]) => [p,l,oc[p]])).map(([p,l,n]) => `<button class="chip${bStatus===p?' on':''}" data-bstat="${p}" ${n||!p?'':'disabled'}>${p? EMO[p]+' ':''}${l} <b>${n}</b></button>`).join('')}</div>`;
+  const stBtns = `<div class="b-secs st">${[['','Alle Stapel',inSec.length],['new','Neu',oc.new]].concat(PILES.map(([p,l]) => [p,l,oc[p]])).map(([p,l,n]) => `<button class="chip${bStatus===p?' on':''}" data-bstat="${p}" ${n||!p?'':'disabled'}>${p? EMO[p]+' ':''}${l} <b>${n}</b></button>`).join('')}</div>`;
   const secBtns = multi ? `<div class="b-secs">${[''].concat(secs).map(sname => { const n = sname ? all.filter(c => c.group===sname).length : all.length; const short = sname.replace(/^(Unregelmäßige Verben|Nomen-Verb-Verbindungen) /,'');
       return `<button class="chip${(bSection||'')===sname?' on':''}" data-bsec="${esc(sname)}">${sname? esc(short) : 'Alle'} <b>${n}</b></button>`; }).join('')}</div>` : '';
-  $('#buchArea').innerHTML = `<div class="g-head"><button class="btn" id="bBack">← Alle Listen</button><h1>${ch.label? esc(ch.title) : 'Kapitel '+ch.num+': '+esc(ch.title||'')}</h1><button class="btn primary" id="bStudy">Lernen (${cs.length} Karten)</button></div>
+  $('#buchArea').innerHTML = `<div class="g-head"><button class="btn" id="bBack">← ${bCat==='anh'?'Anhang':'Kapitel'}</button><h1>${ch.label? esc(ch.title) : 'Kapitel '+ch.num+': '+esc(ch.title||'')}</h1><button class="btn primary" id="bStudy">Lernen (${cs.length} Karten)</button></div>
     ${secBtns}${stBtns}
     ${cs.length? '' : '<div class="empty">Keine Karten in diesem Stapel.</div>'}
     <div class="wl">${cs.map(c => `<div class="wl-row" style="--c:${STATUS[st(c)].c}"><div class="bar"></div><div><div class="w">${fmtWord(c.front)}</div><div class="d">${fmt(c.def)}</div>${c.forms? `<div class="src">${esc(c.pres? c.pres+' · ':'')}${esc(c.forms[1])} · ${esc(c.forms[2])}</div>`:''}</div></div>`).join('')}</div>`;
@@ -1395,6 +1439,7 @@ document.getElementById('themeBtn').addEventListener('click', () => {
   try{ localStorage.setItem('karteikasten-theme', next); }catch(e){}
   syncThemeColor();
 });
+document.addEventListener('click', e => { const a = e.target.closest('a.hub'); if (!a) return; if (a.getAttribute('href')==='#schreiben') wkind = null; if (a.getAttribute('href')==='#kurzvortrag'){ kvStop(); kvOpen = false; } });
 document.addEventListener('click', e => {
   const gap = e.target.closest('.letter.gaps .hl.rede'); if (gap){ gap.classList.toggle('shown'); return; }
   const nb = e.target.closest('.note-box');
@@ -1412,7 +1457,7 @@ document.addEventListener('click', e => {
   if (e.target.closest('details') || e.target.closest('a.leo')) return;
   const t = e.target.closest('button, .flip'); if (!t) return;
   if (t.matches('.lesson')){ const id = t.dataset.id; selected.has(id) ? selected.delete(id) : selected.add(id); t.setAttribute('aria-pressed', String(selected.has(id))); renderDock(); return; }
-  if (t.matches('.seg button[data-lvl]')){ level = t.dataset.lvl; saveLocal(); renderOverview(); return; }
+  if (t.matches('[data-lvl]')){ level = t.dataset.lvl; saveLocal(); renderOverview(); return; }
   if (t.id==='selAll'){ const ls = visibleLessons(); const all = ls.every(l => selected.has(l.id)); ls.forEach(l => all ? selected.delete(l.id) : selected.add(l.id)); renderOverview(); return; }
   if (t.id==='dockClear'){ selected.clear(); renderOverview(); return; }
   if (t.id==='dockStart'){
@@ -1452,18 +1497,25 @@ document.addEventListener('click', e => {
   if (t.id==='kvStart'){ if (kvTimer) kvStop(); else { kvT0 = Date.now(); kvTimer = setInterval(kvTick, 250); t.textContent = 'Stopp'; kvTick(); } return; }
   if (t.id==='kvGapToggle'){ kvGaps = !kvGaps; renderKV(); return; }
   if (t.id==='kvStudy'){ startSession(kvCards(), 'Redemittel · Kurzvortrag'); return; }
-  if (t.dataset.kvtopic!==undefined){ kvStop(); kvSetTopic(+t.dataset.kvtopic); persist(); renderKV(); return; }
+  if (t.dataset.kvtopic!==undefined){ kvStop(); kvSetTopic(+t.dataset.kvtopic); kvOpen = true; kvSub = 'aufgabe'; persist(); renderKV(); window.scrollTo(0,0); return; }
+  if (t.id==='kvBack'){ kvStop(); kvOpen = false; renderKV(); return; }
+  if (t.dataset.kvsub){ kvSub = t.dataset.kvsub; renderKV(); return; }
   if (t.id==='kvReset'){ delete KV[kvKey()]; if (KVD.id==='t1'){ delete KV.text; ['einleitung','struktur','hauptteil','schluss'].forEach(k => delete KV[k]); } KV.__t = Date.now(); kvResult = null; persist(); renderKV(); return; }
   if (t.dataset.bsec!==undefined){ bSection = t.dataset.bsec || null; bStatus = ''; renderBuch(); return; }
   if (t.dataset.bstat!==undefined){ bStatus = t.dataset.bstat; renderBuch(); return; }
-  if (t.dataset.chapter){ bChapter = t.dataset.chapter; bSection = null; bStatus = ''; renderBuch(); window.scrollTo(0,0); return; }
+  if (t.dataset.bcat){ bCat = t.dataset.bcat; renderBuch(); window.scrollTo(0,0); return; }
+  if (t.id==='bCatBack'){ bCat = null; renderBuch(); return; }
+  if (t.dataset.chapter){ bChapter = t.dataset.chapter; bCat = (BUCH.find(x=>x.id===bChapter)||{}).label ? 'anh' : 'kap'; bSection = null; bStatus = ''; renderBuch(); window.scrollTo(0,0); return; }
   if (t.id==='bBack'){ bChapter = null; renderBuch(); return; }
   if (t.id==='bStudy'){ const ch = BUCH.find(x=>x.id===bChapter); let cs = bookCards(ch); if (bSection) cs = cs.filter(c => c.group===bSection); cs = pileFilter(cs, bStatus); startSession(cs, 'Linie B2 · '+chName(ch)+(bSection? ' · '+bSection.replace(/^(Unregelmäßige Verben|Nomen-Verb-Verbindungen) /,''):'')); return; }
-  if (t.dataset.wkind){ wkind = t.dataset.wkind; wmodel = 0; renderWrite(); return; }
+  if (t.dataset.wkind){ wkind = t.dataset.wkind; wmodel = 0; wsub = 'aufgabe'; renderWrite(); window.scrollTo(0,0); return; }
+  if (t.id==='wBack'){ wkind = null; renderWrite(); return; }
+  if (t.dataset.wsub){ wsub = t.dataset.wsub; renderWrite(); return; }
   if (t.dataset.model){ wmodel = +t.dataset.model; renderWrite(); return; }
   if (t.id==='gapToggle'){ wgaps = !wgaps; renderWrite(); return; }
   if (t.id==='rmStudy'){ startSession(rmCards(wkind), 'Redemittel · '+(wkind==='email'?'E-Mail':'Forumsbeitrag')); return; }
-  if (t.dataset.copy!==undefined){ const txt = t.dataset.copy; try{ navigator.clipboard.writeText(txt).then(() => { t.textContent='Kopiert'; t.classList.add('done'); setTimeout(()=>{t.textContent='Kopieren'; t.classList.remove('done');},1500); }).catch(()=>{}); }catch(e){} return; }
+  if (t.dataset.copy!==undefined){ const txt = t.dataset.copy; try{ navigator.clipboard.writeText(txt).then(() => { t.textContent='✓'; t.classList.add('done'); setTimeout(()=>{t.textContent='⧉'; t.classList.remove('done');},1500); }).catch(()=>{}); }catch(e){} return; }
+  if (t.dataset.gsub){ gSub = t.dataset.gsub; renderGram(); return; }
   if (t.dataset.topic){ gTopic = t.dataset.topic; renderGram(); window.scrollTo(0,0); return; }
   if (t.id==='gBack'){ gTopic = null; renderGram(); return; }
   if (t.id==='gStudy'){ const tp = GRAM.find(x => x.id===gTopic); startSession(shuffle(gCards(tp)), 'Grammatik · '+plainT(tp.title)); return; }
