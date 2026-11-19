@@ -26,7 +26,7 @@
   --card-rule:#059669; --card-lines:#eeece6;
   --ok:#059669; --ok-bg:#d1fae5; --mid:#d97706; --mid-bg:#fef3c7; --bad:#e11d48; --bad-bg:#ffe4e6;
   --mark:#0284c7; --mark-bg:#e0f2fe; --new:#a8a29e; --new-bg:#f0efe9;
-  --akk:#e60000; --dat:#00a33a; --gen:#7e1f86; --rede:#ffec3d;
+  --akk:#dc3b3b; --dat:#1f9d55; --gen:#8b3fa0; --rede:#ffec3d;
   --shadow:0 4px 8px -2px rgba(16,24,40,.06),0 12px 24px -6px rgba(16,24,40,.08);
   --shadow-lg:0 12px 16px -4px rgba(16,24,40,.06),0 24px 48px -12px rgba(16,24,40,.14);
   --shadow-brand:0 8px 24px -6px rgba(16,185,129,.35);
@@ -36,7 +36,7 @@
   --f-word:"Carlito","Calibri",system-ui,sans-serif;
   color-scheme:light;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){ --akk:#c93535; --dat:#1b8a4b; --gen:#7d3592;
   --bg:#0b0d0c; --surface:#131816; --surface-2:#1a201d; --ink:#f4f4f2; --muted:#a8a29e; --line:#232a26;
   --accent:#34d399; --accent-ink:#06261b; --brand-50:#0f2a20; --brand-700:#6ee7b7; --teal:#2dd4bf;
   --hero-gradient:radial-gradient(circle at 15% 20%,rgba(16,185,129,.18),transparent 45%),radial-gradient(circle at 85% 70%,rgba(245,158,11,.12),transparent 45%),linear-gradient(180deg,#0b0d0c 0%,#131816 100%);
@@ -44,7 +44,7 @@
   --mark:#38bdf8; --mark-bg:#0c2533; --new:#78716c; --new-bg:#1d2320;
   --shadow:0 8px 24px -6px rgba(0,0,0,.4); --shadow-lg:0 24px 48px -12px rgba(0,0,0,.55); --shadow-brand:0 8px 24px -6px rgba(16,185,129,.5);
   color-scheme:dark;}}
-:root[data-theme="dark"]{
+:root[data-theme="dark"]{ --akk:#c93535; --dat:#1b8a4b; --gen:#7d3592;
   --bg:#0b0d0c; --surface:#131816; --surface-2:#1a201d; --ink:#f4f4f2; --muted:#a8a29e; --line:#232a26;
   --accent:#34d399; --accent-ink:#06261b; --brand-50:#0f2a20; --brand-700:#6ee7b7; --teal:#2dd4bf;
   --hero-gradient:radial-gradient(circle at 15% 20%,rgba(16,185,129,.18),transparent 45%),radial-gradient(circle at 85% 70%,rgba(245,158,11,.12),transparent 45%),linear-gradient(180deg,#0b0d0c 0%,#131816 100%);
@@ -179,7 +179,7 @@ main.wrap{padding-top:28px;padding-bottom:120px}
 .back-word .case{font-size:.5em;vertical-align:.22em}.def .case,.example .case,.items .case,.d .case{font-size:.72em;vertical-align:.08em}
 .case.AKK{background:var(--akk);border-color:var(--akk);color:#fff}.case.DAT{background:var(--dat);border-color:var(--dat);color:#fff}.case.GEN{background:var(--gen);border-color:var(--gen);color:#fff}
 .b{font-weight:700}
-.hl{padding:.02em .22em;border-radius:4px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.hl{padding:.02em .25em;border-radius:7px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .hl.akk{background:var(--akk);color:#fff;font-weight:700}
 .hl.dat{background:var(--dat);color:#fff;font-weight:700}
 .hl.gen{background:var(--gen);color:#fff;font-weight:700}
