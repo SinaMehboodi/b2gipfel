@@ -21,7 +21,7 @@
   --accent:#2b48d8; --accent-ink:#ffffff; --card-rule:#d9363e; --card-lines:#e3e8f4;
   --ok:#1f9d5a; --ok-bg:#e3f5ea; --mid:#c98a0b; --mid-bg:#fbf1d9; --bad:#d13b3b; --bad-bg:#fbe5e5;
   --teal:#0e8a82; --mark:#2b48d8; --mark-bg:#e6eafc; --new:#8a90a8; --new-bg:#eceef4;
-  --akk:#d13b3b; --dat:#1f9d5a; --gen:#8d3fc4; --rede:#e8b923;
+  --akk:#e60000; --dat:#00a33a; --gen:#7e1f86; --rede:#ffec3d;
   --shadow:0 1px 2px rgba(24,32,58,.06),0 8px 24px rgba(24,32,58,.08);
   --f-display:"Bricolage Grotesque",system-ui,sans-serif;
   --f-body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -33,14 +33,14 @@
   --accent:#7c92ff; --accent-ink:#0d1020; --card-rule:#ef5a60; --card-lines:#252c40;
   --ok:#4cc985; --ok-bg:#163326; --mid:#e9b23f; --mid-bg:#3a2e12; --bad:#f06a6a; --bad-bg:#3d1b1d;
   --teal:#3cc7bb; --mark:#8ea1ff; --mark-bg:#1e2547; --new:#8a90a8; --new-bg:#242a3b;
-  --akk:#f06a6a; --dat:#4cc985; --gen:#c286f0; --rede:#f2cc4d;
+  --akk:#e60000; --dat:#00a33a; --gen:#7e1f86; --rede:#ffec3d;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35); color-scheme:dark;}}
 :root[data-theme="dark"]{
   --bg:#10131d; --surface:#1a1f2e; --ink:#e8ebf5; --muted:#9aa1ba; --line:#2c3347;
   --accent:#7c92ff; --accent-ink:#0d1020; --card-rule:#ef5a60; --card-lines:#252c40;
   --ok:#4cc985; --ok-bg:#163326; --mid:#e9b23f; --mid-bg:#3a2e12; --bad:#f06a6a; --bad-bg:#3d1b1d;
   --teal:#3cc7bb; --mark:#8ea1ff; --mark-bg:#1e2547; --new:#8a90a8; --new-bg:#242a3b;
-  --akk:#f06a6a; --dat:#4cc985; --gen:#c286f0; --rede:#f2cc4d;
+  --akk:#e60000; --dat:#00a33a; --gen:#7e1f86; --rede:#ffec3d;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35); color-scheme:dark;}
 
 *{box-sizing:border-box}
@@ -158,7 +158,14 @@ main{padding:28px 0 120px}
 .art.der{background:#2b6cd8}.art.die{background:#d6457a}.art.das{background:#2f9e6b}
 .case{font-family:var(--f-body);font-weight:700;font-size:.36em;padding:.12em .42em;border-radius:6px;border:1.5px solid currentColor;vertical-align:.3em;white-space:nowrap;letter-spacing:.03em}
 .back-word .case{font-size:.5em;vertical-align:.22em}.def .case,.example .case,.items .case,.d .case{font-size:.72em;vertical-align:.08em}
-.case.AKK{color:var(--akk)}.case.DAT{color:var(--dat)}.case.GEN{color:var(--gen)}
+.case.AKK{background:var(--akk);border-color:var(--akk);color:#fff}.case.DAT{background:var(--dat);border-color:var(--dat);color:#fff}.case.GEN{background:var(--gen);border-color:var(--gen);color:#fff}
+.hl{padding:.02em .22em;border-radius:4px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.hl.akk{background:var(--akk);color:#fff;font-weight:700}
+.hl.dat{background:var(--dat);color:#fff;font-weight:700}
+.hl.gen{background:var(--gen);color:#fff;font-weight:700}
+.hl.rede{background:var(--rede);color:#1b1b1b}
+.example .hl.rede{box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+.legend-colors{display:flex;flex-wrap:wrap;gap:8px;font-size:13px;color:var(--muted);align-items:center}
 .back-body{padding:12px 28px 26px 30px;display:flex;flex-direction:column;gap:16px}
 .back-word{font:500 28px/1.2 var(--f-word);letter-spacing:-.01em}
 .lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:6px}
@@ -167,10 +174,12 @@ main{padding:28px 0 120px}
 .forms div{background:var(--bg);border-radius:12px;padding:9px 12px;border:1px solid var(--line)}
 .forms small{display:block;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .forms span{font:500 17px/1.3 var(--f-word)}
-.example{font:italic 400 18px/1.5 var(--f-word);padding:12px 16px;border-radius:12px;background:color-mix(in srgb,var(--rede) 16%,transparent);border-left:4px solid var(--rede)}
+.example{font:italic 400 18px/1.55 var(--f-word);padding:12px 16px;border-radius:12px;background:var(--bg);border-left:4px solid var(--accent)}
 .fam{display:flex;flex-wrap:wrap;gap:6px}
-.fam span{font:500 14px/1.2 var(--f-word);padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
-.fam span.par{border-color:var(--accent);color:var(--accent)}
+.fam > span{font:500 14px/1.2 var(--f-word);padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
+.fam .art,.fam .case,.wl-row .art,.wl-row .case,.preview-list .art,.preview-list .case{font-size:11px;vertical-align:2px;padding:3px 6px;border-radius:5px}
+.back-word .art{font-size:13px;vertical-align:5px}
+.fam > span.par{border-color:var(--accent);color:var(--accent)}
 details.more{border-top:1px dashed var(--line);padding-top:12px}
 details.more summary{cursor:pointer;font-weight:700;font-size:14px;color:var(--accent);list-style:none}
 details.more summary::-webkit-details-marker{display:none}
@@ -235,6 +244,59 @@ dialog::backdrop{background:rgba(16,19,29,.45)}
 .msg{font-size:14px;font-weight:600}
 .msg.err{color:var(--bad)} .msg.ok{color:var(--ok)}
 .lesson .own{font-size:11px;font-weight:700;color:var(--teal)}
+.w-intro{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
+.w-intro h2{font-size:24px;margin-bottom:4px}
+.src{font-size:13px;color:var(--muted)}
+.task{font-size:16px;line-height:1.55;margin:12px 0 0}
+.thema{margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--bg);line-height:1.7}
+.qa{display:flex;flex-direction:column;gap:10px;font-size:15px}
+.qa b{display:block}
+.qa span{color:var(--muted)}
+.forms-list{margin:0;padding-left:20px;font-size:15px;display:flex;flex-direction:column;gap:6px;color:var(--ink)}
+.steps{display:flex;flex-direction:column;gap:12px;margin-top:6px;counter-reset:st}
+.step{display:grid;grid-template-columns:52px 1fr;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 18px 16px 14px}
+.step .num{width:44px;height:44px;border-radius:12px;background:var(--ink);color:var(--bg);display:grid;place-items:center;font:800 16px var(--f-display)}
+.step h3{font-size:18px}
+.step .hint{margin:2px 0 10px}
+.rm{display:flex;flex-direction:column;gap:6px}
+.rm-line{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;padding:8px 10px;border-radius:10px;background:var(--bg);font:400 16.5px/1.6 var(--f-word)}
+.rm-line .copy{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:8px;font:600 12px var(--f-body);padding:4px 8px;color:var(--muted)}
+.rm-line .copy.done{color:var(--ok);border-color:var(--ok)}
+.models{margin-top:8px}
+.model-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.model-tabs .sp{flex:1}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-weight:700;font-size:14px;color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.letter{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px 30px;font:400 17.5px/1.75 var(--f-word);box-shadow:var(--shadow)}
+.letter p{margin:0}
+.letter .gap-p{height:.9em}
+.letter.gaps .hl.rede{color:transparent;background:repeating-linear-gradient(90deg,var(--rede) 0 100%);opacity:.55;cursor:pointer;border-bottom:2px dashed #b59a00}
+.letter.gaps .hl.rede.shown{color:#1b1b1b;opacity:1;border-bottom:0}
+.letter-note{font-size:13px;color:var(--muted);margin-top:8px}
+.g-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:16px}
+.g-tile{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:6px;transition:transform .12s,box-shadow .12s;border-top:5px solid var(--teal)}
+.g-tile:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.g-tile h3{font-size:19px}
+.g-tile .sub{color:var(--muted);font-size:14px}
+.g-tile .meta{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-top:auto;padding-top:8px}
+.g-head{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.g-head h1{font-size:30px;flex:1;min-width:220px}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface);margin-bottom:16px}
+table.g{border-collapse:collapse;width:100%;font-size:15px;line-height:1.5}
+table.g th{text-align:left;background:var(--bg);font:700 12px var(--f-body);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:10px 12px;border-bottom:1px solid var(--line)}
+table.g td{padding:12px;border-bottom:1px solid var(--line);vertical-align:top}
+table.g td:first-child{font-weight:700}
+table.g tr:last-child td{border-bottom:0}
+table.g td.w{font-family:var(--f-word)}
+.rules{display:flex;flex-direction:column;gap:12px;margin-bottom:16px}
+.rule{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.rule h3{font-size:17px}
+.rule .note{color:var(--muted);font-size:14px;margin-top:2px}
+.rule ul{margin:10px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.rule li{font:400 16.5px/1.6 var(--f-word);padding-left:12px;border-left:3px solid var(--line)}
+.list-rm{display:flex;flex-direction:column;gap:8px}
+.list-rm div{font:400 17px/1.55 var(--f-word);padding:8px 12px;border-radius:10px;background:var(--bg)}
+@media (max-width:820px){.w-intro{grid-template-columns:1fr}.letter{padding:20px}}
 @media (max-width:820px){.hero{grid-template-columns:1fr}.sync span{display:none}}
 @media (max-width:560px){
   .top .wrap{gap:10px}.brand span{display:none}
@@ -250,8 +312,9 @@ dialog::backdrop{background:rgba(16,19,29,.45)}
   <nav class="tabs" aria-label="Bereiche">
     <a href="#wortschatz" data-nav="wortschatz">Wortschatz</a>
     <a href="#liste" data-nav="liste">Wortliste</a>
+    <a href="#grammatik" data-nav="grammatik">Grammatik</a>
+    <a href="#schreiben" data-nav="schreiben">Schreiben</a>
     <a href="#kurzvortrag" data-nav="kurzvortrag">Kurzvortrag<span class="soon">bald</span></a>
-    <a href="#schreiben" data-nav="schreiben">Schreiben<span class="soon">bald</span></a>
   </nav>
   <div class="sync" id="sync" title="Speicherort deines Lernstands"><i></i><span id="syncText">Auf diesem Gerät</span></div>
 </div></header>
@@ -265,6 +328,7 @@ dialog::backdrop{background:rgba(16,19,29,.45)}
         <p class="lead" id="leadText">Alle Wörter aus deinen Protokollen, nach Unterricht sortiert. Wähle einen oder mehrere Unterrichte, lerne mit Karteikarten und sortiere jede Karte in deinen Stapel.</p>
         <div class="stackbar" id="totalBar" role="img" aria-label="Lernstand"></div>
         <div class="legend" id="totalLegend"></div>
+        <div class="legend-colors" style="margin-top:14px">Farben wie im Unterricht: <span class="hl akk">AKK</span><span class="hl dat">DAT</span><span class="hl gen">GEN</span><span class="hl rede">Redemittel</span></div>
         <div class="today">
           <div><strong id="tToday">0</strong>heute geübt</div>
           <div><strong id="tStreak">0</strong>Tage in Folge</div>
@@ -355,10 +419,19 @@ dialog::backdrop{background:rgba(16,19,29,.45)}
     <h2>Kurzvortrag</h2>
     <p>Hier kommen bald die Redemittel für den Kurzvortrag und die B2-Prüfungsmodelle hin, zum Üben mit Struktur, Timer und Beispielen.</p>
     <p><a href="#wortschatz">Zurück zum Wortschatz</a></p></div></section>
-  <section class="view" id="v-schreiben"><div class="soon-page panel">
-    <h2>Schreiben</h2>
-    <p>Hier kommen bald die Schreibaufgaben mit Redemitteln für Beschwerde, Forumsbeitrag und formelle E-Mail hin.</p>
-    <p><a href="#wortschatz">Zurück zum Wortschatz</a></p></div></section>
+  <section class="view" id="v-schreiben">
+    <div class="section-head" style="margin-top:0">
+      <h1 style="font-size:32px">Schreiben</h1>
+      <div class="seg" role="group" aria-label="Textsorte">
+        <button data-wkind="email" aria-pressed="true">E-Mail</button>
+        <button data-wkind="forum" aria-pressed="false">Forumsbeitrag</button>
+      </div>
+    </div>
+    <div id="writeArea"></div>
+  </section>
+  <section class="view" id="v-grammatik">
+    <div id="gramArea"></div>
+  </section>
 </main>
 
 <dialog id="importDlg"><form class="dlg" method="dialog" id="importForm">
@@ -394,19 +467,31 @@ let level = 'B2';
 const selected = new Set();
 const STATUS = {k:{label:'Kann ich',c:'var(--ok)'},u:{label:'Unsicher',c:'var(--mid)'},x:{label:'Weiß ich nicht',c:'var(--bad)'},new:{label:'Neu',c:'var(--new)'}};
 
-const norm = s => s.toLowerCase().replace(/\s+/g,' ').replace(/[.,;:!?]+$/,'').trim();
+const norm = s => s.replace(/[\ue000-\ue004]/g,'').toLowerCase().replace(/\s+/g,' ').replace(/[.,;:!?]+$/,'').trim();
 const todayKey = () => { const d = new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
 const st = c => (P[c.key] && P[c.key].s) || 'new';
 const marked = c => !!(P[c.key] && P[c.key].b);
 
 /* ---------- formatting ---------- */
+const MKR = /[\ue000-\ue004]/g;
+const plainT = s => String(s).replace(MKR, '');
+function hl(h){
+  let open = 0;
+  h = h.replace(/[\ue000-\ue004]/g, m => {
+    if (m === '\ue000'){ if (!open) return ''; open--; return '</span>'; }
+    const cls = {'\ue001':'akk','\ue002':'dat','\ue003':'gen','\ue004':'rede'}[m];
+    let pre = ''; if (open){ pre = '</span>'; open--; }
+    open++; return pre + '<span class="hl '+cls+'">';
+  });
+  return h + '</span>'.repeat(open);
+}
 function fmt(text){
   let h = esc(text);
   h = h.replace(/(^|[\s(+\/])(AKK|DAT|GEN)(?=$|[\s),.;:\/=])/g, '$1<span class="case $2">$2</span>');
-  return h;
+  return hl(h);
 }
 function fmtWord(text){
-  const m = text.match(/^(r|e|s|der|die|das)\s+(?=[A-ZÄÖÜ])/);
+  const m = text.match(/^(r|e|s|der|die|das)\s+(?=[\ue000-\ue004]?[A-ZÄÖÜ])/);
   let art = '';
   if (m){
     const map = {r:'der',e:'die',s:'das',der:'der',die:'die',das:'das'};
@@ -468,7 +553,7 @@ async function initCloud(){
 let tts = null;
 async function initTTS(){ try{ if (window.claude && window.claude.use) tts = await window.claude.use('tts'); }catch(e){ tts = null; } }
 function speak(text){
-  const clean = text.replace(/\+?\s*\b(AKK|DAT|GEN)\b/g,'').replace(/^(r|e|s)\s+(?=[A-ZÄÖÜ])/, m => ({'r ':'der ','e ':'die ','s ':'das '}[m.trim()+' '])).replace(/\(.*?\)/g,'').replace(/[+→=]/g,' ').trim();
+  const clean = plainT(text).replace(/\+?\s*\b(AKK|DAT|GEN)\b/g,'').replace(/^(r|e|s)\s+(?=[A-ZÄÖÜ])/, m => ({'r ':'der ','e ':'die ','s ':'das '}[m.trim()+' '])).replace(/\(.*?\)/g,'').replace(/[+→=]/g,' ').trim();
   if (tts){ tts.speak(clean, {language:'de'}).catch(()=>webSpeak(clean)); return; }
   webSpeak(clean);
 }
@@ -514,7 +599,7 @@ function renderOverview(){
   $('#lessons').innerHTML = ls.map(l => {
     const lo = counts(l.cards);
     const done = lo.k + lo.u + lo.x;
-    const prev = uniq(l.cards).slice(0,4).map(c => c.front.replace(/^(r|e|s)\s+/,'')).join(' · ');
+    const prev = uniq(l.cards).slice(0,4).map(c => plainT(c.front).replace(/^(r|e|s)\s+/,'')).join(' · ');
     return `<button class="lesson" data-id="${l.id}" aria-pressed="${selected.has(l.id)}">
       <span class="check" aria-hidden="true">✓</span>
       <span class="lvl">${esc(l.level)} · ${esc(l.date)}</span>
@@ -537,7 +622,7 @@ let S = null; // {cards, i, flipped, title, results:{}, dir}
 function shuffle(a){ a = a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
 function startSession(cards, title, opts={}){
   if (!cards.length) return;
-  S = {cards, i:0, flipped:false, title, results:{}, dir:opts.dir||'fwd'};
+  S = {cards, i:0, flipped:false, title, results:{}, dir:opts.dir||'fwd', back: opts.back || (currentView()==='lernen' && S ? S.back : currentView())};
   location.hash = 'lernen';
   $('#summary').hidden = true; $('#studyArea').hidden = false;
   renderCard();
@@ -558,15 +643,16 @@ function cardBack(c){
       ${c.group ? `<div class="group" style="margin-bottom:4px">${esc(c.group)}</div>`:''}
       <div class="back-word">${fmtWord(c.front)}</div>
     </div>
-    ${c.def ? `<div><div class="lbl">Bedeutung</div><div class="def">${fmt(c.def)}</div></div>`:''}
+    ${c.def ? `<div><div class="lbl">${c.level==='G'?'Lösung':(c.level==='S'?'Wofür?':'Bedeutung')}</div><div class="def">${fmt(c.def)}</div></div>`:''}
     ${c.forms ? `<div><div class="lbl">Verbformen</div><div class="forms">
         <div><small>Infinitiv</small><span>${esc(c.forms[0])}</span></div>
         <div><small>Präteritum</small><span>${esc(c.forms[1])}</span></div>
         <div><small>Perfekt</small><span>${esc(c.forms[2])}</span></div></div></div>`:''}
-    ${c.ex ? `<div><div class="lbl">Beispiel</div><div class="example">${fmt(c.ex)}</div></div>`:''}
+    ${c.list ? `<div><div class="lbl">Redemittel</div><div class="list-rm">${c.list.map(x=>`<div>${fmt(x)}</div>`).join('')}</div></div>`:''}
+    ${c.ex ? `<div><div class="lbl">${c.level==='G'?'Hinweis':'Beispiel'}</div><div class="example">${fmt(c.ex)}</div></div>`:''}
     ${fam ? `<div><div class="lbl">Wortfamilie</div><div class="fam">${fam}</div></div>`:''}
     ${c.notes && c.notes.length ? `<details class="more"><summary>Alles aus dem Protokoll</summary><div class="items">${notesHTML(c.notes)}</div></details>`:''}
-    ${!c.def && !c.ex && !(c.notes&&c.notes.length) ? '<div class="hint">Im Protokoll steht keine weitere Erklärung.</div>':''}
+    ${!c.def && !c.ex && !c.list && !(c.notes&&c.notes.length) ? '<div class="hint">Im Protokoll steht keine weitere Erklärung.</div>':''}
   </div>`;
 }
 function head(c){
@@ -584,13 +670,13 @@ function renderCard(){
   const c = S.cards[S.i];
   const rev = S.dir==='rev' && !!(c.def || c.ex);
   const frontText = rev ? (c.def || c.ex) : c.front;
-  const lvc = c.level==='B2' ? 'var(--accent)' : 'var(--teal)';
+  const lvc = c.level==='B2' ? 'var(--accent)' : c.level==='G' ? 'var(--gen)' : c.level==='S' ? '#b58a00' : 'var(--teal)';
   const stc = {k:'var(--ok)',u:'var(--mid)',x:'var(--bad)'}[st(c)] || 'transparent';
   ['#faceFront','#faceBack'].forEach(x => { $(x).style.setProperty('--lvc', lvc); $(x).style.setProperty('--stc', stc); });
   $('#faceFront').innerHTML = head(c) + `<div class="front-body">
       ${c.group && !rev ? `<div class="group">${esc(c.group)}</div>`:''}
-      <div class="word ${frontText.length>48?'long':''}">${rev ? fmt(frontText) : fmtWord(frontText)}</div>
-      <div class="hint">${rev ? 'Welches Wort ist gemeint?' : (c.parent ? 'Wortfamilie von '+esc(c.parent.replace(/^(r|e|s)\s+/,'').split(/[+(=→]/)[0].trim()) : 'Was bedeutet das?')}</div>
+      <div class="word ${plainT(frontText).length>48?'long':''}">${rev ? fmt(frontText) : fmtWord(frontText)}</div>
+      <div class="hint">${rev ? 'Welches Wort ist gemeint?' : (c.level==='G' ? esc(plainT(c.group)) : c.level==='S' ? 'Welche Redemittel kennst du dafür?' : c.parent ? 'Wortfamilie von '+esc(plainT(c.parent).replace(/^(r|e|s)\s+/,'').split(/[+(=→]/)[0].trim()) : 'Was bedeutet das?')}</div>
     </div><div class="tap">Tippen zum Umdrehen</div>`;
   $('#faceBack').innerHTML = head(c) + cardBack(c);
   $('#flip').classList.toggle('flipped', S.flipped);
@@ -643,9 +729,12 @@ function finish(){
       <button class="btn" id="sumHome">Zur Übersicht</button>
     </div>`;
   const cards = S.cards, title = S.title, dir = S.dir;
-  if (again.length) $('#sumAgain').onclick = () => startSession(shuffle(again), title+' · Wiederholung', {dir});
-  $('#sumRestart').onclick = () => startSession(cards, title, {dir});
-  $('#sumHome').onclick = () => { S=null; location.hash='wortschatz'; };
+  const bk = S.back;
+  if (again.length) $('#sumAgain').onclick = () => startSession(shuffle(again), title+' · Wiederholung', {dir, back:bk});
+  $('#sumRestart').onclick = () => startSession(cards, title, {dir, back:bk});
+  const back = S.back || 'wortschatz';
+  $('#sumHome').textContent = 'Zurück';
+  $('#sumHome').onclick = () => { S=null; location.hash=back; };
 }
 
 /* ---------- list view ---------- */
@@ -691,20 +780,84 @@ function listCards(q, fl, fs){
 })();
 let suppressClick = false;
 
+/* ---------- Schreiben ---------- */
+let WRITE = null, GRAM = [], wkind = 'email', wmodel = 0, wgaps = false, gTopic = null;
+function rmCards(kind){
+  const d = WRITE[kind]; const label = kind==='email' ? 'E-Mail' : 'Forum';
+  return d.steps.map((st, i) => ({front: label+': '+st.title, def: st.hint, ex:'', list: st.rm, notes:[], key:'rm:'+kind+':'+st.n,
+    level:'S', lessonLabel:'Schreiben · '+label, lesson:'rm', group:'Welche Redemittel passen?'}));
+}
+function renderWrite(){
+  if (!WRITE){ $('#writeArea').innerHTML = '<div class="empty">Wird geladen …</div>'; return; }
+  const d = WRITE[wkind];
+  $$('[data-wkind]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.wkind===wkind)));
+  const intro = wkind==='email'
+    ? `<div class="panel"><div class="qa"><div class="lbl">Vor dem Schreiben: beim Lesen fragen</div>${d.lesen.map(([q,a]) => `<div><b>${fmt(q)}</b><span>${fmt(a)}</span></div>`).join('')}</div></div>`
+    : `<div class="panel"><div class="lbl">Struktur</div><ol class="forms-list">${d.steps.filter(x=>x.n!=='0').map(x => `<li><b>${fmt(x.title)}</b>: ${fmt(x.hint)}</li>`).join('')}</ol></div>`;
+  const m = d.models[Math.min(wmodel, d.models.length-1)];
+  $('#writeArea').innerHTML = `
+    <div class="w-intro">
+      <div class="panel"><h2>${fmt(d.title)}</h2><div class="src">${esc(d.src)}</div>
+        <p class="task">${fmt(d.task)}</p>${d.thema?`<div class="thema">${fmt(d.thema)}</div>`:''}
+        ${d.formen?`<div style="margin-top:14px"><div class="lbl">Drei mögliche Formen der Entschuldigung</div><ol class="forms-list">${d.formen.map(f=>`<li>${fmt(f)}</li>`).join('')}</ol></div>`:''}
+      </div>
+      ${intro}
+    </div>
+    <div class="section-head"><h2>Struktur und Redemittel</h2><button class="btn primary" id="rmStudy">Redemittel üben (${d.steps.length} Karten)</button></div>
+    <div class="steps">${d.steps.map(st => `
+      <div class="step"><div class="num">${esc(st.n)}</div><div>
+        <h3>${fmt(st.title)}</h3><div class="hint">${fmt(st.hint)}</div>
+        <div class="rm">${st.rm.map(r => `<div class="rm-line"><span>${fmt(r)}</span><button class="copy" data-copy="${esc(plainT(r))}">Kopieren</button></div>`).join('')}</div>
+      </div></div>`).join('')}</div>
+    <div class="section-head"><h2>Modelltext${d.models.length>1?'e':''}</h2></div>
+    <div class="models">
+      <div class="model-tabs">${d.models.map((x,i) => `<button class="chip" data-model="${i}" aria-pressed="${i===wmodel}">${esc(x.title)}</button>`).join('')}
+        <span class="sp"></span><button class="chip" id="gapToggle" aria-pressed="${wgaps}">Lückentext: Redemittel verstecken</button></div>
+      <div class="letter ${wgaps?'gaps':''}" id="letter">${m.lines.map(l => l ? `<p>${fmt(l)}</p>` : '<div class="gap-p"></div>').join('')}</div>
+      <div class="letter-note">${esc(m.src)}${wgaps?' · Tippe auf eine gelbe Lücke, um das Redemittel zu sehen.':' · Gelb = Redemittel'}</div>
+    </div>`;
+}
+
+/* ---------- Grammatik ---------- */
+function gCards(t){
+  return t.drill.map(([q,a,h], i) => ({front:q, def:a, ex:h||'', notes:[], key:'g:'+t.id+':'+i, level:'G', lessonLabel:'Grammatik', lesson:'g', group:t.title}));
+}
+function cellHTML(c){ return fmt(c).replace(/&lt;br&gt;/g,'<br>'); }
+function renderGram(){
+  if (!GRAM.length){ $('#gramArea').innerHTML = '<div class="empty">Wird geladen …</div>'; return; }
+  if (!gTopic){
+    $('#gramArea').innerHTML = `<h1 style="font-size:32px">Grammatik aus dem Unterricht</h1>
+      <p class="hint" style="margin:6px 0 0">Jedes Thema hat die Übersicht aus dem Protokoll und Übungskarten.</p>
+      <div class="g-grid">${GRAM.map(t => { const cs = gCards(t); const k = cs.filter(c => st(c)==='k').length;
+        return `<button class="g-tile" data-topic="${t.id}"><span class="src">${esc(t.src)}</span><h3>${fmt(t.title)}</h3><span class="sub">${fmt(t.sub)}</span>
+          <span class="minibar">${bar(counts(cs), cs.length)}</span><span class="meta"><span>${cs.length} Übungskarten</span><span>${k? k+' gekonnt':'noch neu'}</span></span></button>`; }).join('')}</div>`;
+    return;
+  }
+  const t = GRAM.find(x => x.id===gTopic);
+  const blocks = t.blocks.map(b => {
+    if (b.type==='table') return `<div class="tbl-wrap"><table class="g"><thead><tr>${b.head.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${b.rows.map(r => `<tr>${r.map((c,i)=>`<td class="${i?'w':''}">${cellHTML(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+    return `<div class="rules">${b.items.map(([h,n,ex]) => `<div class="rule"><h3>${fmt(h)}</h3>${n?`<div class="note">${fmt(n)}</div>`:''}${ex&&ex.length?`<ul>${ex.map(e=>`<li>${fmt(e)}</li>`).join('')}</ul>`:''}</div>`).join('')}</div>`;
+  }).join('');
+  $('#gramArea').innerHTML = `<div class="g-head"><button class="btn" id="gBack">← Alle Themen</button><h1>${fmt(t.title)}</h1><button class="btn primary" id="gStudy">Üben (${t.drill.length} Karten)</button></div>
+    <div class="src" style="margin:-8px 0 14px">${esc(t.src)} · ${fmt(t.sub)}</div>${blocks}`;
+}
+
 /* ---------- routing ---------- */
-const VIEWS = ['wortschatz','lernen','liste','kurzvortrag','schreiben'];
+const VIEWS = ['wortschatz','lernen','liste','grammatik','schreiben','kurzvortrag'];
 function currentView(){ const h = location.hash.replace('#',''); return VIEWS.includes(h) ? h : 'wortschatz'; }
 function route(){
   let v = currentView();
   if (v==='lernen' && !S) { v='wortschatz'; history.replaceState(null,'','#wortschatz'); }
   VIEWS.forEach(x => $('#v-'+x).classList.toggle('on', x===v));
-  $$('nav.tabs a').forEach(a => a.setAttribute('aria-current', a.dataset.nav===v || (v==='lernen'&&a.dataset.nav==='wortschatz') ? 'page':'false'));
+  $$('nav.tabs a').forEach(a => a.setAttribute('aria-current', a.dataset.nav===(v==='lernen' ? ((S&&S.back)||'wortschatz') : v) ? 'page':'false'));
   if (v==='wortschatz') renderOverview();
   if (v==='liste') { fillLessonSelect(); renderList(); }
+  if (v==='schreiben') renderWrite();
+  if (v==='grammatik') renderGram();
   renderDock();
   window.scrollTo(0,0);
 }
-function renderAll(){ const v = currentView(); if (v==='wortschatz') renderOverview(); if (v==='liste') renderList(); if (v==='lernen' && S) renderCard(); }
+function renderAll(){ const v = currentView(); if (v==='grammatik') renderGram(); if (v==='wortschatz') renderOverview(); if (v==='liste') renderList(); if (v==='lernen' && S) renderCard(); }
 function fillLessonSelect(){
   const sel = $('#fLesson'), cur = sel.value;
   sel.innerHTML = '<option value="">Alle Unterrichte ('+(level==='all'?'alle Niveaus':level)+')</option>' + LESSONS.map(l => `<option value="${l.id}">${l.level} · Unterricht ${l.num}</option>`).join('');
@@ -713,6 +866,7 @@ function fillLessonSelect(){
 
 /* ---------- events ---------- */
 document.addEventListener('click', e => {
+  const gap = e.target.closest('.letter.gaps .hl.rede'); if (gap){ gap.classList.toggle('shown'); return; }
   if (e.target.closest('details')) return;
   const t = e.target.closest('button, .flip'); if (!t) return;
   if (t.matches('.lesson')){ const id = t.dataset.id; selected.has(id) ? selected.delete(id) : selected.add(id); t.setAttribute('aria-pressed', String(selected.has(id))); renderDock(); return; }
@@ -740,7 +894,7 @@ document.addEventListener('click', e => {
   if (t.closest('#answer') && t.dataset.s){ rate(t.dataset.s); return; }
   if (t.id==='nextCard'){ next(); return; }
   if (t.id==='prevCard'){ prev(); return; }
-  if (t.id==='exitStudy'){ S=null; location.hash='wortschatz'; return; }
+  if (t.id==='exitStudy'){ const b = S && S.back || 'wortschatz'; S=null; location.hash=b; return; }
   if (t.dataset.set){
     const key = t.closest('.wl-row').dataset.key; const p = P[key]||{};
     if (t.dataset.set==='b') P[key] = {...p, b:p.b?0:1, t:Date.now()};
@@ -748,6 +902,14 @@ document.addEventListener('click', e => {
     if (!P[key].s) delete P[key].s;
     persist(); renderList(); return;
   }
+  if (t.dataset.wkind){ wkind = t.dataset.wkind; wmodel = 0; renderWrite(); return; }
+  if (t.dataset.model){ wmodel = +t.dataset.model; renderWrite(); return; }
+  if (t.id==='gapToggle'){ wgaps = !wgaps; renderWrite(); return; }
+  if (t.id==='rmStudy'){ startSession(rmCards(wkind), 'Redemittel · '+(wkind==='email'?'E-Mail':'Forumsbeitrag')); return; }
+  if (t.dataset.copy!==undefined){ const txt = t.dataset.copy; try{ navigator.clipboard.writeText(txt).then(() => { t.textContent='Kopiert'; t.classList.add('done'); setTimeout(()=>{t.textContent='Kopieren'; t.classList.remove('done');},1500); }).catch(()=>{}); }catch(e){} return; }
+  if (t.dataset.topic){ gTopic = t.dataset.topic; renderGram(); window.scrollTo(0,0); return; }
+  if (t.id==='gBack'){ gTopic = null; renderGram(); return; }
+  if (t.id==='gStudy'){ const tp = GRAM.find(x => x.id===gTopic); startSession(shuffle(gCards(tp)), 'Grammatik · '+plainT(tp.title)); return; }
   if (t.id==='studyList'){ const cs = listCards(norm($('#q').value||''), $('#fLesson').value, $('#fStatus').value); startSession(cs, 'Wortliste'); }
 });
 ['#q','#fLesson','#fStatus'].forEach(s => $(s).addEventListener('input', renderList));
@@ -862,6 +1024,7 @@ async function boot(){
   }catch(e){ $('#lessons').innerHTML = '<div class="empty">Die Wortliste konnte nicht geladen werden. Bitte Seite neu laden.</div>'; return; }
   assemble();
   route();
+  Promise.all([fetch('data/schreiben.json').then(r=>r.json()), fetch('data/grammatik.json').then(r=>r.json())]).then(([w,g]) => { WRITE = w; GRAM = g; const v = currentView(); if (v==='schreiben') renderWrite(); if (v==='grammatik') renderGram(); }).catch(()=>{});
   initCloud(); initTTS();
   if ('serviceWorker' in navigator && location.protocol==='https:' && !window.claude){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 }
