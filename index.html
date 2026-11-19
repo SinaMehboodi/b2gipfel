@@ -419,7 +419,7 @@ table.dk.mini td b{font-weight:800;color:var(--brand-700);background:color-mix(i
 .pp h4{font-size:15.5px;margin:0 0 6px;color:var(--c)}.pp p{margin:8px 0 0;color:var(--ink)}
 .pp.akk{--c:var(--kakk)}.pp.dat{--c:var(--kdat)}.pp.gen{--c:var(--kgen)}.pp.wech{--c:var(--accent)}
 .dk-wrap section{display:none}.dk-wrap section.on{display:block}
-.lvl-tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 14px}
+.lvl-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 14px}
 .lvl-tab{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:center;text-align:left;border:1.5px solid var(--line);background:var(--surface);border-radius:16px;padding:12px 14px;cursor:pointer;color:var(--ink)}
 .lvl-tab .lv{grid-row:1/3;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font:800 15px var(--f-display);background:var(--surface-2);color:var(--muted)}
 .lvl-tab .lt b{display:block;font-size:16px}.lvl-tab .lt small{color:var(--muted);font-size:12.5px}
@@ -451,6 +451,29 @@ table.dk.mini td b{font-weight:800;color:var(--brand-700);background:color-mix(i
 .means li::marker{font-weight:800;color:var(--accent)}
 .means .def{margin-bottom:6px}
 .back-body .example + .example{margin-top:8px}
+.my-panel{display:flex;flex-direction:column;gap:12px;grid-column:1/-1}
+.my-head{display:flex;gap:10px;flex-wrap:wrap}
+.my-empty p{margin:6px 0 0;color:var(--muted);font-size:14.5px;line-height:1.5}
+.my-row{width:100%;text-align:left;cursor:pointer;font:inherit;color:inherit}
+.my-row .my-ed{color:var(--muted);font-size:18px;padding:0 4px}
+.lvl-tab.my .lv{font-size:20px}
+.my-dlg{max-height:calc(100dvh - 40px);overflow:auto}
+.my-dlg input,.my-dlg textarea{font:400 16px/1.4 var(--f-word);padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);width:100%;box-sizing:border-box;resize:vertical}
+.my-dlg input:focus,.my-dlg textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 20%,transparent)}
+.my-pos{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:3px}
+.my-pos button{border:0;background:transparent;border-radius:9px;padding:8px 2px;font:700 13.5px var(--f-body);color:var(--muted);cursor:pointer}
+.my-pos button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.my-wordrow{display:flex;gap:10px;align-items:flex-end}.my-art{width:92px;flex:none}
+.my-verb{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+@media (max-width:480px){.my-verb{grid-template-columns:1fr}}
+.my-tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px;color:var(--muted);position:sticky;bottom:-22px;z-index:2;background:var(--surface);padding:10px 0;margin:-4px 0;border-top:1px solid var(--line)}
+.my-tools span{flex-basis:100%}
+.my-tools .case{font-size:13px;padding:6px 12px;border-radius:8px;cursor:pointer;vertical-align:0}
+.my-clear{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:6px 10px;font:600 13px var(--f-body);cursor:pointer}
+.my-dlg .btn.danger{color:#fff;background:var(--bad);border-color:var(--bad)}
+.my-prev{border:1px dashed var(--line);border-radius:12px;padding:12px}
+.my-prev .pw{font:700 22px/1.3 var(--f-word);margin:4px 0}.my-prev .pd{font:400 16px/1.5 var(--f-word)}.my-prev .example{font-size:16px;margin-top:8px}
+[data-for][hidden]{display:none!important}
 .subtabs{display:flex;flex-wrap:wrap;gap:6px;overflow-x:auto;scrollbar-width:none;margin:4px 0 14px;padding-bottom:2px;-webkit-overflow-scrolling:touch}
 .subtabs::-webkit-scrollbar{display:none}
 .subtabs button{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font:700 14px var(--f-body);cursor:pointer;white-space:nowrap}
@@ -711,6 +734,30 @@ a.g-tile.hub{text-decoration:none;color:inherit}
   <div class="preview-list" id="impPreview" hidden></div>
   <div class="row"><button class="btn" value="cancel" id="impCancel">Abbrechen</button><button class="btn primary" id="impSave" disabled type="button">Hinzufügen</button></div>
 </form></dialog>
+<dialog id="myDlg"><form class="dlg my-dlg" method="dialog" id="myForm" autocomplete="off">
+  <h3 id="myTitle">Neues Wort</h3>
+  <div class="my-pos" role="group" aria-label="Wortart">
+    <button type="button" data-pos="nomen">Nomen</button><button type="button" data-pos="verb">Verb</button><button type="button" data-pos="adj">Adjektiv</button><button type="button" data-pos="andere">Andere</button>
+  </div>
+  <div class="my-wordrow">
+    <label class="my-art" data-for="nomen">Artikel<select id="myArt"><option value="der">der</option><option value="die">die</option><option value="das">das</option></select></label>
+    <label style="flex:1">Wort *<input id="myW" required placeholder="z. B. sich bewerben + um + AKK"></label>
+  </div>
+  <label data-for="nomen">Plural (optional)<input id="myPl" placeholder="z. B. -e, -en, ̈-er"></label>
+  <div class="my-verb" data-for="verb">
+    <label>Präsens (er/sie)<input id="myPres" placeholder="er bewirbt sich"></label>
+    <label>Präteritum<input id="myPrat" placeholder="bewarb sich"></label>
+    <label>Perfekt<input id="myPerf" placeholder="hat sich beworben"></label>
+  </div>
+  <label>Bedeutung (einfaches Deutsch)<textarea id="myDef" rows="2" placeholder="Was bedeutet das Wort?"></textarea></label>
+  <label>Beispiel 1<textarea id="myEx1" rows="2" placeholder="Ein kurzer Satz mit dem Wort"></textarea></label>
+  <label>Beispiel 2 (optional)<textarea id="myEx2" rows="2"></textarea></label>
+  <div class="my-tools"><span>Text markieren, dann Farbe tippen:</span>
+    <button type="button" class="case AKK" data-mark="A">AKK</button><button type="button" class="case DAT" data-mark="D">DAT</button><button type="button" class="case GEN" data-mark="G">GEN</button>
+    <button type="button" class="my-clear" data-mark="x" title="Farben im aktiven Feld entfernen">Farbe weg</button></div>
+  <div class="my-prev"><div class="lbl">Vorschau</div><div id="myPrev"></div></div>
+  <div class="row"><button type="button" class="btn ghost" id="myDel" hidden>Löschen</button><span class="sp" style="flex:1"></span><button class="btn" value="cancel" id="myCancel">Abbrechen</button><button class="btn primary" id="mySave" type="button">Speichern</button></div>
+</form></dialog>
 <div class="dock" id="dock"><div class="dock-inner">
   <span class="info" id="dockInfo"></span>
   <select id="optOrder" aria-label="Reihenfolge"><option value="orig">🔢 Original</option><option value="shuffle">🔀 Gemischt</option></select>
@@ -795,9 +842,10 @@ function leoTerm(front){
 /* ---------- storage: account (db) with local fallback ---------- */
 const LS = 'karteikasten-v1';
 let PROF = {tm:{}, goal:10, name:'', t:0};
+let MY = [];   // eigene Wörter: {id, w, pos, art, pl, pres, prat, perf, def, ex1, ex2, t, del}
 let db = null, docRef = null, saveTimer = null, saving = false, dirty = false;
-function loadLocal(){ try{ const o = JSON.parse(localStorage.getItem(LS)||'{}'); P = o.p||{}; DAYS = o.d||{}; level = ['B1+','B2'].includes(o.l) ? o.l : level; KV = o.kv||{}; if (o.pr) PROF = {...PROF, ...o.pr, tm:o.pr.tm||{}}; }catch(e){} }
-function saveLocal(){ try{ localStorage.setItem(LS, JSON.stringify({p:P,d:DAYS,l:level,kv:KV,pr:PROF})); }catch(e){} }
+function loadLocal(){ try{ const o = JSON.parse(localStorage.getItem(LS)||'{}'); P = o.p||{}; DAYS = o.d||{}; level = ['B1+','B2','my'].includes(o.l) ? o.l : level; KV = o.kv||{}; if (o.pr) PROF = {...PROF, ...o.pr, tm:o.pr.tm||{}}; MY = Array.isArray(o.my) ? o.my : []; }catch(e){} }
+function saveLocal(){ try{ localStorage.setItem(LS, JSON.stringify({p:P,d:DAYS,l:level,kv:KV,pr:PROF,my:MY})); }catch(e){} }
 function setSync(cloud, text){ $('#sync').classList.toggle('cloud', cloud); $('#syncText').textContent = text; }
 function persist(){
   saveLocal();
@@ -809,7 +857,7 @@ function persist(){
 async function flush(){
   if (!docRef || saving || !dirty) return;
   saving = true; dirty = false;
-  try{ await docRef.set({p:P, d:DAYS, l:level, kv:KV, kvt:KV.__t||0, pr:PROF, v:1}); setSync(true,'Im Konto gespeichert'); }
+  try{ await docRef.set({p:P, d:DAYS, l:level, kv:KV, kvt:KV.__t||0, pr:PROF, my:MY, v:1}); setSync(true,'Im Konto gespeichert'); }
   catch(e){ if (e && e.code === 'invalid_argument'){ docRef = null; setSync(false,'Nur in diesem Browser'); } else { dirty = true; setSync(false,'Speichern fehlgeschlagen, neuer Versuch …'); setTimeout(flush, 4000); } }
   saving = false;
   if (dirty) flush();
@@ -820,6 +868,7 @@ function mergeRemote(r){
   if (r.kv && r.kvt && (!KV.__t || r.kvt > KV.__t)) KV = r.kv;
   const rd = r.d || {};
   for (const k in rd){ DAYS[k] = Math.max(DAYS[k]||0, rd[k]); }
+  if (Array.isArray(r.my)){ const m = new Map(MY.map(x => [x.id, x])); r.my.forEach(x => { const a = m.get(x.id); if (!a || (x.t||0) > (a.t||0)) m.set(x.id, x); }); MY = [...m.values()]; }
   if (r.pr){ const tm = {...PROF.tm}; for (const k in (r.pr.tm||{})) tm[k] = Math.max(tm[k]||0, r.pr.tm[k]);
     const cat = {...(PROF.cat||{})}; for (const d in (r.pr.cat||{})){ cat[d] = {...(cat[d]||{})}; for (const c in r.pr.cat[d]) cat[d][c] = Math.max(cat[d][c]||0, r.pr.cat[d][c]); }
     if ((r.pr.t||0) > (PROF.t||0)) PROF = {...PROF, goal:r.pr.goal||PROF.goal, name:r.pr.name||'', t:r.pr.t}; PROF.tm = tm; PROF.cat = cat; }
@@ -892,6 +941,10 @@ function renderOverview(){
 
   $('#lvlTabs').innerHTML = ['B2','B1+'].map(lv => { const ls = LESSONS.filter(l => l.level===lv); const o = counts(CARDS.filter(c => c.level===lv));
     return `<button class="lvl-tab" data-lvl="${lv}" role="tab" aria-pressed="${lv===level}"><span class="lv">${lv}</span><span class="lt"><b>${lv==='B2'?'B2-Kurs':'B1+ Kurs'}</b><small>${ls.length} Unterrichte · ${o.total} Wörter</small></span><span class="minibar">${bar(o,o.total)}</span></button>`; }).join('');
+  { const mc = CARDS.filter(c => c.level==='Mein'), mo = counts(mc);
+    $('#lvlTabs').insertAdjacentHTML('beforeend', `<button class="lvl-tab my" data-lvl="my" role="tab" aria-pressed="${level==='my'}"><span class="lv">✍️</span><span class="lt"><b>Meine Wörter</b><small>${mc.length} Wörter</small></span><span class="minibar">${bar(mo, mo.total||1)}</span></button>`); }
+  $('#selAll').hidden = level==='my'; $('#openImport').hidden = level==='my';
+  if (level==='my'){ renderMy(); return; }
   const ls = visibleLessons();
   $('#lessons').innerHTML = ls.map(l => {
     const lo = counts(l.cards);
@@ -1528,6 +1581,60 @@ document.addEventListener('click', e => {
   PROF.t = Date.now(); persist(); updateProfBtn(); renderProfil();
 });
 
+/* ---------- Meine Wörter: Formular ---------- */
+let myEditing = null, myPos = 'nomen', myField = null;
+function myOpen(id){
+  const x = id ? MY.find(m => m.id===id) : null; myEditing = x ? x.id : null;
+  $('#myTitle').textContent = x ? 'Wort bearbeiten' : 'Neues Wort';
+  myPos = x ? x.pos : 'nomen';
+  [['myW','w'],['myPl','pl'],['myPres','pres'],['myPrat','prat'],['myPerf','perf'],['myDef','def'],['myEx1','ex1'],['myEx2','ex2']].forEach(([el,k]) => $('#'+el).value = x ? (x[k]||'') : '');
+  $('#myArt').value = x && x.art ? x.art : 'der';
+  $('#myDel').hidden = !x; delete $('#myDel').dataset.sure; $('#myDel').textContent = 'Löschen'; $('#myDel').classList.remove('danger'); myField = $('#myW'); mySyncPos(); myPreview();
+  $('#myDlg').showModal(); setTimeout(() => $('#myW').focus(), 50);
+}
+function mySyncPos(){
+  $$('.my-pos button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.pos===myPos)));
+  $$('#myForm [data-for]').forEach(el => el.hidden = el.dataset.for !== myPos);
+}
+function myData(){
+  const v = id => $('#'+id).value.trim();
+  return {pos:myPos, w:v('myW'), art: myPos==='nomen' ? $('#myArt').value : '', pl: myPos==='nomen' ? v('myPl') : '', pres: myPos==='verb' ? v('myPres') : '', prat: myPos==='verb' ? v('myPrat') : '', perf: myPos==='verb' ? v('myPerf') : '', def:v('myDef'), ex1:v('myEx1'), ex2:v('myEx2')};
+}
+function myPreview(){
+  const d = myData();
+  const exs = [d.ex1, d.ex2].filter(Boolean);
+  $('#myPrev').innerHTML = d.w ? `<div class="pw">${fmtWord(mkMarks(myFront(d)))}</div>${d.def?`<div class="pd">${fmt(mkMarks(d.def))}</div>`:''}${d.pos==='verb' && (d.prat||d.perf) ? `<div class="pd" style="color:var(--muted);font-size:14px">${esc([d.pres,d.prat,d.perf].filter(Boolean).join(' · '))}</div>`:''}${exs.map(e => `<div class="example">${fmt(mkMarks(e))}</div>`).join('')}` : '<span class="hint">Schreib ein Wort, dann siehst du hier die Karte.</span>';
+}
+function myMark(k){
+  const f = myField; if (!f) return;
+  if (k==='x'){ f.value = f.value.replace(/\[[ADG]:([^\]]*)\]/g, '$1'); myPreview(); f.focus(); return; }
+  const a = f.selectionStart, b = f.selectionEnd;
+  if (a===b){ toast('Erst einen Teil des Textes markieren.'); f.focus(); return; }
+  const sel = f.value.slice(a,b).replace(/\[[ADG]:([^\]]*)\]/g, '$1');
+  const lead = sel.match(/^\s*/)[0], trail = sel.match(/\s*$/)[0], core = sel.trim();
+  f.value = f.value.slice(0,a) + lead + '['+k+':'+core+']' + trail + f.value.slice(b);
+  f.focus(); const pos = a + lead.length + core.length + 4; f.setSelectionRange(pos, pos); myPreview();
+}
+function mySave(){
+  const d = myData();
+  if (!d.w){ toast('Bitte ein Wort eingeben.'); $('#myW').focus(); return; }
+  if (myEditing){ const x = MY.find(m => m.id===myEditing); Object.assign(x, d, {t:Date.now()}); }
+  else MY.push({id: Date.now().toString(36)+Math.random().toString(36).slice(2,6), c:Date.now(), t:Date.now(), ...d});
+  persist(); $('#myDlg').close(); assemble(); renderOverview(); toast(myEditing ? 'Gespeichert ✓' : 'Neue Karte erstellt ✓');
+}
+document.addEventListener('focusin', e => { if (e.target.closest && e.target.closest('#myForm') && /^(INPUT|TEXTAREA)$/.test(e.target.tagName)) myField = e.target; });
+document.addEventListener('input', e => { if (e.target.closest && e.target.closest('#myForm')) myPreview(); });
+document.addEventListener('pointerdown', e => { if (e.target.closest('[data-mark]')) e.preventDefault(); }, true); // keep text selection
+document.addEventListener('click', e => {
+  const t = e.target.closest('button'); if (!t) return;
+  if (t.id==='myNew'){ myOpen(null); return; }
+  if (t.dataset.myedit){ myOpen(t.dataset.myedit); return; }
+  if (t.id==='myStudy'){ startSession(shuffle(CARDS.filter(c => c.level==='Mein')), 'Meine Wörter', {back:'wortschatz'}); return; }
+  if (t.dataset.pos){ myPos = t.dataset.pos; mySyncPos(); myPreview(); return; }
+  if (t.dataset.mark){ myMark(t.dataset.mark); return; }
+  if (t.id==='mySave'){ mySave(); return; }
+  if (t.id==='myDel' && myEditing){ if (!t.dataset.sure){ t.dataset.sure = '1'; t.textContent = 'Wirklich löschen?'; t.classList.add('danger'); return; } const x = MY.find(m => m.id===myEditing); x.del = true; x.t = Date.now(); persist(); $('#myDlg').close(); assemble(); renderOverview(); return; }
+});
 function isDark(){ const t = document.documentElement.getAttribute('data-theme'); return t ? t==='dark' : matchMedia('(prefers-color-scheme: dark)').matches; }
 function syncThemeColor(){ const m = document.getElementById('themeColor'); if (m) m.content = isDark() ? '#0b0d0c' : '#fafaf7'; }
 syncThemeColor(); updateProfBtn();
@@ -1646,6 +1753,24 @@ const LSC = 'karteikasten-custom';
 let BUILTIN = [], CUSTOM = [], VERBS = {};
 function loadCustom(){ try{ CUSTOM = JSON.parse(localStorage.getItem(LSC)||'[]'); }catch(e){ CUSTOM = []; } }
 function saveCustom(){ try{ localStorage.setItem(LSC, JSON.stringify(CUSTOM)); return true; }catch(e){ return false; } }
+const mkMarks = t => String(t||'').replace(/\[([ADG]):([^\]]*)\]/g, (_,k,x) => ({A:'\ue001',D:'\ue002',G:'\ue003'})[k] + x + '\ue000');
+function myFront(x){ const art = x.pos==='nomen' && x.art ? x.art+' ' : ''; const pl = x.pos==='nomen' && x.pl ? ' ('+x.pl+')' : ''; return art + (x.w||'') + pl; }
+function myCards(){
+  return MY.filter(x => !x.del).map(x => { const exs = [x.ex1, x.ex2].filter(e => e && e.trim()).map(mkMarks);
+    const verb = x.pos==='verb' && (x.prat || x.perf);
+    return {id:'my-'+x.id, key:'my:'+x.id, front: mkMarks(myFront(x)), def: mkMarks(x.def||''), ex: exs[0]||'', m: exs.length>1 ? [[mkMarks(x.def||''), exs]] : undefined,
+      forms: verb ? [plainT(mkMarks(x.w)).replace(/\s*\+.*$/,''), x.prat||'–', x.perf||'–'] : null, pres: x.pos==='verb' && x.pres ? x.pres : undefined,
+      notes:[], family:[], lesson:'my', level:'Mein', lessonLabel:'Meine Wörter', group: x.pos==='verb'?'Verb':x.pos==='nomen'?'Nomen':x.pos==='adj'?'Adjektiv':'' }; });
+}
+function renderMy(){
+  const mc = CARDS.filter(c => c.level==='Mein');
+  const rows = MY.filter(x => !x.del).sort((a,b) => (b.c||0)-(a.c||0)).map(x => { const c = BYKEY.get('my:'+x.id);
+    return `<button class="wl-row my-row" data-myedit="${x.id}" style="--c:${STATUS[st(c)].c}"><div class="bar"></div><div><div class="w">${fmtWord(c.front)}</div>${c.def?`<div class="d">${fmt(c.def)}</div>`:''}</div></button>`; }).join('');
+  $('#lessons').innerHTML = `<div class="my-panel">
+      <div class="my-head"><button class="btn primary" id="myNew">+ Neues Wort</button>${mc.length?`<button class="btn" id="myStudy">Lernen (${mc.length})</button>`:''}</div>
+      ${mc.length ? `<p class="hint" style="margin:0">Tippe auf ein Wort, um es zu bearbeiten oder zu löschen.</p><div class="wl">${rows}</div>` : `<div class="panel my-empty"><b>Noch keine eigenen Wörter.</b><p>Hast du ein neues Wort im Buch, in der Zeitung oder im Gespräch gefunden? Tippe auf „+ Neues Wort“. Es wird eine Karteikarte wie alle anderen – mit Bedeutung, Beispielen, Verbformen und Farben für AKK, DAT, GEN. Deine Wörter sind nur auf deinem Gerät.</p></div>`}
+    </div>`;
+}
 function assemble(){
   const map = new Map(BUILTIN.map(l => [l.id, l]));
   CUSTOM.forEach(l => map.set(l.id, {...l, own:true}));
@@ -1654,6 +1779,7 @@ function assemble(){
   for (const l of LESSONS){
     l.cards.forEach(c => { c.lesson = l.id; c.level = l.level; c.lessonLabel = l.level+' · Unterricht '+l.num; c.key = norm(c.front); c.def = c.def||''; c.ex = c.ex||''; c.notes = c.notes||[]; CARDS.push(c); if (!BYKEY.has(c.key)) BYKEY.set(c.key, c); });
   }
+  myCards().forEach(c => { CARDS.push(c); BYKEY.set(c.key, c); });
 }
 let pdfjsReady = null;
 function loadPdfJs(){
@@ -1702,7 +1828,7 @@ function saveImport(){
   assemble(); selected.clear(); selected.add(pending.id);
   pending = null; $('#importDlg').close(); renderOverview();
 }
-function backupData(){ return JSON.stringify({app:'karteikasten', v:1, date:new Date().toISOString(), p:P, d:DAYS, kv:KV, custom:CUSTOM}); }
+function backupData(){ return JSON.stringify({app:'karteikasten', v:1, date:new Date().toISOString(), p:P, d:DAYS, kv:KV, custom:CUSTOM, my:MY, pr:PROF}); }
 async function saveBackup(){
   const name = 'karteikasten-backup-'+todayKey()+'.json';
   const blob = new Blob([backupData()], {type:'application/json'});
@@ -1717,10 +1843,10 @@ async function loadBackup(file){
   try{
     const o = JSON.parse(await file.text());
     if (o.app!=='karteikasten') throw 0;
-    mergeRemote({p:o.p||{}, d:o.d||{}}); if (o.kv) KV = o.kv;
+    mergeRemote({p:o.p||{}, d:o.d||{}, my:o.my, pr:o.pr}); if (o.kv) KV = o.kv;
     (o.custom||[]).forEach(l => { CUSTOM = CUSTOM.filter(x => x.id!==l.id); CUSTOM.push(l); });
     saveCustom(); saveLocal(); persist(); assemble(); renderOverview();
-    $('#dataNote').textContent = 'Backup geladen: Lernstand und eigene Unterrichte sind wieder da.';
+    $('#dataNote').textContent = 'Backup geladen: Lernstand, eigene Wörter und Unterrichte sind wieder da.';
   }catch(e){ $('#dataNote').textContent = 'Diese Datei ist kein Karteikasten-Backup.'; }
 }
 $('#openImport').addEventListener('click', () => { pending=null; $('#impFile').value=''; impMsg(''); $('#impPreview').hidden=true; $('#impSave').disabled=true; $('#impLevel').value = level==='B1+'?'B1+':'B2'; $('#importDlg').showModal(); });
