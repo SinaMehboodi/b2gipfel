@@ -431,8 +431,12 @@ table.dk.mini td b{font-weight:800;color:var(--brand-700);background:color-mix(i
 .model-card{text-align:left;border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 12px;cursor:pointer;color:var(--ink)}
 .model-card b{display:block;font-size:14.5px}.model-card small{color:var(--muted);font-size:12px}
 .model-card[aria-pressed="true"]{border-color:var(--accent);background:var(--brand-50)}
-.ab-bar{display:flex;align-items:center;gap:10px}.ab-state{flex:1;font-size:14px;color:var(--muted);font-weight:600}
-.ab-live{margin-top:10px;padding:10px 12px;border-radius:10px;background:var(--surface-2);font:italic 16px/1.5 var(--f-word);color:var(--muted);min-height:1.5em}
+.ab-bar{display:flex;align-items:center;gap:10px}.ab-state{flex:1;font-size:14px;color:var(--muted);font-weight:600;white-space:nowrap;min-width:0}
+.ab-live{margin-top:10px;padding:12px 14px;border-radius:12px;background:var(--surface-2);font:400 17px/1.55 var(--f-word);color:var(--ink);min-height:4.6em;max-height:42vh;overflow:auto;-webkit-overflow-scrolling:touch}
+.ab-live .ab-inter{color:var(--muted)}.ab-live .ab-wait{color:var(--muted);font-style:italic}
+.btn.ab-stop{background:var(--bad);border-color:var(--bad);color:#fff;font-weight:800}
+.ab-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--bad);margin-right:4px;animation:abp 1s infinite}
+@keyframes abp{50%{opacity:.25}}
 .ab-res{margin-top:12px}
 .ab-score{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}.ab-score b{font:800 40px/1 var(--f-display);color:var(--c)}.ab-score span{color:var(--muted);font-size:14px}
 .ab-legend{display:flex;gap:6px;align-items:center;margin:10px 0 8px;font-size:13px;color:var(--muted)}
@@ -1371,9 +1375,9 @@ function renderKV(){
     body = !text.trim() ? `<div class="panel"><b>Zuerst deinen Text eintragen.</b><p class="hint" style="margin:6px 0 0">Geh zu „Mein Text“ und füge deinen Vortrag ein. Dann kannst du hier prüfen, wie viel du frei sagen kannst.</p><button class="btn primary" data-kvsub="text" style="margin-top:10px">Zu „Mein Text“</button></div>`
     : `<div class="panel ab-panel">
         <p class="hint" style="margin:0 0 10px">Halte deinen Vortrag frei (ohne Text). Die Spracherkennung macht daraus Text und vergleicht ihn mit deinem Text (${words} Wörter). <b>Es wird nichts aufgenommen oder gespeichert</b> – nur das Ergebnis.</p>
-        <div class="ab-bar"><span class="kv-clock small" id="abClock">0:00</span><span class="ab-state" id="abState">${abSupported()? 'Bereit' : 'Spracherkennung fehlt'}</span>
-          <button class="btn primary" id="abStart" ${abSupported()?'':'disabled'}>${abRec?'■ Stopp':'🎙️ Start'}</button></div>
-        <div class="ab-live" id="abLive" ${abRec?'':'hidden'}></div>
+        <div class="ab-bar"><span class="kv-clock small" id="abClock">${abRec? fmtTime((Date.now()-abT0)/1000) : '0:00'}</span><span class="ab-state" id="abState">${!abSupported()? 'Spracherkennung fehlt' : abWant? '<i class="ab-dot"></i> Höre zu' : 'Bereit'}</span>
+          <button class="btn ${abWant?'ab-stop':'primary'}" id="abStart" ${abSupported()?'':'disabled'}>${abWant?'■ Stopp & auswerten':'🎙️ Start'}</button></div>
+        <div class="ab-live" id="abLive" ${abWant?'':'hidden'}></div>
         ${abSupported()? '' : `<p class="hint" style="margin:10px 0 0">Dein Browser unterstützt keine Spracherkennung. Auf dem iPhone: die App in <b>Safari</b> öffnen und in den Einstellungen unter Safari das Mikrofon erlauben. Am Computer: Chrome oder Safari.</p>`}
       </div>
       <div id="abResult">${last ? abResultHTML(last) : ''}</div>`;
@@ -1410,31 +1414,59 @@ function abResultHTML(r){
     <div class="kv-read ab-text" style="font-size:${KV.fs||19}px">${r.html}</div>
     <p class="hint" style="margin:8px 0 0">Die Spracherkennung ist nicht perfekt: Einzelne rote Wörter können auch Hörfehler sein. Achte vor allem auf längere rote Stellen.</p></div>`;
 }
-function abStop(save){
-  abWant = false; clearInterval(abTimer); abTimer = null;
-  if (abRec){ try{ abRec.stop(); }catch(e){} }
-  abRec = null;
+function abStop(save, why){
+  abWant = false; clearInterval(abTimer); abTimer = null; clearTimeout(abRestartT);
+  const r = abRec; abRec = null;
+  if (r){ r.onresult = r.onerror = r.onend = null; try{ r.abort(); }catch(e){ try{ r.stop(); }catch(e2){} } }
   if (save){
     const said = (abFinal+' '+abInterim).trim();
-    const r = abCompare(kvMyText(), said); r.sec = (Date.now()-abT0)/1000; r.d = Date.now();
-    KV.ab = KV.ab || {}; KV.ab[KVD.id] = r; KV.__t = Date.now(); persist();
-    if (!said) toast('Nichts verstanden – Mikrofon erlaubt?');
+    if (said){
+      const res = abCompare(kvMyText(), said); res.sec = (Date.now()-abT0)/1000; res.d = Date.now();
+      KV.ab = KV.ab || {}; KV.ab[KVD.id] = res; KV.__t = Date.now(); persist();
+    } else toast('Es wurde nichts erkannt. Ist das Mikrofon erlaubt?');
   }
+  if (why) toast(why);
   renderKV();
+}
+let abRestartT = null, abFails = 0, abRuns = 0;
+function abShowLive(){
+  const live = $('#abLive'); if (!live) return;
+  const txt = (abFinal+' '+abInterim).trim();
+  live.hidden = false;
+  live.innerHTML = txt ? esc(abFinal.trim())+(abInterim? ' <span class="ab-inter">'+esc(abInterim.trim())+'</span>' : '') : '<span class="ab-wait">Sprich jetzt … der erkannte Text erscheint hier.</span>';
+  live.scrollTop = live.scrollHeight;
 }
 function abStart(){
   const SR = abSR(); if (!SR) return;
-  abFinal = ''; abInterim = ''; abT0 = Date.now(); abWant = true;
+  abFinal = ''; abInterim = ''; abT0 = Date.now(); abWant = true; abFails = 0; abRuns = 0;
   const start = () => {
-    const r = new SR(); r.lang = 'de-DE'; r.continuous = true; r.interimResults = true;
-    r.onresult = e => { let inter = ''; for (let i=e.resultIndex;i<e.results.length;i++){ const t = e.results[i][0].transcript; if (e.results[i].isFinal) abFinal += ' '+t; else inter += t; } abInterim = inter;
-      const live = $('#abLive'); if (live){ live.hidden = false; live.textContent = (abFinal+' '+abInterim).trim().split(/\s+/).slice(-18).join(' '); } };
-    r.onerror = e => { if (e.error==='not-allowed' || e.error==='service-not-allowed'){ abWant = false; toast('Bitte Mikrofon erlauben.'); abStop(false); } };
-    r.onend = () => { if (abWant){ abFinal += ' '+abInterim; abInterim=''; try{ start(); }catch(e){} } };
-    abRec = r; try{ r.start(); }catch(e){}
+    if (!abWant) return;
+    let gotResult = false; const t0 = Date.now(); abRuns++;
+    let r;
+    try{ r = new SR(); }catch(e){ abStop(false, 'Spracherkennung konnte nicht starten.'); return; }
+    r.lang = 'de-DE'; r.continuous = true; r.interimResults = true; r.maxAlternatives = 1;
+    r.onresult = e => {
+      gotResult = true; abFails = 0; let inter = '';
+      for (let i=e.resultIndex;i<e.results.length;i++){ const t = e.results[i][0].transcript; if (e.results[i].isFinal) abFinal += ' '+t; else inter += t; }
+      abInterim = inter; abShowLive();
+    };
+    r.onerror = e => {
+      if (e.error==='not-allowed' || e.error==='service-not-allowed' || e.error==='audio-capture')
+        abStop(true, e.error==='audio-capture' ? 'Kein Mikrofon gefunden.' : 'Mikrofon oder Spracherkennung ist nicht erlaubt. Bitte in den Einstellungen erlauben – oder die Seite in Safari öffnen.');
+    };
+    r.onend = () => {
+      if (!abWant || abRec!==r) return;
+      if (abInterim){ abFinal += ' '+abInterim; abInterim = ''; }
+      // the phone ends recognition after pauses: restart calmly, but never in a tight loop
+      if (!gotResult && Date.now()-t0 < 1500) abFails++;
+      if (abFails >= 3 || abRuns > 60){ abStop(true, abFinal.trim() ? null : 'Die Spracherkennung funktioniert auf diesem Gerät hier leider nicht. Öffne die App in Safari und versuche es noch einmal.'); return; }
+      abRestartT = setTimeout(start, 350);
+    };
+    abRec = r;
+    try{ r.start(); }catch(e){ abFails++; if (abFails >= 3) { abStop(false, 'Spracherkennung konnte nicht starten.'); return; } abRestartT = setTimeout(start, 500); }
   };
-  start(); renderKV();
-  abTimer = setInterval(() => { const c = $('#abClock'); if (c) c.textContent = fmtTime((Date.now()-abT0)/1000); const s = $('#abState'); if (s) s.textContent = '● Höre zu …'; }, 500);
+  renderKV(); start(); abShowLive();
+  abTimer = setInterval(() => { const c = $('#abClock'); if (c) c.textContent = fmtTime((Date.now()-abT0)/1000); }, 500);
 }
 if (location.hostname==='localhost') window.__abSim = (cut, sec) => { const t = kvMyText(); const w = t.split(/\s+/); abFinal = w.filter(cut).join(' ').toLowerCase(); abInterim=''; abT0 = Date.now()-sec*1000; abRec = {stop(){}}; abStop(true); const r = KV.ab[KVD.id]; return [r.pct, r.said, r.total]; };
 function kvTick(){
@@ -1541,7 +1573,7 @@ function fillLessonSelect(){
 /* ---------- Profil: Lernzeit, Ziel, Serie ---------- */
 const CATS = [['wortschatz','🗂️','Wortschatz (Unterricht)'],['buch','📘','Linie B2'],['grammatik','📐','Grammatik'],['schreiben','✉️','Schreiben'],['kurzvortrag','🎤','Kurzvortrag']];
 function studyCat(){
-  if ((typeof kvTimer!=='undefined' && kvTimer) || (typeof abRec!=='undefined' && abRec)) return 'kurzvortrag';
+  if ((typeof kvTimer!=='undefined' && kvTimer) || (typeof abWant!=='undefined' && abWant)) return 'kurzvortrag';
   const v = currentView();
   if (v==='lernen' && S){ const c = S.cards[0]||{};
     if (String(c.lesson||'').startsWith('buch')) return 'buch';
@@ -1561,7 +1593,7 @@ let lastAct = Date.now(), tickN = 0;
 ['pointerdown','keydown','touchstart','scroll','input'].forEach(ev => addEventListener(ev, () => { lastAct = Date.now(); }, {passive:true, capture:true}));
 setInterval(() => {
   const cat = studyCat();
-  const active = document.visibilityState==='visible' && cat && (Date.now()-lastAct < 90000 || kvTimer || abRec);
+  const active = document.visibilityState==='visible' && cat && (Date.now()-lastAct < 90000 || kvTimer || abWant);
   if (!active) return;
   const k = todayKey(), before = PROF.tm[k]||0;
   PROF.cat = PROF.cat || {}; const dc = PROF.cat[k] = PROF.cat[k] || {}; dc[cat] = (dc[cat]||0) + 5;
@@ -1777,9 +1809,9 @@ document.addEventListener('click', e => {
   if (t.id==='kvGapToggle'){ kvGaps = !kvGaps; renderKV(); return; }
   if (t.id==='kvStudy'){ startSession(kvCards(), 'Redemittel · Kurzvortrag'); return; }
   if (t.dataset.kvtopic!==undefined){ kvStop(); kvSetTopic(+t.dataset.kvtopic); kvOpen = true; kvSub = 'aufgabe'; persist(); renderKV(); window.scrollTo(0,0); return; }
-  if (t.id==='kvBack'){ kvStop(); if (abRec) abStop(false); kvOpen = false; renderKV(); return; }
-  if (t.id==='abStart'){ if (abRec) abStop(true); else abStart(); return; }
-  if (t.dataset.kvsub){ if (abRec) abStop(false); kvSub = t.dataset.kvsub; renderKV(); return; }
+  if (t.id==='kvBack'){ kvStop(); if (abWant) abStop(false); kvOpen = false; renderKV(); return; }
+  if (t.id==='abStart'){ if (abWant) abStop(true); else abStart(); return; }
+  if (t.dataset.kvsub){ if (abWant) abStop(false); kvSub = t.dataset.kvsub; renderKV(); return; }
   if (t.dataset.kvmode){ kvEdit = t.dataset.kvmode==='edit'; renderKV(); window.scrollTo(0,0); return; }
   if (t.dataset.kvhl!==undefined){ KV.hl = KV.hl===false; KV.__t = Date.now(); persist(); t.setAttribute('aria-pressed', String(KV.hl!==false)); const r = document.querySelector('.kv-read'); if (r) r.classList.toggle('nohl', KV.hl===false); return; }
   if (t.dataset.kvfs){ KV.fs = Math.min(30, Math.max(16, (KV.fs||21) + 2*(+t.dataset.kvfs))); KV.__t = Date.now(); persist(); const r = document.querySelector('.kv-read'); if (r) r.style.fontSize = KV.fs+'px'; return; }
