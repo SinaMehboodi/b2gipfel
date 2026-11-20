@@ -945,7 +945,7 @@ function renderOverview(){
     $('#lvlTabs').insertAdjacentHTML('beforeend', `<button class="lvl-tab my" data-lvl="my" role="tab" aria-pressed="${level==='my'}"><span class="lv">✍️</span><span class="lt"><b>Meine Wörter</b><small>${mc.length} Wörter</small></span><span class="minibar">${bar(mo, mo.total||1)}</span></button>`); }
   $('#selAll').hidden = level==='my'; $('#openImport').hidden = level==='my';
   if (level==='my'){ renderMy(); return; }
-  const ls = visibleLessons();
+  const ls = visibleLessons().slice().reverse();   // newest first
   $('#lessons').innerHTML = ls.map(l => {
     const lo = counts(l.cards);
     const done = lo.k + lo.u + lo.x;
@@ -1407,7 +1407,7 @@ function renderBuch(){
     const kap = BUCH.filter(c => !c.label), anh = BUCH.filter(c => c.label);
     if (!bCat){
       const cat = (id, src, title, list) => { const cs = list.flatMap(bookCards), o = counts(cs);
-        return `<button class="g-tile cat" data-bcat="${id}"><span class="src">${src}</span><h3>${title}</h3><span class="sub">${list.map(c => c.label? c.title : 'Kapitel '+c.num).join(' · ')}</span><span class="minibar">${bar(o,o.total)}</span><span class="meta"><span>${list.length} ${id==='kap'?'Kapitel':'Listen'} · ${o.total} Karten</span><span>${o.k? o.k+' gekonnt':'noch neu'}</span></span></button>`; };
+        return `<button class="g-tile cat" data-bcat="${id}"><span class="src">${src}</span><h3>${title}</h3><span class="sub">${(id==='kap' ? list.slice().reverse() : list).map(c => c.label? c.title : 'Kapitel '+c.num).join(' · ')}</span><span class="minibar">${bar(o,o.total)}</span><span class="meta"><span>${list.length} ${id==='kap'?'Kapitel':'Listen'} · ${o.total} Karten</span><span>${o.k? o.k+' gekonnt':'noch neu'}</span></span></button>`; };
       $('#buchArea').innerHTML = `<h1 style="font-size:32px">Linie B2</h1>
         <p class="hint" style="margin:6px 0 0">Wortschatz aus dem Buch. Bedeutungen (und Beispiele, wo das Buch keine hat) hat Claude in einfachem Deutsch ergänzt.</p>
         <div class="g-grid">${cat('kap','📘 Kapitel','Lernwortschatz der Kapitel',kap)}${anh.length? cat('anh','📎 Anhang','Listen am Ende des Buchs',anh):''}</div>
@@ -1416,7 +1416,7 @@ function renderBuch(){
     }
     const list = bCat==='kap' ? kap : anh;
     $('#buchArea').innerHTML = `<div class="g-head"><button class="btn" id="bCatBack">← Linie B2</button><h1>${bCat==='kap'?'Lernwortschatz der Kapitel':'Anhang: Listen am Ende des Buchs'}</h1></div>
-      <div class="g-grid">${list.map(tile).join('')}</div>`;
+      <div class="g-grid">${(bCat==='kap' ? list.slice().reverse() : list).map(tile).join('')}</div>`;
     return;
   }
   const ch = BUCH.find(x => x.id===bChapter), all = bookCards(ch);
