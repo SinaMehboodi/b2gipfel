@@ -431,19 +431,6 @@ table.dk.mini td b{font-weight:800;color:var(--brand-700);background:color-mix(i
 .model-card{text-align:left;border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 12px;cursor:pointer;color:var(--ink)}
 .model-card b{display:block;font-size:14.5px}.model-card small{color:var(--muted);font-size:12px}
 .model-card[aria-pressed="true"]{border-color:var(--accent);background:var(--brand-50)}
-.ab-bar{display:flex;align-items:center;gap:10px}.ab-state{flex:1;font-size:14px;color:var(--muted);font-weight:600;white-space:nowrap;min-width:0}
-.ab-live{margin-top:10px;padding:12px 14px;border-radius:12px;background:var(--surface-2);font:400 17px/1.55 var(--f-word);color:var(--ink);min-height:4.6em;max-height:42vh;overflow:auto;-webkit-overflow-scrolling:touch}
-.ab-live .ab-inter{color:var(--muted)}.ab-live .ab-wait{color:var(--muted);font-style:italic}
-.btn.ab-stop{background:var(--bad);border-color:var(--bad);color:#fff;font-weight:800}
-.ab-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--bad);margin-right:4px;animation:abp 1s infinite}
-@keyframes abp{50%{opacity:.25}}
-.ab-res{margin-top:12px}
-.ab-score{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}.ab-score b{font:800 40px/1 var(--f-display);color:var(--c)}.ab-score span{color:var(--muted);font-size:14px}
-.ab-legend{display:flex;gap:6px;align-items:center;margin:10px 0 8px;font-size:13px;color:var(--muted)}
-.ab-legend span{padding:2px 8px;border-radius:6px}
-.ab-ok{}
-.ab-miss{background:color-mix(in srgb,var(--bad) 22%,transparent);color:var(--ink);border-radius:4px;text-decoration:underline wavy color-mix(in srgb,var(--bad) 70%,transparent);text-underline-offset:3px}
-.ab-text{line-height:1.9}
 .kv-tool{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
 .kv-reader{margin-top:2px}
 .kv-rbar{position:sticky;top:64px;z-index:5;display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:14px;padding:8px 10px;margin-bottom:10px}
@@ -1333,7 +1320,7 @@ function renderKV(){
       <div class="g-grid">${KVALL.topics.map((tp,i) => `<button class="g-tile" data-kvtopic="${i}"><span class="src">🎤 ${esc(tp.short.split(':')[0])}</span><h3>${esc((tp.short.split(':')[1]||tp.short).trim())}</h3><span class="sub">${esc(tp.src)}</span><span class="meta"><span>${tp.parts.length} Teile mit Redemitteln</span><span>${tp.model?'mit Beispiel':''}</span></span></button>`).join('')}</div>`;
     return;
   }
-  const SUBS = [['aufgabe','Aufgabe'],['redemittel','Redemittel'],['text','Mein Text'],['abgleich','🎙️ Abgleich'],['timer','⏱ Timer']].concat(KVD.model ? [['beispiel','Beispiel']] : []);
+  const SUBS = [['aufgabe','Aufgabe'],['redemittel','Redemittel'],['text','Mein Text'],['timer','⏱ Timer']].concat(KVD.model ? [['beispiel','Beispiel']] : []);
   if (!SUBS.some(x => x[0]===kvSub)) kvSub = 'aufgabe';
   let body = '';
   if (kvSub==='aufgabe') body = `<div class="panel"><div class="src">${esc(KVD.src)}</div><p class="task">${fmt(KVD.task)}</p>
@@ -1369,19 +1356,6 @@ function renderKV(){
         <div class="kv-tool" style="margin-top:12px"><button class="btn" data-kvmode="edit">✏️ Text bearbeiten</button><span class="hint">${tk.length} Wörter · ${hits.length} Redemittel (gelb)</span></div>
       </div>`;
   }
-  else if (kvSub==='abgleich'){
-    const words = text.trim() ? text.trim().split(/\s+/).length : 0;
-    const last = (KV.ab||{})[KVD.id];
-    body = !text.trim() ? `<div class="panel"><b>Zuerst deinen Text eintragen.</b><p class="hint" style="margin:6px 0 0">Geh zu „Mein Text“ und füge deinen Vortrag ein. Dann kannst du hier prüfen, wie viel du frei sagen kannst.</p><button class="btn primary" data-kvsub="text" style="margin-top:10px">Zu „Mein Text“</button></div>`
-    : `<div class="panel ab-panel">
-        <p class="hint" style="margin:0 0 10px">Halte deinen Vortrag frei (ohne Text). Die Spracherkennung macht daraus Text und vergleicht ihn mit deinem Text (${words} Wörter). <b>Es wird nichts aufgenommen oder gespeichert</b> – nur das Ergebnis.</p>
-        <div class="ab-bar"><span class="kv-clock small" id="abClock">${abRec? fmtTime((Date.now()-abT0)/1000) : '0:00'}</span><span class="ab-state" id="abState">${!abSupported()? 'Spracherkennung fehlt' : abWant? '<i class="ab-dot"></i> Höre zu' : 'Bereit'}</span>
-          <button class="btn ${abWant?'ab-stop':'primary'}" id="abStart" ${abSupported()?'':'disabled'}>${abWant?'■ Stopp & auswerten':'🎙️ Start'}</button></div>
-        <div class="ab-live" id="abLive" ${abWant?'':'hidden'}></div>
-        ${abSupported()? '' : `<p class="hint" style="margin:10px 0 0">Dein Browser unterstützt keine Spracherkennung. Auf dem iPhone: die App in <b>Safari</b> öffnen und in den Einstellungen unter Safari das Mikrofon erlauben. Am Computer: Chrome oder Safari.</p>`}
-      </div>
-      <div id="abResult">${last ? abResultHTML(last) : ''}</div>`;
-  }
   else body = `<div class="model-tabs"><span class="sp"></span><button class="chip" id="kvGapToggle" aria-pressed="${kvGaps}">Lückentext: Redemittel verstecken</button></div>
     <div class="letter ${kvGaps?'gaps':''}">${KVD.model.parts.map(([id,t]) => { const p = KVD.parts.find(x=>x.id===id); return `<p class="kv-par"><span class="kv-tag">${esc(p.title)} · ${p.sec} s</span>${fmt(t)}</p>`; }).join('')}</div>
     <div class="letter-note">${esc(KVD.model.src)} · Gelb = Redemittel${kvGaps?' · Tippe auf eine Lücke, um sie zu sehen.':''}</div>`;
@@ -1389,86 +1363,6 @@ function renderKV(){
     <div class="subtabs">${SUBS.map(([id,l]) => `<button data-kvsub="${id}" aria-pressed="${kvSub===id}">${l}</button>`).join('')}</div>${body}`;
   if (kvTimer && (kvSub==='timer' || kvSub==='text')) kvTick();
 }
-/* ---------- Abgleich: frei sprechen und mit dem eigenen Text vergleichen ---------- */
-let abRec = null, abT0 = 0, abFinal = '', abInterim = '', abTimer = null, abWant = false;
-const abSR = () => window.SpeechRecognition || window.webkitSpeechRecognition;
-const abSupported = () => !!abSR();
-const abNorm = w => w.toLowerCase().replace(/[„“"'’‚‘»«()\[\].,;:!?…–—-]/g,'').replace(/ß/g,'ss');
-function abLev(a, b){ if (a===b) return 0; if (Math.abs(a.length-b.length) > 2) return 9; const m = []; for (let i=0;i<=a.length;i++){ m[i]=[i]; } for (let j=1;j<=b.length;j++) m[0][j]=j;
-  for (let i=1;i<=a.length;i++) for (let j=1;j<=b.length;j++) m[i][j] = Math.min(m[i-1][j]+1, m[i][j-1]+1, m[i-1][j-1]+(a[i-1]===b[j-1]?0:1)); return m[a.length][b.length]; }
-const abSame = (a, b) => a===b || (a.length > 4 && abLev(a,b) <= 1) || (a.length > 8 && abLev(a,b) <= 2);
-function abCompare(text, said){
-  const raw = text.split(/(\s+)/); const tw = []; raw.forEach((p,i) => { if (p.trim()) tw.push({i, n:abNorm(p)}); });
-  const sw = said.split(/\s+/).map(abNorm).filter(Boolean);
-  const A = tw.filter(w => w.n), n = A.length, m = sw.length;
-  const L = Array.from({length:n+1}, () => new Uint16Array(m+1));
-  for (let i=n-1;i>=0;i--) for (let j=m-1;j>=0;j--) L[i][j] = abSame(A[i].n, sw[j]) ? L[i+1][j+1]+1 : Math.max(L[i+1][j], L[i][j+1]);
-  const ok = new Set(); let i=0, j=0; while (i<n && j<m){ if (abSame(A[i].n, sw[j])){ ok.add(A[i].i); i++; j++; } else if (L[i+1][j] >= L[i][j+1]) i++; else j++; }
-  return {html: raw.map((p,k) => !p.trim() ? p.replace(/\n/g,'<br>') : (abNorm(p) ? `<span class="${ok.has(k)?'ab-ok':'ab-miss'}">${esc(p)}</span>` : esc(p))).join(''), pct: n ? Math.round(ok.size/n*100) : 0, said:ok.size, total:n, extra: Math.max(0, m - ok.size)};
-}
-function abResultHTML(r){
-  const col = r.pct >= 85 ? 'var(--ok)' : r.pct >= 60 ? 'var(--mid)' : 'var(--bad)';
-  const msg = r.pct >= 85 ? 'Sehr gut – fast alles frei gesagt! 🎉' : r.pct >= 60 ? 'Gut! Die roten Stellen noch einmal üben.' : 'Weiter üben – lies die roten Teile noch einmal laut.';
-  return `<div class="panel ab-res"><div class="ab-score" style="--c:${col}"><b>${r.pct} %</b><span>${r.said} von ${r.total} Wörtern · ${fmtTime(r.sec)}</span></div><p style="margin:8px 0 0">${msg}</p>
-    <div class="ab-legend"><span class="ab-miss">rot</span> = hast du nicht gesagt</div>
-    <div class="kv-read ab-text" style="font-size:${KV.fs||19}px">${r.html}</div>
-    <p class="hint" style="margin:8px 0 0">Die Spracherkennung ist nicht perfekt: Einzelne rote Wörter können auch Hörfehler sein. Achte vor allem auf längere rote Stellen.</p></div>`;
-}
-function abStop(save, why){
-  abWant = false; clearInterval(abTimer); abTimer = null; clearTimeout(abRestartT);
-  const r = abRec; abRec = null;
-  if (r){ r.onresult = r.onerror = r.onend = null; try{ r.abort(); }catch(e){ try{ r.stop(); }catch(e2){} } }
-  if (save){
-    const said = (abFinal+' '+abInterim).trim();
-    if (said){
-      const res = abCompare(kvMyText(), said); res.sec = (Date.now()-abT0)/1000; res.d = Date.now();
-      KV.ab = KV.ab || {}; KV.ab[KVD.id] = res; KV.__t = Date.now(); persist();
-    } else toast('Es wurde nichts erkannt. Ist das Mikrofon erlaubt?');
-  }
-  if (why) toast(why);
-  renderKV();
-}
-let abRestartT = null, abFails = 0, abRuns = 0;
-function abShowLive(){
-  const live = $('#abLive'); if (!live) return;
-  const txt = (abFinal+' '+abInterim).trim();
-  live.hidden = false;
-  live.innerHTML = txt ? esc(abFinal.trim())+(abInterim? ' <span class="ab-inter">'+esc(abInterim.trim())+'</span>' : '') : '<span class="ab-wait">Sprich jetzt … der erkannte Text erscheint hier.</span>';
-  live.scrollTop = live.scrollHeight;
-}
-function abStart(){
-  const SR = abSR(); if (!SR) return;
-  abFinal = ''; abInterim = ''; abT0 = Date.now(); abWant = true; abFails = 0; abRuns = 0;
-  const start = () => {
-    if (!abWant) return;
-    let gotResult = false; const t0 = Date.now(); abRuns++;
-    let r;
-    try{ r = new SR(); }catch(e){ abStop(false, 'Spracherkennung konnte nicht starten.'); return; }
-    r.lang = 'de-DE'; r.continuous = true; r.interimResults = true; r.maxAlternatives = 1;
-    r.onresult = e => {
-      gotResult = true; abFails = 0; let inter = '';
-      for (let i=e.resultIndex;i<e.results.length;i++){ const t = e.results[i][0].transcript; if (e.results[i].isFinal) abFinal += ' '+t; else inter += t; }
-      abInterim = inter; abShowLive();
-    };
-    r.onerror = e => {
-      if (e.error==='not-allowed' || e.error==='service-not-allowed' || e.error==='audio-capture')
-        abStop(true, e.error==='audio-capture' ? 'Kein Mikrofon gefunden.' : 'Mikrofon oder Spracherkennung ist nicht erlaubt. Bitte in den Einstellungen erlauben – oder die Seite in Safari öffnen.');
-    };
-    r.onend = () => {
-      if (!abWant || abRec!==r) return;
-      if (abInterim){ abFinal += ' '+abInterim; abInterim = ''; }
-      // the phone ends recognition after pauses: restart calmly, but never in a tight loop
-      if (!gotResult && Date.now()-t0 < 1500) abFails++;
-      if (abFails >= 3 || abRuns > 60){ abStop(true, abFinal.trim() ? null : 'Die Spracherkennung funktioniert auf diesem Gerät hier leider nicht. Öffne die App in Safari und versuche es noch einmal.'); return; }
-      abRestartT = setTimeout(start, 350);
-    };
-    abRec = r;
-    try{ r.start(); }catch(e){ abFails++; if (abFails >= 3) { abStop(false, 'Spracherkennung konnte nicht starten.'); return; } abRestartT = setTimeout(start, 500); }
-  };
-  renderKV(); start(); abShowLive();
-  abTimer = setInterval(() => { const c = $('#abClock'); if (c) c.textContent = fmtTime((Date.now()-abT0)/1000); }, 500);
-}
-if (location.hostname==='localhost') window.__abSim = (cut, sec) => { const t = kvMyText(); const w = t.split(/\s+/); abFinal = w.filter(cut).join(' ').toLowerCase(); abInterim=''; abT0 = Date.now()-sec*1000; abRec = {stop(){}}; abStop(true); const r = KV.ab[KVD.id]; return [r.pct, r.said, r.total]; };
 function kvTick(){
   if (!$('#kvClock')) return;
   const t = (Date.now()-kvT0)/1000, tot = kvTotal();
@@ -1573,7 +1467,7 @@ function fillLessonSelect(){
 /* ---------- Profil: Lernzeit, Ziel, Serie ---------- */
 const CATS = [['wortschatz','🗂️','Wortschatz (Unterricht)'],['buch','📘','Linie B2'],['grammatik','📐','Grammatik'],['schreiben','✉️','Schreiben'],['kurzvortrag','🎤','Kurzvortrag']];
 function studyCat(){
-  if ((typeof kvTimer!=='undefined' && kvTimer) || (typeof abWant!=='undefined' && abWant)) return 'kurzvortrag';
+  if (typeof kvTimer!=='undefined' && kvTimer) return 'kurzvortrag';
   const v = currentView();
   if (v==='lernen' && S){ const c = S.cards[0]||{};
     if (String(c.lesson||'').startsWith('buch')) return 'buch';
@@ -1593,7 +1487,7 @@ let lastAct = Date.now(), tickN = 0;
 ['pointerdown','keydown','touchstart','scroll','input'].forEach(ev => addEventListener(ev, () => { lastAct = Date.now(); }, {passive:true, capture:true}));
 setInterval(() => {
   const cat = studyCat();
-  const active = document.visibilityState==='visible' && cat && (Date.now()-lastAct < 90000 || kvTimer || abWant);
+  const active = document.visibilityState==='visible' && cat && (Date.now()-lastAct < 90000 || kvTimer);
   if (!active) return;
   const k = todayKey(), before = PROF.tm[k]||0;
   PROF.cat = PROF.cat || {}; const dc = PROF.cat[k] = PROF.cat[k] || {}; dc[cat] = (dc[cat]||0) + 5;
@@ -1809,9 +1703,8 @@ document.addEventListener('click', e => {
   if (t.id==='kvGapToggle'){ kvGaps = !kvGaps; renderKV(); return; }
   if (t.id==='kvStudy'){ startSession(kvCards(), 'Redemittel · Kurzvortrag'); return; }
   if (t.dataset.kvtopic!==undefined){ kvStop(); kvSetTopic(+t.dataset.kvtopic); kvOpen = true; kvSub = 'aufgabe'; persist(); renderKV(); window.scrollTo(0,0); return; }
-  if (t.id==='kvBack'){ kvStop(); if (abWant) abStop(false); kvOpen = false; renderKV(); return; }
-  if (t.id==='abStart'){ if (abWant) abStop(true); else abStart(); return; }
-  if (t.dataset.kvsub){ if (abWant) abStop(false); kvSub = t.dataset.kvsub; renderKV(); return; }
+  if (t.id==='kvBack'){ kvStop(); kvOpen = false; renderKV(); return; }
+  if (t.dataset.kvsub){ kvSub = t.dataset.kvsub; renderKV(); return; }
   if (t.dataset.kvmode){ kvEdit = t.dataset.kvmode==='edit'; renderKV(); window.scrollTo(0,0); return; }
   if (t.dataset.kvhl!==undefined){ KV.hl = KV.hl===false; KV.__t = Date.now(); persist(); t.setAttribute('aria-pressed', String(KV.hl!==false)); const r = document.querySelector('.kv-read'); if (r) r.classList.toggle('nohl', KV.hl===false); return; }
   if (t.dataset.kvfs){ KV.fs = Math.min(30, Math.max(16, (KV.fs||21) + 2*(+t.dataset.kvfs))); KV.__t = Date.now(); persist(); const r = document.querySelector('.kv-read'); if (r) r.style.fontSize = KV.fs+'px'; return; }
