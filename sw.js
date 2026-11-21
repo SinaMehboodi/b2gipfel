@@ -1,6 +1,6 @@
 // Network-first: with internet you always get the newest version (updates arrive on the next open);
 // without internet (or if the network takes longer than 4 s) the saved copy is used.
-const CACHE = 'karteikasten-v32';
+const CACHE = 'karteikasten-v33';
 const CORE = ['./', 'index.html', 'parser.js', 'data/words.json', 'data/verbs.json', 'data/schreiben.json', 'data/grammatik.json', 'data/kurzvortrag.json', 'data/buch.json', 'data/allgemein.html', 'data/modelltests.json', 'manifest.json', 'icon-180.png', 'icon-192.png', 'icon-512.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE.map(u => new Request(u, {cache: 'reload'})))).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
