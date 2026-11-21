@@ -474,6 +474,44 @@ table.dk.mini td b{font-weight:800;color:var(--brand-700);background:color-mix(i
 .my-prev{border:1px dashed var(--line);border-radius:12px;padding:12px}
 .my-prev .pw{font:700 22px/1.3 var(--f-word);margin:4px 0}.my-prev .pd{font:400 16px/1.5 var(--f-word)}.my-prev .example{font-size:16px;margin-top:8px}
 [data-for][hidden]{display:none!important}
+.mt-ws{border:1.5px solid color-mix(in srgb,var(--accent) 40%,var(--line));background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 8%,var(--surface)),var(--surface));border-radius:16px;padding:14px 16px;margin:0 0 16px}
+.mt-ws-h{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}.mt-ws-h b{font-size:18px}
+.mt-ws-b{display:flex;gap:6px;flex-shrink:0}.mt-ws-b .btn{padding:8px 12px}
+.mt-task .mt-meta{display:flex;gap:14px;font-weight:700;font-size:13.5px;color:var(--muted)}
+.mt-tip{margin-top:10px}.mt-tip summary{cursor:pointer;font-weight:700;color:var(--accent)}.mt-tip ul{margin:8px 0 0;padding-left:20px;line-height:1.5}
+.mt-text,.mt-audio,.mt-q,.mt-card,.mt-note,.mt-write{margin-top:12px}
+.mt-text p{font:400 17px/1.65 var(--f-word);margin:0 0 .8em}.mt-text p:last-child{margin:0}
+.mt-text-h{display:flex;justify-content:space-between;align-items:center}
+.ev.on{background:color-mix(in srgb,var(--mid) 30%,transparent);border-radius:4px;padding:0 2px;box-shadow:inset 0 -2px 0 var(--mid)}
+.ev sup{font:800 10px var(--f-body);color:#fff;background:var(--mid);border-radius:5px;padding:1px 4px;margin-left:3px}
+.mt-qh{display:flex;gap:10px;align-items:flex-start;font:500 16px/1.45 var(--f-word)}
+.mt-n{flex:none;min-width:28px;height:28px;border-radius:8px;background:var(--surface-2);display:grid;place-items:center;font:800 13px var(--f-body);padding:0 4px}
+.mt-opts{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.mt-opt{display:flex;gap:10px;align-items:baseline;text-align:left;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;padding:9px 12px;font:400 15.5px/1.4 var(--f-word);cursor:pointer}
+.mt-opt b{font-family:var(--f-body);color:var(--muted);min-width:12px}
+.mt-keys{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.mt-key{min-width:40px;height:40px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;font:800 15px var(--f-body);cursor:pointer;padding:0 10px}
+.mt-key.wide{height:auto;padding:7px 10px;font:600 13.5px var(--f-body)}
+.mt-opt.sel,.mt-key.sel{border-color:var(--accent);background:var(--brand-50)}
+.mt-opt.right,.mt-key.right{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 16%,var(--surface))}
+.mt-opt.wrong,.mt-key.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 14%,var(--surface));text-decoration:line-through}
+.mt-opt:disabled,.mt-key:disabled{cursor:default;opacity:1;color:var(--ink)}
+.mt-why{margin-top:10px;padding:9px 12px;border-radius:10px;background:var(--surface-2);font-size:14.5px;line-height:1.5}
+.mt-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0 12px}
+.mt-card-h{display:flex;gap:10px;align-items:center;margin-bottom:6px}.mt-card div{font:400 15.5px/1.55 var(--f-word)}
+.mt-card.unused{opacity:.55}
+.mt-gap{display:inline-block;border-bottom:2px solid var(--muted);padding:0 4px;font-weight:700;min-width:60px}
+.mt-gap sup{font:800 10px var(--f-body);color:var(--muted);margin-right:3px}
+.mt-gap.sel{border-color:var(--accent);color:var(--accent)}.mt-gap.right{border-color:var(--ok);color:var(--ok)}.mt-gap.wrong{border-color:var(--bad);color:var(--bad);text-decoration:line-through}
+.mt-box{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:6px;font:600 14.5px var(--f-body)}.mt-box b{color:var(--accent)}
+.mt-note label{display:block;font-weight:700;font-size:14px;margin-top:10px}.mt-note textarea{width:100%;box-sizing:border-box;margin-top:4px;font:400 16px var(--f-word);padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+.mt-check{margin:8px 0 10px;padding-left:20px;line-height:1.5}
+.mt-model{margin-top:10px}.mt-model summary{cursor:pointer;font-weight:700;color:var(--accent)}
+.mt-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:16px;position:sticky;bottom:calc(84px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:10px 0;z-index:4}
+.mt-actions .btn.primary{flex:1;padding:12px}.mt-result b{font:800 24px var(--f-display);color:var(--ok)}
+.mt-nav{display:flex;justify-content:space-between;gap:10px;margin-top:16px}
+.mt-trbtns{display:flex;flex-wrap:wrap;gap:8px}
+@media (min-width:768px){.mt-actions{bottom:0}}
 .subtabs{display:flex;flex-wrap:wrap;gap:6px;overflow-x:auto;scrollbar-width:none;margin:4px 0 14px;padding-bottom:2px;-webkit-overflow-scrolling:touch}
 .subtabs::-webkit-scrollbar{display:none}
 .subtabs button{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font:700 14px var(--f-body);cursor:pointer;white-space:nowrap}
@@ -704,12 +742,14 @@ a.g-tile.hub{text-decoration:none;color:inherit}
   <section class="view" id="v-profil"><div id="profArea"></div></section>
   <section class="view" id="v-pruefung">
     <h1 style="font-size:32px">Prüfungsvorbereitung</h1>
-    <p class="hint" style="margin:6px 0 16px">Schreiben und Sprechen für die B2-Prüfung.</p>
+    <p class="hint" style="margin:6px 0 16px">Modelltests, Schreiben und Sprechen für die B2-Prüfung.</p>
     <div class="g-grid">
+      <a class="g-tile hub" href="#modell"><span class="src">📝 Lesen · Hören · Sprachbausteine · Schreiben</span><h3>Modelltests</h3><span class="sub">Ganze Prüfung zum Üben – mit Lösungen, Begründungen und Wortschatz pro Teil</span></a>
       <a class="g-tile hub" href="#schreiben"><span class="src">E-Mail · Forumsbeitrag</span><h3>Schreiben</h3><span class="sub">Struktur, Redemittel, Modelltexte und Lückentext</span></a>
       <a class="g-tile hub" href="#kurzvortrag"><span class="src">Mündliche Prüfung · 2 Minuten</span><h3>Kurzvortrag</h3><span class="sub">Struktur mit Zeiten, Redemittel, Beispiel, mein Vortrag und Timer</span></a>
     </div>
   </section>
+  <section class="view" id="v-modell"><div id="mtArea"></div></section>
   <section class="view" id="v-schreiben">
     <div id="writeArea"></div>
   </section>
@@ -842,10 +882,11 @@ function leoTerm(front){
 /* ---------- storage: account (db) with local fallback ---------- */
 const LS = 'karteikasten-v1';
 let PROF = {tm:{}, goal:10, name:'', t:0};
-let MY = [];   // eigene Wörter: {id, w, pos, art, pl, pres, prat, perf, def, ex1, ex2, t, del}
+let MY = [];
+let MTS = {a:{}, c:{}, txt:{}};   // Modelltest: Antworten, geprüft, eigene Texte   // eigene Wörter: {id, w, pos, art, pl, pres, prat, perf, def, ex1, ex2, t, del}
 let db = null, docRef = null, saveTimer = null, saving = false, dirty = false;
-function loadLocal(){ try{ const o = JSON.parse(localStorage.getItem(LS)||'{}'); P = o.p||{}; DAYS = o.d||{}; level = ['B1+','B2','my'].includes(o.l) ? o.l : level; KV = o.kv||{}; if (o.pr) PROF = {...PROF, ...o.pr, tm:o.pr.tm||{}}; MY = Array.isArray(o.my) ? o.my : []; }catch(e){} }
-function saveLocal(){ try{ localStorage.setItem(LS, JSON.stringify({p:P,d:DAYS,l:level,kv:KV,pr:PROF,my:MY})); }catch(e){} }
+function loadLocal(){ try{ const o = JSON.parse(localStorage.getItem(LS)||'{}'); P = o.p||{}; DAYS = o.d||{}; level = ['B1+','B2','my'].includes(o.l) ? o.l : level; KV = o.kv||{}; if (o.pr) PROF = {...PROF, ...o.pr, tm:o.pr.tm||{}}; MY = Array.isArray(o.my) ? o.my : []; if (o.mts) MTS = {a:{}, c:{}, txt:{}, ...o.mts}; }catch(e){} }
+function saveLocal(){ try{ localStorage.setItem(LS, JSON.stringify({p:P,d:DAYS,l:level,kv:KV,pr:PROF,my:MY,mts:MTS})); }catch(e){} }
 function setSync(cloud, text){ $('#sync').classList.toggle('cloud', cloud); $('#syncText').textContent = text; }
 function persist(){
   saveLocal();
@@ -857,7 +898,7 @@ function persist(){
 async function flush(){
   if (!docRef || saving || !dirty) return;
   saving = true; dirty = false;
-  try{ await docRef.set({p:P, d:DAYS, l:level, kv:KV, kvt:KV.__t||0, pr:PROF, my:MY, v:1}); setSync(true,'Im Konto gespeichert'); }
+  try{ await docRef.set({p:P, d:DAYS, l:level, kv:KV, kvt:KV.__t||0, pr:PROF, my:MY, mts:MTS, v:1}); setSync(true,'Im Konto gespeichert'); }
   catch(e){ if (e && e.code === 'invalid_argument'){ docRef = null; setSync(false,'Nur in diesem Browser'); } else { dirty = true; setSync(false,'Speichern fehlgeschlagen, neuer Versuch …'); setTimeout(flush, 4000); } }
   saving = false;
   if (dirty) flush();
@@ -868,6 +909,7 @@ function mergeRemote(r){
   if (r.kv && r.kvt && (!KV.__t || r.kvt > KV.__t)) KV = r.kv;
   const rd = r.d || {};
   for (const k in rd){ DAYS[k] = Math.max(DAYS[k]||0, rd[k]); }
+  if (r.mts && !Object.keys(MTS.a).length) MTS = {a:{}, c:{}, txt:{}, ...r.mts};
   if (Array.isArray(r.my)){ const m = new Map(MY.map(x => [x.id, x])); r.my.forEach(x => { const a = m.get(x.id); if (!a || (x.t||0) > (a.t||0)) m.set(x.id, x); }); MY = [...m.values()]; }
   if (r.pr){ const tm = {...PROF.tm}; for (const k in (r.pr.tm||{})) tm[k] = Math.max(tm[k]||0, r.pr.tm[k]);
     const cat = {...(PROF.cat||{})}; for (const d in (r.pr.cat||{})){ cat[d] = {...(cat[d]||{})}; for (const c in r.pr.cat[d]) cat[d][c] = Math.max(cat[d][c]||0, r.pr.cat[d][c]); }
@@ -1435,7 +1477,7 @@ function renderBuch(){
 }
 
 /* ---------- routing ---------- */
-const VIEWS = ['wortschatz','lernen','buch','grammatik','schreiben','kurzvortrag','pruefung','profil'];
+const VIEWS = ['wortschatz','lernen','buch','grammatik','schreiben','kurzvortrag','pruefung','profil','modell'];
 function currentView(){ const h = location.hash.replace('#',''); return VIEWS.includes(h) ? h : 'wortschatz'; }
 function route(){
   let v = currentView();
@@ -1443,19 +1485,20 @@ function route(){
   VIEWS.forEach(x => $('#v-'+x).classList.toggle('on', x===v));
   const navV = v==='lernen' ? ((S&&S.back)||'wortschatz') : v;
   $$('nav.tabs a').forEach(a => a.setAttribute('aria-current', a.dataset.nav===navV ? 'page':'false'));
-  $$('.bottomnav a').forEach(a => a.setAttribute('aria-current', (a.dataset.nav===navV || (a.dataset.nav==='pruefung' && ['schreiben','kurzvortrag'].includes(navV)) || (a.dataset.nav==='wortschatz' && navV==='liste')) ? 'page':'false'));
+  $$('.bottomnav a').forEach(a => a.setAttribute('aria-current', (a.dataset.nav===navV || (a.dataset.nav==='pruefung' && ['schreiben','kurzvortrag','modell'].includes(navV)) || (a.dataset.nav==='wortschatz' && navV==='liste')) ? 'page':'false'));
   if (v==='wortschatz') renderOverview();
   if (v==='schreiben') renderWrite();
   if (v==='grammatik') renderGram();
   if (v==='kurzvortrag') renderKV();
   if (v==='buch') renderBuch();
   if (v==='profil') renderProfil();
+  if (v==='modell') renderMT();
   if (v!=='kurzvortrag') kvStop();
   document.body.classList.toggle('studying', v==='lernen');
   renderDock();
   window.scrollTo(0,0);
 }
-function renderAll(){ const v = currentView(); if (v==='grammatik') renderGram(); if (v==='wortschatz') renderOverview(); if (v==='lernen' && S) renderCard(); if (v==='profil') renderProfil(); updateProfBtn(); }
+function renderAll(){ const v = currentView(); if (v==='grammatik') renderGram(); if (v==='wortschatz') renderOverview(); if (v==='lernen' && S) renderCard(); if (v==='profil') renderProfil(); if (v==='modell') renderMT(); updateProfBtn(); }
 function fillLessonSelect(){
   const sel = $('#fLesson'), cur = sel.value;
   sel.innerHTML = '<option value="">Alle Unterrichte ('+(level==='all'?'alle Niveaus':level)+')</option>' + LESSONS.map(l => `<option value="${l.id}">${l.level} · Unterricht ${l.num}</option>`).join('');
@@ -1465,7 +1508,7 @@ function fillLessonSelect(){
 /* ---------- events ---------- */
 
 /* ---------- Profil: Lernzeit, Ziel, Serie ---------- */
-const CATS = [['wortschatz','🗂️','Wortschatz (Unterricht)'],['buch','📘','Linie B2'],['grammatik','📐','Grammatik'],['schreiben','✉️','Schreiben'],['kurzvortrag','🎤','Kurzvortrag']];
+const CATS = [['wortschatz','🗂️','Wortschatz (Unterricht)'],['buch','📘','Linie B2'],['grammatik','📐','Grammatik'],['schreiben','✉️','Schreiben'],['kurzvortrag','🎤','Kurzvortrag'],['modelltest','📝','Modelltests']];
 function studyCat(){
   if (typeof kvTimer!=='undefined' && kvTimer) return 'kurzvortrag';
   const v = currentView();
@@ -1474,10 +1517,12 @@ function studyCat(){
     if (c.level==='G') return 'grammatik';
     if (c.lesson==='kv') return 'kurzvortrag';
     if (c.lesson==='rm') return 'schreiben';
+    if (String(c.lesson||'').startsWith('mt/')) return 'modelltest';
     return 'wortschatz'; }
   if (v==='grammatik' && gTopic) return 'grammatik';
   if (v==='schreiben' && wkind) return 'schreiben';
   if (v==='kurzvortrag' && kvOpen) return 'kurzvortrag';
+  if (v==='modell' && mtPath.p) return 'modelltest';
   return null;
 }
 function toast(t){ let el = document.getElementById('toast'); if (!el){ el = document.createElement('div'); el.id = 'toast'; document.body.appendChild(el); }
@@ -1635,6 +1680,161 @@ document.addEventListener('click', e => {
   if (t.id==='mySave'){ mySave(); return; }
   if (t.id==='myDel' && myEditing){ if (!t.dataset.sure){ t.dataset.sure = '1'; t.textContent = 'Wirklich löschen?'; t.classList.add('danger'); return; } const x = MY.find(m => m.id===myEditing); x.del = true; x.t = Date.now(); persist(); $('#myDlg').close(); assemble(); renderOverview(); return; }
 });
+/* ---------- Modelltests ---------- */
+let MT = [], mtPath = {t:null, s:null, p:null}, mtWsOpen = {}, mtShowTr = {};
+const mtFind = () => { const t = MT.find(x => x.id===mtPath.t), s = t && t.sections.find(x => x.id===mtPath.s), p = s && s.parts.find(x => x.id===mtPath.p); return {t, s, p}; };
+const mtScope = () => [mtPath.t, mtPath.s, mtPath.p].filter(Boolean).join('/');
+let MTCARDS = [];
+function mtBuildCards(){
+  MTCARDS = [];
+  MT.forEach(t => t.sections.forEach(s => s.parts.forEach(p => (p.words||[]).forEach(w => {
+    MTCARDS.push({...w, key:'mt:'+w.id, notes:[], family:[], def:w.def||'', ex:w.ex||'', lesson:`mt/${t.id}/${s.id}/${p.id}`, level:'Modell', lessonLabel:`${t.title} · ${p.title}`});
+  }))));
+}
+const mtScopeCards = sc => MTCARDS.filter(c => !sc || c.lesson.startsWith('mt/'+sc+'/') || c.lesson==='mt/'+sc);
+function mtWsBox(scope, label){
+  const cs = mtScopeCards(scope), o = counts(cs), open = !!mtWsOpen[scope];
+  if (!cs.length) return '';
+  const chips = [['new','Neu'], ...PILES.map(([p,l]) => [p,l])].map(([p,l]) => { const n = p==='new' ? o.new : o[p];
+    return `<button class="chip" data-mtpile="${p}" ${n?'':'disabled'}>${EMO[p]} ${l} <b>${n}</b></button>`; }).join('');
+  return `<div class="mt-ws">
+    <div class="mt-ws-h"><div><div class="lbl">📚 Wortschatz · ${esc(label)}</div><b>${cs.length} Wörter</b> <span class="hint">· ${o.k} gekonnt</span></div>
+      <div class="mt-ws-b"><button class="btn" data-mtwsl>${open?'Liste zu':'Wörter'}</button><button class="btn primary" data-mtlearn>▶ Lernen</button></div></div>
+    <span class="minibar">${bar(o, o.total)}</span>
+    <div class="b-secs st" style="border:0;padding:0;margin-top:8px">${chips}</div>
+    ${open ? `<div class="wl" style="margin-top:10px">${uniq(cs).map(c => `<div class="wl-row" style="--c:${STATUS[st(c)].c}"><div class="bar"></div><div><div class="w">${fmtWord(c.front)}</div><div class="d">${fmt(c.def)}</div></div></div>`).join('')}</div>` : ''}
+  </div>`;
+}
+function mtTextHTML(body, checked){
+  return esc(body).split(/\n\s*\n/).map(par => '<p>' + par.replace(/\[\[(\d+)\|([^\]]+)\]\]/g, (_, n, x) => `<span class="ev${checked?' on':''}" data-q="${n}">${x}${checked?`<sup>${n}</sup>`:''}</span>`).replace(/\n/g,'<br>') + '</p>').join('');
+}
+const mtPlain = body => body.replace(/\[\[\d+\|([^\]]+)\]\]/g, '$1');
+function mtScore(p){
+  const a = MTS.a[p.id]||{}; let ok = 0, tot = 0;
+  (p.questions||[]).forEach(q => { tot++; if (a[q.n]===q.ans) ok++; });
+  (p.items||[]).forEach(q => { tot++; if (a[q.n]===q.ans) ok++; });
+  (p.gaps||[]).forEach(q => { tot++; if (a[q.n]===q.ans) ok++; });
+  return {ok, tot};
+}
+function mtOpts(n, opts, ans, checked, a){
+  return `<div class="mt-opts">${opts.map(([k,l]) => { const sel = a===k; let cls = sel?' sel':'';
+      if (checked){ if (k===ans) cls += ' right'; else if (sel) cls += ' wrong'; }
+      return `<button class="mt-opt${cls}" data-mtq="${n}" data-v="${k}" ${checked?'disabled':''}><b>${k.length===1?k:''}</b>${esc(l)}</button>`; }).join('')}</div>`;
+}
+const mtWhy = (checked, why) => checked ? `<div class="mt-why">💡 <b>Warum?</b> ${esc(why)}</div>` : '';
+function mtTexts(p, checked){
+  if (!p.texts) return '';
+  const tr = p.audio && !mtShowTr[p.id] && !checked;
+  if (tr) return `<div class="panel mt-audio"><div class="lbl">🎧 Hörtext</div><p class="hint" style="margin:6px 0 10px">Lass dir den Text vorlesen (Computerstimme) und löse die Aufgaben. Das Transkript kannst du danach ansehen.</p>
+    <div class="mt-trbtns">${p.texts.map((tx,i) => `<button class="btn" data-mtspeak="${i}">🔊 ${esc(tx.title)}</button>`).join('')}</div>
+    <button class="btn ghost" data-mttr style="margin-top:8px">📄 Transkript zeigen</button></div>`;
+  return p.texts.map((tx,i) => `<div class="panel mt-text"><div class="mt-text-h"><div class="lbl">${esc(tx.title)}</div>${p.audio?`<button class="iconbtn" data-mtspeak="${i}" aria-label="Vorlesen">🔊</button>`:''}</div>${mtTextHTML(tx.body, checked)}</div>`).join('');
+}
+function mtPart(p){
+  const checked = !!MTS.c[p.id], a = MTS.a[p.id]||{};
+  let h = `<div class="panel mt-task"><div class="mt-meta"><span>⏱ ${esc(p.time)}</span><span>⭐ ${p.points} Punkte</span></div><p style="margin:8px 0 0">${esc(p.intro)}</p>
+    <details class="mt-tip"><summary>So geht’s – Tipps</summary><ul>${p.tip.map(x => `<li>${esc(x)}</li>`).join('')}</ul></details></div>`;
+  if (p.kind==='match'){
+    h += mtTexts(p, checked);
+    const keys = p.opts.map(o => o[0]).concat(p.allowX ? ['x'] : []);
+    h += `<div class="mt-qs">${p.items.map(it => `<div class="panel mt-q"><div class="mt-qh"><span class="mt-n">${it.n}</span><span>${esc(it.prompt)}</span></div>
+        <div class="mt-keys">${keys.map(k => { const sel = a[it.n]===k; let cls = sel?' sel':''; if (checked){ if (k===it.ans) cls+=' right'; else if (sel) cls+=' wrong'; }
+          return `<button class="mt-key${cls}" data-mtq="${it.n}" data-v="${k}" ${checked?'disabled':''}>${k}</button>`; }).join('')}</div>${mtWhy(checked, it.why)}</div>`).join('')}</div>`;
+    if (!p.audio || checked || mtShowTr[p.id] || p.opts[0][1]==='') h += `<div class="mt-cards">${p.opts.map(([k,t,x]) => { const used = checked && p.items.some(it => it.ans===k);
+        return `<div class="panel mt-card${checked && !used?' unused':''}"><div class="mt-card-h"><span class="mt-n">${k}</span>${t?`<b>${esc(t)}</b>`:''}</div><div>${mtTextHTML(x, checked)}</div></div>`; }).join('')}</div>`;
+  }
+  if (p.kind==='mc' || p.kind==='write' || p.kind==='note'){
+    h += mtTexts(p, checked);
+    h += `<div class="mt-qs">${(p.questions||[]).map(q => `<div class="panel mt-q"><div class="mt-qh"><span class="mt-n">${q.n}</span><span>${esc(q.prompt)}</span></div>${mtOpts(q.n, q.opts, q.ans, checked, a[q.n])}${mtWhy(checked, q.why)}</div>`).join('')}</div>`;
+  }
+  if (p.kind==='note') h += `<div class="panel mt-note"><div class="lbl">📞 Telefonnotiz</div>${p.fields.map(f => `<label>${f.n} · ${esc(f.label)}<textarea data-mtf="${f.n}" rows="${f.n===44?3:1}">${esc((MTS.txt[p.id+'-'+f.n])||'')}</textarea></label>${checked?`<div class="mt-why">✅ <b>Lösung:</b> ${esc(f.ans)}</div>`:''}`).join('')}</div>`;
+  if (p.kind==='gap1' || p.kind==='gap2'){
+    const word = n => { const g = p.gaps.find(x => x.n===n), v = a[n]; if (!v) return ''; const src = p.kind==='gap1' ? p.box : g.opts; const o = src.find(x => x[0]===v); return o ? o[1] : ''; };
+    const txt = esc(p.text).split(/\n\s*\n/).map(par => '<p>'+par.replace(/\{\{(\d+)\}\}/g, (_, n) => { n = +n; const g = p.gaps.find(x => x.n===n), w = word(n);
+      const cls = checked ? (a[n]===g.ans ? ' right' : ' wrong') : (w ? ' sel' : '');
+      const right = checked && a[n]!==g.ans ? ` <span class="mt-gap right">${esc((p.kind==='gap1'?p.box:g.opts).find(x => x[0]===g.ans)[1])}</span>` : '';
+      return `<span class="mt-gap${cls}"><sup>${n}</sup>${w?esc(w):'_____'}</span>${right}`; }).replace(/\n/g,'<br>')+'</p>').join('');
+    h += `<div class="panel mt-text">${txt}</div>`;
+    if (p.kind==='gap1') h += `<div class="panel"><div class="lbl">Wörter</div><div class="mt-box">${p.box.map(([k,w]) => `<span><b>${k}</b> ${w}</span>`).join('')}</div></div>`;
+    h += `<div class="mt-qs">${p.gaps.map(g => `<div class="panel mt-q"><div class="mt-qh"><span class="mt-n">${g.n}</span></div>${p.kind==='gap1'
+        ? `<div class="mt-keys">${p.box.map(([k,w]) => { const sel = a[g.n]===k; let cls = sel?' sel':''; if (checked){ if (k===g.ans) cls+=' right'; else if (sel) cls+=' wrong'; } return `<button class="mt-key wide${cls}" data-mtq="${g.n}" data-v="${k}" ${checked?'disabled':''}>${k} · ${w.toLowerCase()}</button>`; }).join('')}</div>`
+        : mtOpts(g.n, g.opts, g.ans, checked, a[g.n])}${mtWhy(checked, g.why)}</div>`).join('')}</div>`;
+  }
+  if (p.write){
+    const mine = MTS.txt[p.id]||'', wc = mine.trim() ? mine.trim().split(/\s+/).length : 0;
+    h += `<div class="panel mt-write"><div class="lbl">✍️ ${esc(p.write.task)}</div><ul class="mt-check">${p.write.points.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+      <textarea class="kv-text" data-mtw rows="10" placeholder="Schreib hier deinen Text …">${esc(mine)}</textarea><div class="kv-info"><span data-mtwc>${wc} Wörter</span></div>
+      <details class="mt-model"${checked?' open':''}><summary>📄 Musterlösung ansehen</summary><div class="letter">${esc(p.write.model).split(/\n\s*\n/).map(x => `<p>${x.replace(/\n/g,'<br>')}</p>`).join('')}</div></details></div>`;
+  }
+  const hasQ = (p.questions||[]).length || (p.items||[]).length || (p.gaps||[]).length || p.fields;
+  if (hasQ){
+    const sc = mtScore(p);
+    h += `<div class="mt-actions">${checked
+      ? `<div class="mt-result">${sc.tot? `<b>${sc.ok} / ${sc.tot}</b> richtig`:''}</div><button class="btn" data-mtreset>↺ Noch einmal</button>`
+      : `<button class="btn primary" data-mtcheck>✔ Lösungen prüfen</button>`}</div>`;
+  }
+  return h;
+}
+function renderMT(){
+  const el = $('#mtArea'); if (!el) return;
+  if (!MT.length){ el.innerHTML = '<div class="empty">Wird geladen …</div>'; return; }
+  if (!MTCARDS.length) mtBuildCards();
+  const {t, s, p} = mtFind();
+  if (!t){
+    el.innerHTML = `<div class="g-head"><a class="btn" href="#pruefung" style="text-decoration:none">← Prüfung</a><h1>Modelltests</h1></div>
+      <p class="hint" style="margin:-6px 0 12px">Eigene Übungstests im Format telc Deutsch B2 Beruf – von Claude geschrieben.</p>
+      ${mtWsBox('', 'alle Modelltests')}
+      <div class="g-grid">${MT.map(x => { const ps = x.sections.flatMap(y => y.parts), done = ps.filter(q => MTS.c[q.id]).length;
+        return `<button class="g-tile" data-mtt="${x.id}"><span class="src">📝 ${esc(x.sub)}</span><h3>${esc(x.title)}</h3><span class="sub">${x.sections.map(y => y.title).join(' · ')}</span><span class="meta"><span>${ps.length} Teile</span><span>${done} erledigt</span></span></button>`; }).join('')}</div>`;
+    return;
+  }
+  if (!s){
+    el.innerHTML = `<div class="g-head"><button class="btn" data-mtup>← Modelltests</button><h1>${esc(t.title)}</h1></div>
+      ${mtWsBox(t.id, t.title)}
+      <div class="g-grid">${t.sections.map(x => { const done = x.parts.filter(q => MTS.c[q.id]).length;
+        return `<button class="g-tile" data-mts="${x.id}"><span class="src">${x.emo} ${x.parts.length>1? x.parts.length+' Teile':'1 Teil'}</span><h3>${esc(x.title)}</h3><span class="sub">${x.parts.map(q => `${esc(q.time)}`).join(' · ')}</span><span class="meta"><span>${x.parts.reduce((a,q)=>a+q.points,0)} Punkte</span><span>${done}/${x.parts.length} erledigt</span></span></button>`; }).join('')}</div>`;
+    return;
+  }
+  if (!p && s.parts.length===1){ mtPath.p = s.parts[0].id; return renderMT(); }
+  if (!p){
+    el.innerHTML = `<div class="g-head"><button class="btn" data-mtup>← ${esc(t.title)}</button><h1>${s.emo} ${esc(s.title)}</h1></div>
+      ${mtWsBox(t.id+'/'+s.id, s.title)}
+      <div class="g-grid">${s.parts.map(q => { const sc = MTS.c[q.id] ? mtScore(q) : null;
+        return `<button class="g-tile" data-mtp="${q.id}"><span class="src">⏱ ${esc(q.time)} · ⭐ ${q.points} P.</span><h3>${esc(q.title)}</h3><span class="sub">${esc(q.intro.split('. ')[0])}.</span><span class="meta"><span>${(q.words||[]).length} Wörter</span><span>${sc? '✔ '+sc.ok+'/'+sc.tot : 'offen'}</span></span></button>`; }).join('')}</div>`;
+    return;
+  }
+  const back = s.parts.length===1 ? t.title : s.title;
+  const i = s.parts.indexOf(p);
+  el.innerHTML = `<div class="g-head"><button class="btn" data-mtup>← ${esc(back)}</button><h1>${esc(p.title)}</h1></div>
+    ${mtWsBox(t.id+'/'+s.id+'/'+p.id, p.title)}
+    ${mtPart(p)}
+    <div class="mt-nav">${i>0?`<button class="btn" data-mtp="${s.parts[i-1].id}">← ${esc(s.parts[i-1].title)}</button>`:'<span></span>'}${i<s.parts.length-1?`<button class="btn" data-mtp="${s.parts[i+1].id}">${esc(s.parts[i+1].title)} →</button>`:''}</div>`;
+}
+document.addEventListener('click', e => {
+  if (currentView()!=='modell') return;
+  const t = e.target.closest('button'); if (!t) return;
+  const {p} = mtFind();
+  if (t.dataset.mtt){ mtPath = {t:t.dataset.mtt, s:null, p:null}; renderMT(); scrollTo(0,0); return; }
+  if (t.dataset.mts){ mtPath.s = t.dataset.mts; mtPath.p = null; renderMT(); scrollTo(0,0); return; }
+  if (t.dataset.mtp){ mtPath.p = t.dataset.mtp; renderMT(); scrollTo(0,0); return; }
+  if (t.dataset.mtup!==undefined){ const {s} = mtFind(); if (mtPath.p){ mtPath.p = null; if (s && s.parts.length===1) mtPath.s = null; } else if (mtPath.s) mtPath.s = null; else mtPath.t = null; renderMT(); scrollTo(0,0); return; }
+  if (t.dataset.mtwsl!==undefined){ const sc = mtScope(); mtWsOpen[sc] = !mtWsOpen[sc]; renderMT(); return; }
+  if (t.dataset.mtlearn!==undefined){ const cs = uniq(mtScopeCards(mtScope())); if (cs.length) startSession(shuffle(cs), 'Modelltest · Wortschatz', {back:'modell'}); return; }
+  if (t.dataset.mtpile){ const pl = t.dataset.mtpile, cs = uniq(pileFilter(mtScopeCards(mtScope()), pl)); if (cs.length) startSession(shuffle(cs), 'Modelltest · '+(pl==='new'?'Neu':PILES.find(x=>x[0]===pl)[1]), {back:'modell'}); return; }
+  if (!p) return;
+  if (t.dataset.mtq){ (MTS.a[p.id] = MTS.a[p.id]||{})[t.dataset.mtq] = t.dataset.v; persist(); const y = scrollY; renderMT(); scrollTo(0,y); return; }
+  if (t.dataset.mtcheck!==undefined){ MTS.c[p.id] = Date.now(); persist(); const y = scrollY; renderMT(); scrollTo(0,y); return; }
+  if (t.dataset.mtreset!==undefined){ delete MTS.c[p.id]; delete MTS.a[p.id]; delete mtShowTr[p.id]; persist(); renderMT(); scrollTo(0,0); return; }
+  if (t.dataset.mttr!==undefined){ mtShowTr[p.id] = true; const y = scrollY; renderMT(); scrollTo(0,y); return; }
+  if (t.dataset.mtspeak){ const tx = p.texts[+t.dataset.mtspeak]; webSpeak(mtPlain(tx.body).replace(/^[^\n:]{2,30}:\s*/gm, '')); return; }
+});
+document.addEventListener('input', e => {
+  if (currentView()!=='modell') return;
+  const {p} = mtFind(); if (!p) return;
+  if (e.target.matches('[data-mtw]')){ MTS.txt[p.id] = e.target.value; const n = e.target.value.trim() ? e.target.value.trim().split(/\s+/).length : 0; const c = document.querySelector('[data-mtwc]'); if (c) c.textContent = n+' Wörter'; persist(); }
+  if (e.target.matches('[data-mtf]')){ MTS.txt[p.id+'-'+e.target.dataset.mtf] = e.target.value; persist(); }
+});
+
 function isDark(){ const t = document.documentElement.getAttribute('data-theme'); return t ? t==='dark' : matchMedia('(prefers-color-scheme: dark)').matches; }
 function syncThemeColor(){ const m = document.getElementById('themeColor'); if (m) m.content = isDark() ? '#0b0d0c' : '#fafaf7'; }
 syncThemeColor(); updateProfBtn();
@@ -1685,6 +1885,7 @@ document.addEventListener('click', e => {
   }
   if (t.dataset.act==='speak'){ e.stopPropagation(); speak(S.cards[S.i].front); return; }
   if (t.dataset.act==='mark'){ e.stopPropagation(); toggleMark(); return; }
+  if (t.id==='fabLearn' && currentView()==='modell' && MT.length){ const q = smartQueue(mtScopeCards(mtScope())); if (q.length) return startSession(q, 'Modelltest · Smarte Wiederholung', {back:'modell'}); }
   if (t.id==='fabLearn' && currentView()==='buch' && BUCH.length){ const q = smartQueue(bookAll()); if (q.length) return startSession(q, 'Linie B2 · Smarte Wiederholung', {back:'buch'}); }
   if (t.id==='fabLearn'){ const q = smartQueue(); if (q.length) startSession(q, 'Smarte Wiederholung', {back: currentView()==='lernen'?'wortschatz':currentView()}); else { const ls = visibleLessons(); const l = ls[ls.length-1]; if (l) startSession(uniq(CARDS.filter(c=>c.lesson===l.id)), l.level+' U'+l.num); } return; }
   if (t.id==='flip' || t.id==='flipBtn'){ if (suppressClick){ suppressClick=false; return; } flip(); return; }
@@ -1866,7 +2067,7 @@ async function boot(){
   }catch(e){ $('#lessons').innerHTML = '<div class="empty">Die Wortliste konnte nicht geladen werden. Bitte Seite neu laden.</div>'; return; }
   assemble();
   route();
-  Promise.all([fetch('data/schreiben.json').then(r=>r.json()), fetch('data/grammatik.json').then(r=>r.json()), fetch('data/kurzvortrag.json').then(r=>r.json()), fetch('data/buch.json').then(r=>r.json()).catch(()=>[]), fetch('data/allgemein.html').then(r=>r.text()).catch(()=>'')]).then(([w,g,k,b,a]) => { ALLG = a; WRITE = w; GRAM = g; KVALL = k; KVD = k.topics.find(x => x.id===KV.topic) || k.topics[0]; BUCH = b; const v = currentView(); if (v==='schreiben') renderWrite(); if (v==='grammatik') renderGram(); if (v==='kurzvortrag') renderKV(); if (v==='buch') renderBuch(); }).catch(()=>{});
+  Promise.all([fetch('data/schreiben.json').then(r=>r.json()), fetch('data/grammatik.json').then(r=>r.json()), fetch('data/kurzvortrag.json').then(r=>r.json()), fetch('data/buch.json').then(r=>r.json()).catch(()=>[]), fetch('data/allgemein.html').then(r=>r.text()).catch(()=>''), fetch('data/modelltests.json').then(r=>r.json()).catch(()=>({tests:[]}))]).then(([w,g,k,b,a,mt]) => { ALLG = a; MT = mt.tests||[]; WRITE = w; GRAM = g; KVALL = k; KVD = k.topics.find(x => x.id===KV.topic) || k.topics[0]; BUCH = b; const v = currentView(); if (v==='schreiben') renderWrite(); if (v==='grammatik') renderGram(); if (v==='kurzvortrag') renderKV(); if (v==='buch') renderBuch(); if (v==='modell') renderMT(); }).catch(()=>{});
   initCloud(); initTTS();
   if ('serviceWorker' in navigator && location.protocol==='https:' && !window.claude){ navigator.serviceWorker.register('sw.js', {updateViaCache:'none'}).then(reg => { reg.update().catch(()=>{}); document.addEventListener('visibilitychange', () => { if (document.visibilityState==='visible') reg.update().catch(()=>{}); }); }).catch(()=>{});
     let reloaded = false; navigator.serviceWorker.addEventListener('controllerchange', () => { if (reloaded || S) return; reloaded = true; location.reload(); }); }
