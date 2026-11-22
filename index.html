@@ -1149,7 +1149,7 @@ function renderCard(){
   const c = S.cards[S.i];
   const rev = S.dir==='rev' && !!(c.def || c.ex);
   const frontText = rev ? (c.def || c.ex) : c.front;
-  const lvc = c.level==='B2' ? 'var(--accent)' : c.level==='Buch' ? 'var(--mark)' : c.level==='G' ? 'var(--gen)' : c.level==='S' ? '#b58a00' : 'var(--teal)';
+  const lvc = c.level==='B2' ? '#2f9c90' : c.level==='Buch' ? 'var(--mark)' : c.level==='G' ? 'var(--gen)' : c.level==='S' ? '#b58a00' : '#5079c0';
   const stc = {k:'var(--ok)',u:'var(--mid)',x:'var(--bad)'}[st(c)] || 'transparent';
   ['#faceFront','#faceBack'].forEach(x => { $(x).style.setProperty('--lvc', lvc); $(x).style.setProperty('--stc', stc); });
   $('#faceFront').innerHTML = head(c) + `<div class="front-body">
