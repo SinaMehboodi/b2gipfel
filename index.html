@@ -82,7 +82,7 @@ main.wrap{padding-top:28px;padding-bottom:120px}
 .view.on{display:block}
 
 /* overview */
-.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:20px;align-items:stretch}
+.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;align-items:stretch}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;box-shadow:0 1px 2px rgba(16,24,40,.04),0 1px 3px rgba(16,24,40,.06)}
 .hero h1{font-size:clamp(18px,5.3vw,28px);font-weight:800;margin-bottom:12px;white-space:nowrap}
 .hero p.lead{color:var(--muted);margin:6px 0 18px;max-width:56ch}
@@ -533,7 +533,22 @@ table.dk.mini td b{font-weight:800;color:var(--brand-700);background:color-mix(i
 .sx-src{font-size:12px;color:var(--muted);margin-top:3px}
 #sxRes mark{background:#ffe066;color:#1d1d1b;border-radius:3px;padding:0 2px}
 .sx-empty{padding:22px;text-align:center;color:var(--muted)}
-.sx-head{margin-top:22px}
+
+.pile-grid{gap:10px}
+.pile{padding:12px 14px;border-left:4px solid var(--c);gap:6px;justify-content:center;min-height:74px}
+.pile .n{font:800 22px/1 var(--f-display)}
+.pile .l{font-size:14.5px;font-weight:700;display:flex;align-items:center;gap:6px;line-height:1.2}
+.pile .emo{font-size:16px;line-height:1}
+.pile.smart{padding:14px 16px;min-height:0;gap:12px}
+.pile.smart > span:first-child{display:flex;flex-direction:column;gap:3px;min-width:0}
+.pile.smart .l{font-size:15.5px}
+.pile.smart br{display:none}
+.pile.smart small{font-size:12.5px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pile.smart .n{font-size:26px;flex-shrink:0}
+.sx-head{margin:16px 0 !important}
+.sx-gap{display:flex;margin:16px 0}
+.page-h1{font-size:clamp(20px,5.3vw,28px);font-weight:800;margin:0 0 12px}
+#bCats{margin-top:0}
 .subtabs{display:flex;flex-wrap:wrap;gap:6px;overflow-x:auto;scrollbar-width:none;margin:4px 0 14px;padding-bottom:2px;-webkit-overflow-scrolling:touch}
 .subtabs::-webkit-scrollbar{display:none}
 .subtabs button{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font:700 14px var(--f-body);cursor:pointer;white-space:nowrap}
@@ -700,7 +715,7 @@ table.dk.mini td b{color:var(--info);background:color-mix(in srgb,var(--info) 16
       </div>
       <div class="panel piles">
         <div class="pile-grid">
-          <button class="pile smart" id="pSmart" data-pile="smart"><span><span class="l"><span class="emo">🔁</span> Smarte Wiederholung</span><br><small>Weiß-ich-nicht zuerst, dann Unsicheres, dann Altes</small></span><span class="n" id="nSmart">0</span></button>
+          <button class="pile smart" id="pSmart" data-pile="smart"><span><span class="l"><span class="emo">🔁</span> Smarte Wiederholung</span><br><small>Erst 😕, dann 🤔, dann Altes</small></span><span class="n" id="nSmart">0</span></button>
           <button class="pile" data-pile="x" style="--c:var(--bad)"><span class="n" id="nX">0</span><span class="l"><span class="emo">😕</span> Weiß ich nicht</span></button>
           <button class="pile" data-pile="u" style="--c:var(--mid)"><span class="n" id="nU">0</span><span class="l"><span class="emo">🤔</span> Unsicher</span></button>
           <button class="pile" data-pile="b" style="--c:var(--mark)"><span class="n" id="nB">0</span><span class="l"><span class="emo">⭐</span> Markiert</span></button>
@@ -1532,7 +1547,7 @@ const PILES = [['x','Weiß ich nicht','--bad'],['u','Unsicher','--mid'],['b','Ma
 const pileFilter = (cs, p) => !p ? cs : cs.filter(c => p==='b' ? marked(c) : p==='new' ? st(c)==='new' : st(c)===p);
 function pilesHTML(cs, attr){
   const o = counts(cs), sq = smartQueue(cs).length;
-  return `<div class="pile-grid b-piles"><button class="pile smart" ${attr}="smart" ${sq?'':'disabled'}><span><span class="l"><span class="emo">🔁</span> Smarte Wiederholung</span><br><small>Weiß-ich-nicht zuerst, dann Unsicheres, dann Altes</small></span><span class="n">${sq}</span></button>
+  return `<div class="pile-grid"><button class="pile smart" ${attr}="smart" ${sq?'':'disabled'}><span><span class="l"><span class="emo">🔁</span> Smarte Wiederholung</span><br><small>Erst 😕, dann 🤔, dann Altes</small></span><span class="n">${sq}</span></button>
     ${PILES.map(([p,l,c]) => `<button class="pile" ${attr}="${p}" style="--c:var(${c})" ${o[p]?'':'disabled'}><span class="n">${o[p]}</span><span class="l"><span class="emo">${EMO[p]}</span> ${l}</span></button>`).join('')}</div>`;
 }
 function bookCards(ch){
@@ -1556,10 +1571,12 @@ function renderBuch(){
     if (!bCat){
       const cat = (id, src, title, list) => { const cs = list.flatMap(bookCards), o = counts(cs);
         return `<button class="g-tile cat" data-bcat="${id}"><span class="src">${src}</span><h3>${title}</h3><span class="sub">${(id==='kap' ? list.slice().reverse() : list).map(c => c.label? c.title : 'Kapitel '+c.num).join(' · ')}</span><span class="minibar">${bar(o,o.total)}</span><span class="meta"><span>${list.length} ${id==='kap'?'Kapitel':'Listen'} · ${o.total} Karten</span><span>${o.k? o.k+' gekonnt':'noch neu'}</span></span></button>`; };
-      $('#buchArea').innerHTML = `<h1 style="font-size:32px">Linie B2</h1>
-        <p class="hint" style="margin:6px 0 0">Wortschatz aus dem Buch. Bedeutungen (und Beispiele, wo das Buch keine hat) hat Claude in einfachem Deutsch ergänzt.</p>
-        <div class="g-grid">${cat('kap','📘 Kapitel','Lernwortschatz der Kapitel',kap)}${anh.length? cat('anh','📎 Anhang','Listen am Ende des Buchs',anh):''}</div>
-        <h2 class="b-sub">Wiederholen (alle Buch-Karten)</h2>${pilesHTML(bookAll(), 'data-bpile')}`;
+      $('#buchArea').innerHTML = `<h1 class="page-h1">Linie B2</h1>
+        <div class="panel piles">${pilesHTML(bookAll(), 'data-bpile')}</div>
+        <label class="sx-box sx-gap"><span aria-hidden="true">🔍</span><input id="sxB" type="search" placeholder="Im Buch suchen …" aria-label="Im Buch suchen" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(sxQB)}"></label>
+        <div id="sxResB" hidden></div>
+        <div class="g-grid" id="bCats">${cat('kap','📘 Kapitel','Lernwortschatz der Kapitel',kap)}${anh.length? cat('anh','📎 Anhang','Listen am Ende des Buchs',anh):''}</div>`;
+      renderSearchB();
       return;
     }
     const list = bCat==='kap' ? kap : anh;
@@ -1887,28 +1904,41 @@ function sxMark(text, q){
   const st = Math.max(0, i-40), en = Math.min(p.length, i+q.length+60);
   return (st?'… ':'')+esc(p.slice(st,i))+'<mark>'+esc(p.slice(i,i+q.length))+'</mark>'+esc(p.slice(i+q.length,en))+(en<p.length?' …':'');
 }
+let sxQB = '', sxBack = 'wortschatz';
+function sxRun(q, scope){
+  const fq = fold(q), seen = new Set(), groups = {}, hits = [];
+  const pool = scope==='buch' ? bookAll().map(c => ({c, g:c.lessonLabel.replace(/^Linie B2 · /,'')})) : sxAll();
+  for (const {c, g} of pool){
+    const k = c.key + '|' + g; if (seen.has(k)) continue;
+    const hit = sxFields(c).find(([, t]) => t && fold(t).includes(fq)); if (!hit) continue;
+    seen.add(k); hits.push(c); (groups[g] = groups[g] || []).push([c, hit]);
+  }
+  return {hits, groups};
+}
+function sxHTML(q, scope){
+  const {hits, groups} = sxRun(q, scope); sxHits = hits; sxBack = scope==='buch' ? 'buch' : 'wortschatz';
+  if (!hits.length) return `<div class="sx-empty">Nichts gefunden für „${esc(q)}“.</div>`;
+  const order = scope==='buch' ? Object.keys(groups) : ['B2-Kurs','B1+ Kurs','Linie B2','Modelltests','Meine Wörter'];
+  return `<div class="sx-top"><span><b>${hits.length}</b> Treffer</span><button class="btn primary" id="sxLearn">▶ Alle Treffer lernen</button></div>` +
+    order.filter(g => groups[g]).map(g => `<div class="sx-group"><div class="lbl">${esc(g)} · ${groups[g].length}</div><div class="wl">${groups[g].slice(0,150).map(([c, [where, t]]) =>
+      `<button class="wl-row sx-row" data-sx="${hits.indexOf(c)}" style="--c:${STATUS[st(c)].c}"><div class="bar"></div><div><div class="w">${fmtWord(c.front)} <span class="sx-where">${where}</span></div>
+       <div class="d">${where==='Wort' ? esc(plainT(c.def||'').slice(0,110)) : sxMark(t, q)}</div><div class="sx-src">${esc(c.lessonLabel||'')}</div></div></button>`).join('')}</div></div>`).join('');
+}
 function renderSearch(){
   const box = $('#sxRes'), q = sxQ.trim(), on = q.length >= 2;
   box.hidden = !on; $('#lvlTabs').hidden = on; $('#lessons').hidden = on;
-  if (!on){ box.innerHTML = ''; return; }
-  const fq = fold(q), seen = new Set(), groups = {};
-  sxHits = [];
-  for (const {c, g} of sxAll()){
-    const k = c.key + '|' + g; if (seen.has(k)) continue;
-    const hit = sxFields(c).find(([, t]) => t && fold(t).includes(fq)); if (!hit) continue;
-    seen.add(k); sxHits.push(c); (groups[g] = groups[g] || []).push([c, hit]);
-  }
-  if (!sxHits.length){ box.innerHTML = `<div class="sx-empty">Nichts gefunden für „${esc(q)}“.</div>`; return; }
-  const order = ['B2-Kurs','B1+ Kurs','Linie B2','Modelltests','Meine Wörter'];
-  box.innerHTML = `<div class="sx-top"><span><b>${sxHits.length}</b> Treffer</span><button class="btn primary" id="sxLearn">▶ Alle Treffer lernen</button></div>` +
-    order.filter(g => groups[g]).map(g => `<div class="sx-group"><div class="lbl">${g} · ${groups[g].length}</div><div class="wl">${groups[g].slice(0,150).map(([c, [where, t]]) =>
-      `<button class="wl-row sx-row" data-sx="${sxHits.indexOf(c)}" style="--c:${STATUS[st(c)].c}"><div class="bar"></div><div><div class="w">${fmtWord(c.front)} <span class="sx-where">${where}</span></div>
-       <div class="d">${where==='Wort' ? esc(plainT(c.def||'').slice(0,110)) : sxMark(t, q)}</div><div class="sx-src">${esc(c.lessonLabel||'')}</div></div></button>`).join('')}</div></div>`).join('');
+  box.innerHTML = on ? sxHTML(q, 'all') : '';
 }
-document.addEventListener('input', e => { if (e.target.id==='sx'){ sxQ = e.target.value; renderSearch(); } });
+function renderSearchB(){
+  const box = $('#sxResB'); if (!box) return;
+  const q = sxQB.trim(), on = q.length >= 2;
+  box.hidden = !on; const g = $('#bCats'); if (g) g.hidden = on;
+  box.innerHTML = on ? sxHTML(q, 'buch') : '';
+}
+document.addEventListener('input', e => { if (e.target.id==='sx'){ sxQ = e.target.value; renderSearch(); } if (e.target.id==='sxB'){ sxQB = e.target.value; renderSearchB(); } });
 document.addEventListener('click', e => {
-  const r = e.target.closest('[data-sx]'); if (r && currentView()==='wortschatz'){ const c = sxHits[+r.dataset.sx]; if (c) startSession([c], 'Suche: '+sxQ.trim(), {back:'wortschatz'}); return; }
-  if (e.target.closest('#sxLearn') && sxHits.length) startSession(uniq(sxHits), 'Suche: '+sxQ.trim()+' ('+sxHits.length+')', {back:'wortschatz'});
+  const r = e.target.closest('[data-sx]'); if (r && ['wortschatz','buch'].includes(currentView())){ const c = sxHits[+r.dataset.sx]; if (c) startSession([c], 'Suche', {back:sxBack}); return; }
+  if (e.target.closest('#sxLearn') && sxHits.length) startSession(uniq(sxHits), 'Suche ('+sxHits.length+')', {back:sxBack});
 });
 /* ===== SUCHE – Ende ===== */
 
