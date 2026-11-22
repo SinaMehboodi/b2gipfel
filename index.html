@@ -807,7 +807,7 @@ a.g-tile.hub{text-decoration:none;color:inherit}
 <div class="dock" id="dock"><div class="dock-inner">
   <span class="info" id="dockInfo"></span>
   <select id="optOrder" aria-label="Reihenfolge"><option value="orig">🔢 Original</option><option value="shuffle">🔀 Gemischt</option></select>
-  <select id="optFilter" aria-label="Welche Karten"><option value="all">Alle Karten</option><option value="open">Nur offene</option></select>
+  <select id="optFilter" aria-label="Welche Karten"><option value="all">Alle Karten</option><option value="open">Nur offene</option><option value="new">🆕 Nur neue</option></select>
   <select id="optDir" aria-label="Richtung"><option value="fwd">Wort → Bed.</option><option value="rev">Bed. → Wort</option></select>
   <button class="btn ghost" id="dockClear">Abwählen</button>
   <button class="btn primary" id="dockStart">Lernen starten</button>
@@ -971,6 +971,20 @@ function smartQueue(src){
   const old = all.filter(c => st(c)==='k' && now - (P[c.key].t||0) > week);
   return [...shuffle(x), ...shuffle(u), ...shuffle(old)].slice(0, 40);
 }
+const NEW_PER_RUN = 10;
+// Neue (noch nie bewertete) Karten, ab dem ersten Unterricht mit neuen Wörtern
+function newQueue(src, n=NEW_PER_RUN){
+  return uniq(src || CARDS).filter(c => st(c)==='new').slice(0, n);
+}
+function fabSource(){
+  if (level==='all') return CARDS;
+  const vis = new Set(visibleLessons().map(l => l.id));
+  const s = CARDS.filter(c => vis.has(c.lesson));
+  return s.length ? s : CARDS;
+}
+function fabQueue(src){
+  return [...smartQueue(src), ...shuffle(newQueue(src))];
+}
 
 function renderOverview(){
   const o = counts(CARDS);
@@ -1085,7 +1099,7 @@ function renderCard(){
   $('#faceFront').innerHTML = head(c) + `<div class="front-body">
       ${c.group && !rev ? `<div class="group">${esc(c.group)}</div>`:''}
       <div class="word ${plainT(frontText).length>48?'long':''}">${rev ? fmt(frontText) : fmtWord(frontText)}</div>
-      <div class="hint">${rev ? 'Welches Wort ist gemeint?' : (c.level==='G' ? esc(plainT(c.group)) : c.level==='S' ? 'Welche Redemittel kennst du dafür?' : c.parent ? 'Wortfamilie von '+esc(plainT(c.parent).replace(/^(r|e|s)\s+/,'').split(/[+(=→]/)[0].trim()) : 'Was bedeutet das?')}</div>
+      <div class="hint">${rev ? 'Welches Wort ist gemeint?' : (c.level==='G' ? esc(plainT(c.group)) : c.level==='S' ? 'Welche Redemittel kennst du dafür?' : c.parent ? 'Wortfamilie von '+esc(plainT(c.parent.split(/\ue006\s*\ue005/)[0]).replace(/^(r|e|s)\s+/,'').split(/[+(=→]/)[0].trim()) : 'Was bedeutet das?')}</div>
     </div><div class="tap">Tippen zum Umdrehen</div>`;
   $('#faceBack').innerHTML = head(c) + cardBack(c);
   $('#flip').classList.toggle('flipped', S.flipped);
@@ -1703,7 +1717,7 @@ function mtWsBox(scope, label){
   const chips = [['new','Neu'], ...PILES.map(([p,l]) => [p,l])].map(([p,l]) => { const n = p==='new' ? o.new : o[p];
     return `<button class="chip" data-mtpile="${p}" ${n?'':'disabled'}>${EMO[p]} ${l} <b>${n}</b></button>`; }).join('');
   return `<div class="mt-ws">
-    <div class="mt-ws-h"><div><div class="lbl">📚 Wortschatz · ${esc(label)}</div><b>${cs.length} Wörter</b> <span class="hint">· ${o.k} gekonnt</span></div>
+    <div class="mt-ws-h"><div><div class="lbl">📚 Wortschatz · ${esc(label)}</div><b>${cs.length} Wörter</b><div class="hint">${o.k} gekonnt</div></div>
       <div class="mt-ws-b"><button class="btn" data-mtwsl>${open?'Liste zu':'Wörter'}</button><button class="btn primary" data-mtlearn>▶ Lernen</button></div></div>
     <span class="minibar">${bar(o, o.total)}</span>
     <div class="b-secs st" style="border:0;padding:0;margin-top:8px">${chips}</div>
@@ -1787,10 +1801,12 @@ document.addEventListener('click', e => {
   if (t.id==='dockClear'){ selected.clear(); renderOverview(); return; }
   if (t.id==='dockStart'){
     let cs = uniq(CARDS.filter(c => selected.has(c.lesson)));
-    if ($('#optFilter').value==='open') cs = cs.filter(c => st(c)!=='k');
+    const flt = $('#optFilter').value;
+    if (flt==='open') cs = cs.filter(c => st(c)!=='k');
+    else if (flt==='new') cs = cs.filter(c => st(c)==='new');
     if ($('#optOrder').value==='shuffle') cs = shuffle(cs);
     const names = LESSONS.filter(l => selected.has(l.id)).map(l => l.level+' U'+l.num);
-    if (!cs.length){ $('#dockInfo').textContent = 'Alle Karten sind schon gekonnt. Wähle „Alle Karten“.'; return; }
+    if (!cs.length){ $('#dockInfo').textContent = flt==='new' ? 'Keine neuen Wörter mehr in diesen Unterrichten.' : 'Alle Karten sind schon gekonnt. Wähle „Alle Karten“.'; return; }
     startSession(cs, names.length>3 ? names.length+' Unterrichte' : names.join(', '), {dir:$('#optDir').value});
     return;
   }
@@ -1805,9 +1821,9 @@ document.addEventListener('click', e => {
   }
   if (t.dataset.act==='speak'){ e.stopPropagation(); speak(S.cards[S.i].front); return; }
   if (t.dataset.act==='mark'){ e.stopPropagation(); toggleMark(); return; }
-  if (t.id==='fabLearn' && currentView()==='modell' && MT.length){ const q = smartQueue(mtScopeCards(mtScope())); if (q.length) return startSession(q, 'Modelltest · Smarte Wiederholung', {back:'modell'}); }
-  if (t.id==='fabLearn' && currentView()==='buch' && BUCH.length){ const q = smartQueue(bookAll()); if (q.length) return startSession(q, 'Linie B2 · Smarte Wiederholung', {back:'buch'}); }
-  if (t.id==='fabLearn'){ const q = smartQueue(); if (q.length) startSession(q, 'Smarte Wiederholung', {back: currentView()==='lernen'?'wortschatz':currentView()}); else { const ls = visibleLessons(); const l = ls[ls.length-1]; if (l) startSession(uniq(CARDS.filter(c=>c.lesson===l.id)), l.level+' U'+l.num); } return; }
+  if (t.id==='fabLearn' && currentView()==='modell' && MT.length){ const q = fabQueue(mtScopeCards(mtScope())); if (q.length) return startSession(q, 'Modelltest · Wiederholung + Neu', {back:'modell'}); }
+  if (t.id==='fabLearn' && currentView()==='buch' && BUCH.length){ const q = fabQueue(bookAll()); if (q.length) return startSession(q, 'Linie B2 · Wiederholung + Neu', {back:'buch'}); }
+  if (t.id==='fabLearn'){ const q = fabQueue(fabSource()); if (q.length) startSession(q, 'Wiederholung + Neu', {back: currentView()==='lernen'?'wortschatz':currentView()}); else toast('Alles gelernt – nichts zu wiederholen und keine neuen Wörter.'); return; }
   if (t.id==='flip' || t.id==='flipBtn'){ if (suppressClick){ suppressClick=false; return; } flip(); return; }
   if (t.closest('#answer') && t.dataset.s){ rate(t.dataset.s); return; }
   if (t.id==='nextCard'){ next(); return; }
