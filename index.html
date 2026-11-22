@@ -523,6 +523,16 @@ table.dk.mini td b{font-weight:800;color:var(--brand-700);background:color-mix(i
 .tr-flag{display:inline-flex;align-items:center;font-size:17px;line-height:1}.flag-img{width:22px;height:22px;display:block}
 .pf-langs{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.pf-langs button{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:600 14.5px var(--f-body);cursor:pointer}
 .pf-langs button.on{border-color:var(--accent);background:var(--brand-50)}
+.sx-box{flex:1 1 260px;display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:0 12px;min-height:46px}
+.sx-box:focus-within{border-color:var(--info,#2f9c90);box-shadow:0 0 0 3px color-mix(in srgb,#2f9c90 20%,transparent)}
+.sx-box input{flex:1;border:0;background:transparent;color:var(--ink);font:500 16px var(--f-body);outline:none;min-width:0;padding:10px 0}
+.sx-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 0 12px}.sx-top .btn{padding:9px 14px}
+.sx-group{margin-bottom:16px}.sx-group .lbl{margin:0 0 6px 2px}
+.sx-row{width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;background:var(--surface)}
+.sx-where{font:700 10.5px var(--f-body);padding:2px 7px;border-radius:6px;background:color-mix(in srgb,#2f9c90 16%,var(--surface));color:var(--info,#2f9c90);vertical-align:middle;margin-left:4px}
+.sx-src{font-size:12px;color:var(--muted);margin-top:3px}
+#sxRes mark{background:#ffe066;color:#1d1d1b;border-radius:3px;padding:0 2px}
+.sx-empty{padding:22px;text-align:center;color:var(--muted)}
 .subtabs{display:flex;flex-wrap:wrap;gap:6px;overflow-x:auto;scrollbar-width:none;margin:4px 0 14px;padding-bottom:2px;-webkit-overflow-scrolling:touch}
 .subtabs::-webkit-scrollbar{display:none}
 .subtabs button{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font:700 14px var(--f-body);cursor:pointer;white-space:nowrap}
@@ -702,11 +712,9 @@ table.dk.mini td b{color:var(--info);background:color-mix(in srgb,var(--info) 16
 
     <div class="section-head">
       <h2>Unterrichte</h2>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-        <button class="btn ghost" id="selAll">Alle auswählen</button>
-        <button class="btn" id="openImport">+ Unterricht hinzufügen</button>
-      </div>
+      <label class="sx-box"><span aria-hidden="true">🔍</span><input id="sx" type="search" placeholder="Wort, Bedeutung oder Beispiel suchen …" aria-label="Alle Wörter durchsuchen" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
     </div>
+    <div id="sxRes" hidden></div>
     <div class="lvl-tabs" id="lvlTabs" role="tablist" aria-label="Niveau"></div>
     <div class="lessons" id="lessons"></div>
     <div class="panel datapanel">
@@ -1025,7 +1033,7 @@ function renderOverview(){
     return `<button class="lvl-tab" data-lvl="${lv}" role="tab" aria-pressed="${lv===level}"><span class="lv">${lv}</span><span class="lt"><b>${lv==='B2'?'B2-Kurs':'B1+ Kurs'}</b><small>${ls.length} Unterrichte · ${o.total} Wörter</small></span><span class="minibar">${bar(o,o.total)}</span></button>`; }).join('');
   { const mc = CARDS.filter(c => c.level==='Mein'), mo = counts(mc);
     $('#lvlTabs').insertAdjacentHTML('beforeend', `<button class="lvl-tab my" data-lvl="my" role="tab" aria-pressed="${level==='my'}"><span class="lv">✍️</span><span class="lt"><b>Meine Wörter</b><small>${mc.length} Wörter</small></span><span class="minibar">${bar(mo, mo.total||1)}</span></button>`); }
-  $('#selAll').hidden = level==='my'; $('#openImport').hidden = level==='my';
+
   if (level==='my'){ renderMy(); return; }
   const ls = visibleLessons().slice().reverse();   // newest first
   $('#lessons').innerHTML = ls.map(l => {
@@ -1586,7 +1594,7 @@ function route(){
   const navV = v==='lernen' ? ((S&&S.back)||'wortschatz') : v;
   $$('nav.tabs a').forEach(a => a.setAttribute('aria-current', a.dataset.nav===navV ? 'page':'false'));
   $$('.bottomnav a').forEach(a => a.setAttribute('aria-current', (a.dataset.nav===navV || (a.dataset.nav==='pruefung' && ['schreiben','kurzvortrag','modell'].includes(navV)) || (a.dataset.nav==='wortschatz' && navV==='liste')) ? 'page':'false'));
-  if (v==='wortschatz') renderOverview();
+  if (v==='wortschatz'){ renderOverview(); if ($('#sx')){ $('#sx').value = sxQ; renderSearch(); } }
   if (v==='schreiben') renderWrite();
   if (v==='grammatik') renderGram();
   if (v==='kurzvortrag') renderKV();
@@ -1859,6 +1867,53 @@ document.addEventListener('click', e => {
   if (t.dataset.mtpile){ const pl = t.dataset.mtpile, cs = uniq(pileFilter(mtScopeCards(mtScope()), pl)); if (cs.length) startSession(shuffle(cs), 'Modelltest · '+(pl==='new'?'Neu':PILES.find(x=>x[0]===pl)[1]), {back:'modell'}); return; }
 });
 
+
+/* ===== SUCHE – Anfang (Wortschatz-Seite) ===== */
+const fold = t => String(t||'').replace(/[-]/g,'').toLowerCase().replace(/ä|ae/g,'a').replace(/ö|oe/g,'o').replace(/ü|ue/g,'u').replace(/ß/g,'ss').replace(/\s+/g,' ');
+let sxQ = '', sxHits = [];
+function sxAll(){
+  if (MT.length && !MTCARDS.length) mtBuildCards();
+  const src = (c, g) => ({c, g});
+  return [...CARDS.map(c => src(c, c.lesson && String(c.lesson).startsWith('my') ? 'Meine Wörter' : (c.level==='B2' ? 'B2-Kurs' : c.level==='B1+' ? 'B1+ Kurs' : 'Meine Wörter'))),
+          ...bookAll().map(c => src(c, 'Linie B2')), ...MTCARDS.map(c => src(c, 'Modelltests'))];
+}
+function sxFields(c){
+  const m = (c.m||[]).flatMap(([d, ex]) => [['Bedeutung', d], ...(ex||[]).map(e => ['Beispiel', e])]);
+  return [['Wort', c.front], ['Bedeutung', c.def], ...m, ['Beispiel', c.ex], ['Verbform', (c.forms||[]).join(' ')],
+          ['Protokoll', (c.notes||[]).map(n => n[1]).join(' ')], ['Wortfamilie', (c.family||[]).join(' ')],
+          ['Übersetzung', (typeof TR!=='undefined' && TR) ? TR[norm(c.front)] : '']];
+}
+function sxMark(text, q){
+  const p = plainT(text), i = p.toLowerCase().indexOf(q.toLowerCase());
+  if (i < 0) return esc(p.length>110 ? p.slice(0,110)+' …' : p);
+  const st = Math.max(0, i-40), en = Math.min(p.length, i+q.length+60);
+  return (st?'… ':'')+esc(p.slice(st,i))+'<mark>'+esc(p.slice(i,i+q.length))+'</mark>'+esc(p.slice(i+q.length,en))+(en<p.length?' …':'');
+}
+function renderSearch(){
+  const box = $('#sxRes'), q = sxQ.trim(), on = q.length >= 2;
+  box.hidden = !on; $('#lvlTabs').hidden = on; $('#lessons').hidden = on;
+  if (!on){ box.innerHTML = ''; return; }
+  const fq = fold(q), seen = new Set(), groups = {};
+  sxHits = [];
+  for (const {c, g} of sxAll()){
+    const k = c.key + '|' + g; if (seen.has(k)) continue;
+    const hit = sxFields(c).find(([, t]) => t && fold(t).includes(fq)); if (!hit) continue;
+    seen.add(k); sxHits.push(c); (groups[g] = groups[g] || []).push([c, hit]);
+  }
+  if (!sxHits.length){ box.innerHTML = `<div class="sx-empty">Nichts gefunden für „${esc(q)}“.</div>`; return; }
+  const order = ['B2-Kurs','B1+ Kurs','Linie B2','Modelltests','Meine Wörter'];
+  box.innerHTML = `<div class="sx-top"><span><b>${sxHits.length}</b> Treffer</span><button class="btn primary" id="sxLearn">▶ Alle Treffer lernen</button></div>` +
+    order.filter(g => groups[g]).map(g => `<div class="sx-group"><div class="lbl">${g} · ${groups[g].length}</div><div class="wl">${groups[g].slice(0,150).map(([c, [where, t]]) =>
+      `<button class="wl-row sx-row" data-sx="${sxHits.indexOf(c)}" style="--c:${STATUS[st(c)].c}"><div class="bar"></div><div><div class="w">${fmtWord(c.front)} <span class="sx-where">${where}</span></div>
+       <div class="d">${where==='Wort' ? esc(plainT(c.def||'').slice(0,110)) : sxMark(t, q)}</div><div class="sx-src">${esc(c.lessonLabel||'')}</div></div></button>`).join('')}</div></div>`).join('');
+}
+document.addEventListener('input', e => { if (e.target.id==='sx'){ sxQ = e.target.value; renderSearch(); } });
+document.addEventListener('click', e => {
+  const r = e.target.closest('[data-sx]'); if (r && currentView()==='wortschatz'){ const c = sxHits[+r.dataset.sx]; if (c) startSession([c], 'Suche: '+sxQ.trim(), {back:'wortschatz'}); return; }
+  if (e.target.closest('#sxLearn') && sxHits.length) startSession(uniq(sxHits), 'Suche: '+sxQ.trim()+' ('+sxHits.length+')', {back:'wortschatz'});
+});
+/* ===== SUCHE – Ende ===== */
+
 function isDark(){ const t = document.documentElement.getAttribute('data-theme'); return t ? t==='dark' : matchMedia('(prefers-color-scheme: dark)').matches; }
 function syncThemeColor(){ const m = document.getElementById('themeColor'); if (m) m.content = isDark() ? '#0b0d0c' : '#fafaf7'; }
 syncThemeColor(); updateProfBtn();
@@ -1887,7 +1942,6 @@ document.addEventListener('click', e => {
   const t = e.target.closest('button, .flip'); if (!t) return;
   if (t.matches('.lesson')){ const id = t.dataset.id; selected.has(id) ? selected.delete(id) : selected.add(id); t.setAttribute('aria-pressed', String(selected.has(id))); renderDock(); return; }
   if (t.matches('[data-lvl]')){ level = t.dataset.lvl; saveLocal(); renderOverview(); return; }
-  if (t.id==='selAll'){ const ls = visibleLessons(); const all = ls.every(l => selected.has(l.id)); ls.forEach(l => all ? selected.delete(l.id) : selected.add(l.id)); renderOverview(); return; }
   if (t.id==='dockClear'){ selected.clear(); renderOverview(); return; }
   if (t.id==='dockStart'){
     const set = {flt:$('#optFilter').value, order:$('#optOrder').value, dir:$('#optDir').value};
@@ -2071,7 +2125,7 @@ async function loadBackup(file){
     $('#dataNote').textContent = 'Backup geladen: Lernstand, eigene Wörter und Unterrichte sind wieder da.';
   }catch(e){ $('#dataNote').textContent = 'Diese Datei ist kein Karteikasten-Backup.'; }
 }
-$('#openImport').addEventListener('click', () => { pending=null; $('#impFile').value=''; impMsg(''); $('#impPreview').hidden=true; $('#impSave').disabled=true; $('#impLevel').value = level==='B1+'?'B1+':'B2'; $('#importDlg').showModal(); });
+$('#openImport')?.addEventListener('click', () => { pending=null; $('#impFile').value=''; impMsg(''); $('#impPreview').hidden=true; $('#impSave').disabled=true; $('#impLevel').value = level==='B1+'?'B1+':'B2'; $('#importDlg').showModal(); });
 $('#impFile').addEventListener('change', readImport);
 $('#impLevel').addEventListener('change', () => { if ($('#impFile').files[0]) readImport(); });
 $('#impSave').addEventListener('click', saveImport);
