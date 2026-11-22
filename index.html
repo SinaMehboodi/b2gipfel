@@ -1821,7 +1821,6 @@ function renderMT(){
     return;
   }
   const back = s.parts.length===1 ? t.title : s.title, i = s.parts.indexOf(p), sc = t.id+'/'+s.id+'/'+p.id;
-  if (mtWsOpen[sc]===undefined) mtWsOpen[sc] = true;
   el.innerHTML = `<div class="g-head"><button class="btn" data-mtup>← ${esc(back)}</button><h1>${esc(p.title)}</h1></div>
     ${mtWsBox(sc, p.title)}
     <div class="mt-nav">${i>0?`<button class="btn" data-mtp="${s.parts[i-1].id}">← ${esc(s.parts[i-1].title)}</button>`:'<span></span>'}${i<s.parts.length-1?`<button class="btn" data-mtp="${s.parts[i+1].id}">${esc(s.parts[i+1].title)} →</button>`:''}</div>`;
