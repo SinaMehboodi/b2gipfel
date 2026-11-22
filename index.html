@@ -206,7 +206,7 @@ main.wrap{padding-top:28px;padding-bottom:120px}
 .forms div{background:var(--bg);border-radius:12px;padding:9px 12px;border:1px solid var(--line)}
 .forms small{display:block;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .forms span{font:400 18px/1.3 var(--f-word)}
-.example{font:italic 400 19px/1.5 var(--f-word);padding:12px 16px;border-radius:var(--r-md);background:var(--surface-2);border-left:4px solid var(--accent)}
+.example{font:italic 400 19px/1.5 var(--f-word);padding:12px 16px 12px 20px;border-radius:var(--r-md);background:linear-gradient(180deg,#2f9c90,#5079c0) left/4px 100% no-repeat,var(--surface-2)}
 .fam{display:flex;flex-wrap:wrap;gap:6px}
 .fam > span{font:400 15px/1.2 var(--f-word);padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
 .fam .art,.fam .case,.wl-row .art,.wl-row .case,.preview-list .art,.preview-list .case{font-size:11px;vertical-align:2px;padding:3px 6px;border-radius:5px}
@@ -473,7 +473,7 @@ table.dk.mini td b{font-weight:800;color:var(--brand-700);background:color-mix(i
 .my-prev{border:1px dashed var(--line);border-radius:12px;padding:12px}
 .my-prev .pw{font:700 22px/1.3 var(--f-word);margin:4px 0}.my-prev .pd{font:400 16px/1.5 var(--f-word)}.my-prev .example{font-size:16px;margin-top:8px}
 [data-for][hidden]{display:none!important}
-.mt-ws{border:1.5px solid color-mix(in srgb,var(--accent) 40%,var(--line));background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 8%,var(--surface)),var(--surface));border-radius:16px;padding:14px 16px;margin:0 0 16px}
+.mt-ws{border:1px solid transparent;border-top-width:3px;background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(90deg,#2f9c90,#5079c0) border-box;border-radius:16px;padding:14px 16px;margin:0 0 16px}
 .mt-lv{font:800 10.5px var(--f-body);padding:2px 6px;border-radius:6px;vertical-align:middle;margin-left:4px;background:var(--surface-2);color:var(--muted)}.mt-lv.lv-B1{background:color-mix(in srgb,var(--ok) 15%,var(--surface));color:var(--ok)}
 .mt-ws-h{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}.mt-ws-h b{font-size:18px}
 .mt-ws-b{display:flex;gap:6px;flex-shrink:0}.mt-ws-b .btn{padding:8px 12px}
@@ -523,6 +523,7 @@ table.dk.mini td b{font-weight:800;color:var(--brand-700);background:color-mix(i
 .tr-flag{display:inline-flex;align-items:center;font-size:17px;line-height:1}.flag-img{width:22px;height:22px;display:block}
 .pf-langs{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.pf-langs button{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:600 14.5px var(--f-body);cursor:pointer}
 .pf-langs button.on{border-color:var(--accent);background:var(--brand-50)}
+.dock-range{white-space:nowrap;color:var(--bg);border:1px dashed color-mix(in srgb,var(--bg) 45%,transparent);padding:6px 10px;font-size:13.5px;border-radius:8px;background:transparent}
 .subtabs{display:flex;flex-wrap:wrap;gap:6px;overflow-x:auto;scrollbar-width:none;margin:4px 0 14px;padding-bottom:2px;-webkit-overflow-scrolling:touch}
 .subtabs::-webkit-scrollbar{display:none}
 .subtabs button{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font:700 14px var(--f-body);cursor:pointer;white-space:nowrap}
@@ -578,7 +579,7 @@ table.dk.mini td b{font-weight:800;color:var(--brand-700);background:color-mix(i
 .kv-mine textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 20%,transparent)}
 a.g-tile.hub{text-decoration:none;color:inherit}
 .note-box{border-top:1px dashed var(--line);padding-top:12px}
-.note-add{border:1px dashed var(--accent);background:var(--brand-50);color:var(--brand-700);border-radius:var(--r-md);padding:10px 14px;font-weight:600;width:100%;text-align:left}
+.note-add{border:1px dashed #2f9c90;background:color-mix(in srgb,#2f9c90 9%,var(--surface));color:color-mix(in srgb,#2f9c90 75%,var(--ink));border-radius:var(--r-md);padding:10px 14px;font-weight:600;width:100%;text-align:left}
 .note-edit{border:0;background:none;color:var(--accent);font:600 12px var(--f-body);text-transform:none;letter-spacing:0;margin-left:6px;cursor:pointer}
 .note-text{font:400 18px/1.5 var(--f-word);background:var(--mark-bg);border-radius:var(--r-md);padding:10px 14px}
 .note-input{width:100%;font:400 18px/1.5 var(--f-word);padding:10px 12px;border:1px solid var(--accent);border-radius:var(--r-md);background:var(--surface);color:var(--ink);resize:vertical}
@@ -811,6 +812,7 @@ a.g-tile.hub{text-decoration:none;color:inherit}
 </form></dialog>
 <div class="dock" id="dock"><div class="dock-inner">
   <span class="info" id="dockInfo"></span>
+  <button class="btn ghost dock-range" id="dockRange" hidden title="Alle Unterrichte zwischen dem kleinsten und größten gewählten auswählen"></button>
   <select id="optOrder" aria-label="Reihenfolge"><option value="orig">🔢 Original</option><option value="shuffle">🔀 Gemischt</option></select>
   <select id="optFilter" aria-label="Welche Karten"><option value="all">Alle Karten</option><option value="open">Nur offene</option><option value="new">🆕 Nur neue</option></select>
   <select id="optDir" aria-label="Richtung"><option value="fwd">Wort → Bed.</option><option value="rev">Bed. → Wort</option></select>
@@ -1027,8 +1029,19 @@ function renderOverview(){
   }).join('') || '<div class="empty">Keine Unterrichte auf diesem Niveau.</div>';
   renderDock();
 }
+let dockSig = '';
 function renderDock(){
   const cards = uniq(CARDS.filter(c => selected.has(c.lesson)));
+  const sig = [...selected].sort().join('|');
+  if (sig !== dockSig){   // neue Auswahl → passenden Standardfilter setzen
+    dockSig = sig;
+    if (cards.length) $('#optFilter').value = cards.some(c => st(c)==='new') ? 'new' : cards.some(c => st(c)!=='k') ? 'open' : 'all';
+  }
+  const sel = LESSONS.filter(l => selected.has(l.id)), lv = sel.length>1 && sel.every(l => l.level===sel[0].level) ? sel[0].level : null;
+  let gap = 0;
+  if (lv){ const nums = sel.map(l => l.num), lo = Math.min(...nums), hi = Math.max(...nums);
+    gap = LESSONS.filter(l => l.level===lv && l.num>lo && l.num<hi && !selected.has(l.id)).length; }
+  const rb = $('#dockRange'); rb.hidden = !gap; rb.textContent = `↔ Lücken füllen (+${gap})`;
   $('#dock').classList.toggle('show', selected.size>0 && location.hash.replace('#','')!=='lernen' && currentView()==='wortschatz');
   $('#dockInfo').textContent = `${selected.size} Unterricht${selected.size===1?'':'e'} · ${cards.length} Karten`;
 }
@@ -1866,6 +1879,8 @@ document.addEventListener('click', e => {
   if (t.matches('.lesson')){ const id = t.dataset.id; selected.has(id) ? selected.delete(id) : selected.add(id); t.setAttribute('aria-pressed', String(selected.has(id))); renderDock(); return; }
   if (t.matches('[data-lvl]')){ level = t.dataset.lvl; saveLocal(); renderOverview(); return; }
   if (t.id==='selAll'){ const ls = visibleLessons(); const all = ls.every(l => selected.has(l.id)); ls.forEach(l => all ? selected.delete(l.id) : selected.add(l.id)); renderOverview(); return; }
+  if (t.id==='dockRange'){ const sel = LESSONS.filter(l => selected.has(l.id)), nums = sel.map(l => l.num), lo = Math.min(...nums), hi = Math.max(...nums);
+    LESSONS.filter(l => l.level===sel[0].level && l.num>=lo && l.num<=hi).forEach(l => selected.add(l.id)); renderOverview(); return; }
   if (t.id==='dockClear'){ selected.clear(); renderOverview(); return; }
   if (t.id==='dockStart'){
     const set = {flt:$('#optFilter').value, order:$('#optOrder').value, dir:$('#optDir').value};
