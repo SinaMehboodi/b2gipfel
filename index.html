@@ -518,6 +518,7 @@ table.dk.mini td b{font-weight:800;color:var(--brand-700);background:color-mix(i
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--c-blue:#6b9bf0;--c-gold:#d4a95a;--c-violet:#a48be8;--c-coral:#e08a63;--c-teal:#3cc4b4;--c-rose:#e07fa3}}
 .g-tile,.lesson,.g-feature{border:1px solid transparent!important;border-top-width:3px!important;background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(90deg,#2f9c90,#5079c0) border-box!important}
 .lesson[aria-pressed="true"]{background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(90deg,var(--accent),var(--accent)) border-box!important}
+.sum-nav{display:flex;justify-content:space-between;gap:10px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}.sum-nav .btn{flex:1;max-width:48%}.sum-nav-hint{text-align:center;margin-top:8px;font-size:13px}
 .subtabs{display:flex;flex-wrap:wrap;gap:6px;overflow-x:auto;scrollbar-width:none;margin:4px 0 14px;padding-bottom:2px;-webkit-overflow-scrolling:touch}
 .subtabs::-webkit-scrollbar{display:none}
 .subtabs button{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font:700 14px var(--f-body);cursor:pointer;white-space:nowrap}
@@ -1031,9 +1032,30 @@ function renderDock(){
 /* ---------- study session ---------- */
 let S = null; // {cards, i, flipped, title, results:{}, dir}
 function shuffle(a){ a = a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
+function lessonCards(ids, set){
+  let cs = uniq(CARDS.filter(c => ids.includes(c.lesson)));
+  if (set.flt==='open') cs = cs.filter(c => st(c)!=='k');
+  else if (set.flt==='new') cs = cs.filter(c => st(c)==='new');
+  return set.order==='shuffle' ? shuffle(cs) : cs;
+}
+function startLessons(ids, set){
+  const cs = lessonCards(ids, set);
+  if (!cs.length) return set.flt==='new' ? 'Keine neuen Wörter mehr in diesen Unterrichten.' : 'Alle Karten sind schon gekonnt. Wähle „Alle Karten“.';
+  const names = LESSONS.filter(l => ids.includes(l.id)).map(l => l.level+' U'+l.num);
+  startSession(cs, names.length>3 ? names.length+' Unterrichte' : names.join(', '), {dir:set.dir, back:'wortschatz', nav: ids.length===1 ? {id:ids[0], set} : null});
+  return '';
+}
+// Nachbar-Unterricht (gleiches Niveau), der mit den gewählten Einstellungen noch Karten hat
+function lessonNeighbor(id, step, set){
+  const cur = LESSONS.find(l => l.id===id); if (!cur) return null;
+  const same = LESSONS.filter(l => l.level===cur.level).sort((a,b) => a.num-b.num);
+  for (let i = same.indexOf(cur)+step; i>=0 && i<same.length; i+=step)
+    if (lessonCards([same[i].id], set).length) return same[i];
+  return null;
+}
 function startSession(cards, title, opts={}){
   if (!cards.length) return;
-  S = {cards, i:0, flipped:false, title, results:{}, dir:opts.dir||'fwd', back: opts.back || (currentView()==='lernen' && S ? S.back : currentView())};
+  S = {cards, i:0, flipped:false, title, results:{}, dir:opts.dir||'fwd', nav:opts.nav||null, back: opts.back || (currentView()==='lernen' && S ? S.back : currentView())};
   location.hash = 'lernen';
   $('#summary').hidden = true; $('#studyArea').hidden = false;
   renderCard();
@@ -1140,6 +1162,12 @@ function finish(){
   $('#sessBar').style.width = '100%';
   const sm = $('#summary'); sm.hidden = false;
   const msg = !r.length ? 'Keine Karte bewertet.' : n.k===r.length ? 'Alles gewusst. Stark!' : n.x > n.k ? 'Guter Anfang, die roten Karten kommen in die Wiederholung.' : 'Gut gemacht!';
+  const nav = S.nav, prevL = nav && lessonNeighbor(nav.id, -1, nav.set), nextL = nav && lessonNeighbor(nav.id, 1, nav.set);
+  const fl = {all:'alle Karten', open:'nur offene', new:'nur neue'}[nav ? nav.set.flt : 'all'];
+  const navHTML = (prevL || nextL) ? `<div class="sum-nav">
+      ${prevL ? `<button class="btn" id="sumPrev">← ${prevL.level} U${prevL.num}</button>` : '<span></span>'}
+      ${nextL ? `<button class="btn primary" id="sumNext">${nextL.level} U${nextL.num} →</button>` : '<span></span>'}
+    </div><p class="hint sum-nav-hint">Gleiche Einstellung: ${fl}</p>` : '';
   sm.innerHTML = `<h2>Runde geschafft</h2><p class="hint">${msg}</p>
     <div class="sum-grid">
       <div style="--c:var(--ok)"><strong>${n.k}</strong>✅ Kann ich</div>
@@ -1150,7 +1178,7 @@ function finish(){
       ${again.length ? `<button class="btn primary" id="sumAgain">${again.length} offene Karten nochmal</button>`:''}
       <button class="btn" id="sumRestart">Ganze Runde wiederholen</button>
       <button class="btn" id="sumHome">Zur Übersicht</button>
-    </div>`;
+    </div>${navHTML}`;
   const cards = S.cards, title = S.title, dir = S.dir;
   const bk = S.back;
   if (again.length) $('#sumAgain').onclick = () => startSession(shuffle(again), title+' · Wiederholung', {dir, back:bk});
@@ -1158,6 +1186,9 @@ function finish(){
   const back = S.back || 'wortschatz';
   $('#sumHome').textContent = 'Zurück';
   $('#sumHome').onclick = () => { S=null; location.hash=back; };
+  const goL = l => { selected.clear(); selected.add(l.id); startLessons([l.id], nav.set); };
+  if (prevL) $('#sumPrev').onclick = () => goL(prevL);
+  if (nextL) $('#sumNext').onclick = () => goL(nextL);
 }
 
 /* ---------- list view ---------- */
@@ -1800,14 +1831,9 @@ document.addEventListener('click', e => {
   if (t.id==='selAll'){ const ls = visibleLessons(); const all = ls.every(l => selected.has(l.id)); ls.forEach(l => all ? selected.delete(l.id) : selected.add(l.id)); renderOverview(); return; }
   if (t.id==='dockClear'){ selected.clear(); renderOverview(); return; }
   if (t.id==='dockStart'){
-    let cs = uniq(CARDS.filter(c => selected.has(c.lesson)));
-    const flt = $('#optFilter').value;
-    if (flt==='open') cs = cs.filter(c => st(c)!=='k');
-    else if (flt==='new') cs = cs.filter(c => st(c)==='new');
-    if ($('#optOrder').value==='shuffle') cs = shuffle(cs);
-    const names = LESSONS.filter(l => selected.has(l.id)).map(l => l.level+' U'+l.num);
-    if (!cs.length){ $('#dockInfo').textContent = flt==='new' ? 'Keine neuen Wörter mehr in diesen Unterrichten.' : 'Alle Karten sind schon gekonnt. Wähle „Alle Karten“.'; return; }
-    startSession(cs, names.length>3 ? names.length+' Unterrichte' : names.join(', '), {dir:$('#optDir').value});
+    const set = {flt:$('#optFilter').value, order:$('#optOrder').value, dir:$('#optDir').value};
+    const msg = startLessons([...selected], set);
+    if (msg) $('#dockInfo').textContent = msg;
     return;
   }
   if (t.dataset.bpile){ const p = t.dataset.bpile, all = bookAll();
