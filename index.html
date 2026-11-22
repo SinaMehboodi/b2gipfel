@@ -1790,7 +1790,7 @@ function mtWsBox(scope, label){
       <div class="mt-ws-b"><button class="btn" data-mtwsl>${open?'Liste zu':'Wörter'}</button><button class="btn primary" data-mtlearn>▶ Lernen</button></div></div>
     <span class="minibar">${bar(o, o.total)}</span>
     <div class="b-secs st" style="border:0;padding:0;margin-top:8px">${chips}</div>
-    ${open ? `<div class="wl" style="margin-top:10px">${uniq(cs).map(c => `<div class="wl-row" style="--c:${STATUS[st(c)].c}"><div class="bar"></div><div><div class="w">${fmtWord(c.front)} <span class="mt-lv lv-${c.level.replace('+','p')}">${c.level}</span></div><div class="d">${fmt(c.def)}</div>${trLine(c)}</div></div>`).join('')}</div>` : ''}
+    ${open ? `<div class="wl" style="margin-top:10px">${uniq(cs).map(c => `<div class="wl-row" style="--c:${STATUS[st(c)].c}"><div class="bar"></div><div><div class="w">${fmtWord(c.front)} <span class="mt-lv lv-${c.level.replace('+','p')}">${c.level}</span></div><div class="d">${fmt(c.def)}</div></div></div>`).join('')}</div>` : ''}
   </div>`;
 }
 function renderMT(){
