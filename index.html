@@ -1767,7 +1767,7 @@ function renderProfil(){
 document.addEventListener('input', e => { if (e.target.id==='pfName'){ PROF.name = e.target.value.slice(0,30); PROF.t = Date.now(); updateProfBtn(); const av = document.querySelector('.pf-av'); if (av) av.textContent = PROF.name.trim()? PROF.name.trim()[0].toUpperCase() : '👤'; persist(); } });
 document.addEventListener('click', e => {
   const r = e.target.closest('[data-pfrange]'); if (r){ pfRange = r.dataset.pfrange; renderProfil(); return; }
-  const zt = e.target.closest('[data-zer]'); if (zt && currentView()==='profil'){ PROF.zer = zt.dataset.zer==='1'; PROF.t = Date.now(); persist(); renderProfil(); return; }
+  const zt = e.target.closest('[data-zer]'); if (zt && currentView()==='profil'){ PROF.zer = zt.dataset.zer==='1'; PROF.t = Date.now(); persist(); if (PROF.zer) loadZER(); renderProfil(); return; }
   const lg = e.target.closest('[data-lang]'); if (lg && currentView()==='profil'){ PROF.lang = lg.dataset.lang; PROF.t = Date.now(); persist(); loadTR(); renderProfil(); return; } // TR: Sprache wählen
   const b = e.target.closest('[data-goal],[data-goalstep]'); if (!b) return;
   PROF.goal = b.dataset.goal ? +b.dataset.goal : Math.min(240, Math.max(10, PROF.goal + (+b.dataset.goalstep)));
@@ -1911,7 +1911,7 @@ function sxAll(){
 }
 function sxFields(c){
   const m = (c.m||[]).flatMap(([d, ex]) => [['Bedeutung', d], ...(ex||[]).map(e => ['Beispiel', e])]);
-  return [['Wort', c.front], ['Bedeutung', c.def], ...m, ['Beispiel', c.ex], ['Beispiel', c.ext], ['Wortfamilie', c.zer ? c.zer.fam : ''], ['Verbform', (c.forms||[]).join(' ')],
+  return [['Wort', c.front], ['Bedeutung', c.def], ...m, ['Beispiel', c.ex], ['Beispiel', c.ext], ['Wortfamilie', c.zer ? c.zer.fam : (ZER[norm(c.front)]||{}).fam], ['Verbform', (c.forms||[]).join(' ')],
           ['Protokoll', (c.notes||[]).map(n => n[1]).join(' ')], ['Wortfamilie', (c.family||[]).join(' ')],
           ['Übersetzung', (typeof TR!=='undefined' && TR) ? TR[norm(c.front)] : '']];
 }
@@ -1970,12 +1970,17 @@ document.addEventListener('click', e => {
 
 /* ===== WORT ZERLEGT – Anfang ===== */
 const zb = t => esc(t||'').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+let ZER = {}, zerLoaded = false;
+function loadZER(){ if (zerLoaded) return; zerLoaded = true;
+  fetch('data/zer.json').then(r => r.json()).then(d => { ZER = d; if (currentView()==='lernen' && S) renderCard(); }).catch(() => { zerLoaded = false; }); }
 let zerOpen = false; try { zerOpen = localStorage.getItem('b2g-zer')==='1'; } catch(e){}
 function zerHTML(c){
-  const z = c.zer; if (!z || !PROF.zer) return '';
+  if (!PROF.zer || !c || !c.front) return ''; loadZER();
+  const z = c.zer || ZER[norm(c.front)]; if (!z) return '';
   return `<details class="zer"${zerOpen?' open':''}><summary><svg class="zer-ic" viewBox="0 0 16 16" aria-hidden="true"><rect width="16" height="16" rx="3.5" fill="#d93a3a"/><path d="M6.5 3h3v3.5H13v3H9.5V13h-3V9.5H3v-3h3.5z" fill="#fff"/></svg>Wort zerlegt &amp; Wortfamilie</summary>
     <div class="zer-b"><div class="zer-p">${zb(z.p)}</div><div class="zer-s">${zb(z.s)}</div><div class="zer-ex"><i>${zb(z.ex)}</i></div><div class="zer-f">${zb(z.fam)}</div></div></details>`;
 }
+setTimeout(() => { if (PROF.zer) loadZER(); }, 1500);
 document.addEventListener('toggle', e => { if (e.target.classList && e.target.classList.contains('zer')){ zerOpen = e.target.open; try { localStorage.setItem('b2g-zer', zerOpen?'1':'0'); } catch(_){} } }, true);
 /* ===== WORT ZERLEGT – Ende ===== */
 
