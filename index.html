@@ -305,8 +305,8 @@ details.more[open] summary::before{content:"▾ "}
 .pf-cat .tr{grid-column:2/4;height:8px;border-radius:999px;background:var(--surface-2);overflow:hidden}.pf-cat .tr i{display:block;height:100%;border-radius:999px;background:var(--brand-gradient)}
 @media (max-width:700px){.pf-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .prof-btn[aria-current=page] .ini{background:var(--brand-50)}
-#toast{position:fixed;left:50%;top:calc(70px + env(safe-area-inset-top));transform:translate(-50%,-160%);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:14px;font:700 15px var(--f-body);z-index:60;box-shadow:var(--shadow-lg);transition:transform .3s;max-width:90vw;text-align:center}
-#toast.show{transform:translate(-50%,0)}
+#toast{position:fixed;left:50%;top:calc(70px + env(safe-area-inset-top));transform:translate(-50%,-160%);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:14px;font:700 15px var(--f-body);z-index:60;box-shadow:var(--shadow-lg);transition:transform .3s,opacity .3s,visibility .3s;max-width:90vw;text-align:center;opacity:0;visibility:hidden;pointer-events:none}
+#toast.show{transform:translate(-50%,0);opacity:1;visibility:visible}
 .theme-btn{flex-shrink:0;width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:18px;line-height:1;display:grid;place-items:center;padding:0;margin-left:0}
 .theme-btn .t-moon{display:none}
 :root[data-theme="dark"] .theme-btn .t-sun{display:none}:root[data-theme="dark"] .theme-btn .t-moon{display:inline}
@@ -537,7 +537,7 @@ table.dk.mini td b{font-weight:800;color:var(--brand-700);background:color-mix(i
 .pile-grid{gap:10px}
 .pile{padding:12px 14px;border-left:4px solid var(--c);gap:6px;justify-content:center;min-height:74px}
 .pile .n{font:800 22px/1 var(--f-display)}
-.pile .l{font-size:14.5px;font-weight:700;display:flex;align-items:center;gap:6px;line-height:1.2}
+.pile .l{font-size:clamp(13px,3.6vw,14.5px);font-weight:700;display:flex;align-items:center;gap:6px;line-height:1.2;white-space:nowrap}
 .pile .emo{font-size:16px;line-height:1}
 .pile.smart{padding:14px 16px;min-height:0;gap:12px}
 .pile.smart > span:first-child{display:flex;flex-direction:column;gap:3px;min-width:0}
