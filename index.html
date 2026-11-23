@@ -516,8 +516,13 @@ table.dk.mini td b{font-weight:800;color:var(--brand-700);background:color-mix(i
 :root{--c-blue:#3b6fd4;--c-gold:#b8862e;--c-violet:#7c5cc4;--c-coral:#c8643b;--c-teal:#0e8a80;--c-rose:#c0577e}
 :root[data-theme="dark"]{--c-blue:#6b9bf0;--c-gold:#d4a95a;--c-violet:#a48be8;--c-coral:#e08a63;--c-teal:#3cc4b4;--c-rose:#e07fa3}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--c-blue:#6b9bf0;--c-gold:#d4a95a;--c-violet:#a48be8;--c-coral:#e08a63;--c-teal:#3cc4b4;--c-rose:#e07fa3}}
-.g-tile,.lesson,.g-feature{border:1px solid transparent!important;border-top-width:3px!important;background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(90deg,#2f9c90,#5079c0) border-box!important}
+.panel,.lvl-tab,.g-tile,.lesson,.g-feature{border:1px solid transparent!important;border-top-width:3px!important;background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(90deg,#2f9c90,#5079c0) border-box!important}
 .lesson[aria-pressed="true"]{background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(90deg,var(--accent),var(--accent)) border-box!important}
+.lvl-tab[aria-pressed="true"]{border-width:2px!important;background:linear-gradient(var(--brand-50),var(--brand-50)) padding-box,linear-gradient(90deg,#2f9c90,#5079c0) border-box!important}
+.panel{border-radius:16px}
+#v-wortschatz .sx-head{margin:0 0 16px!important}
+.sx-top-box{margin:0 0 16px!important}
+.mt-ws .minibar{display:flex}
 .sum-nav{display:flex;justify-content:space-between;gap:10px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}.sum-nav .btn{flex:1;max-width:48%}.sum-nav-hint{text-align:center;margin-top:8px;font-size:13px}
 .tr-line{display:flex;align-items:center;gap:7px;margin-top:6px;font:500 16px/1.35 var(--f-body);color:var(--muted)}
 .tr-flag{display:inline-flex;align-items:center;font-size:17px;line-height:1}.flag-img{width:22px;height:22px;display:block}
@@ -709,6 +714,9 @@ table.dk.mini td b{color:var(--info);background:color-mix(in srgb,var(--info) 16
 <main class="wrap">
   <!-- OVERVIEW -->
   <section class="view" id="v-wortschatz">
+    <div class="section-head sx-head">
+      <label class="sx-box"><span aria-hidden="true">🔍</span><input id="sx" type="search" placeholder="Wort, Bedeutung oder Beispiel suchen …" aria-label="Alle Wörter durchsuchen" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
+    </div>
     <div class="hero">
       <div class="panel">
         <h1>Wortschatz aus dem Unterricht</h1>
@@ -732,10 +740,7 @@ table.dk.mini td b{color:var(--info);background:color-mix(in srgb,var(--info) 16
       </div>
     </div>
 
-    <div class="section-head sx-head">
-      <label class="sx-box"><span aria-hidden="true">🔍</span><input id="sx" type="search" placeholder="Wort, Bedeutung oder Beispiel suchen …" aria-label="Alle Wörter durchsuchen" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
-    </div>
-    <div id="sxRes" hidden></div>
+    <div id="sxRes" hidden style="margin-top:16px"></div>
     <div class="lvl-tabs" id="lvlTabs" role="tablist" aria-label="Niveau"></div>
     <div class="lessons" id="lessons"></div>
     <div class="panel datapanel">
@@ -1560,6 +1565,17 @@ function pilesHTML(cs, attr){
   return `<div class="pile-grid"><button class="pile smart" ${attr}="smart" ${sq?'':'disabled'}><span><span class="l"><span class="emo">🔁</span> Smarte Wiederholung</span><br><small>Erst 😕, dann 🤔, dann Altes</small></span><span class="n">${sq}</span></button>
     ${PILES.map(([p,l,c]) => `<button class="pile" ${attr}="${p}" style="--c:var(${c})" ${o[p]?'':'disabled'}><span class="n">${o[p]}</span><span class="l"><span class="emo">${EMO[p]}</span> ${l}</span></button>`).join('')}</div>`;
 }
+function bWsBox(cs, label){
+  const o = counts(cs), sq = smartQueue(cs).length;
+  const chips = [['smart','🔁','Wiederholung',sq],['new',EMO.new,'Neu',o.new], ...PILES.map(([p,l]) => [p,EMO[p],l,o[p]])]
+    .map(([p,e,l,n]) => `<button class="chip" data-bpile="${p}" ${n?'':'disabled'}>${e} ${l} <b>${n}</b></button>`).join('');
+  return `<div class="mt-ws">
+    <div class="mt-ws-h"><div><div class="lbl">📚 Wortschatz · ${esc(label)}</div><b>${o.total} Wörter</b><div class="hint">${o.k} gekonnt</div></div>
+      <div class="mt-ws-b"><button class="btn primary" data-blearn>▶ Lernen</button></div></div>
+    <span class="minibar">${bar(o, o.total)}</span>
+    <div class="b-secs st" style="border:0;padding:0;margin-top:8px">${chips}</div>
+  </div>`;
+}
 function bookCards(ch){
   return ch.cards.map((c,i) => ({...c, key: 'b:'+norm(c.front), lesson:'buch-'+ch.id, level:'Buch', lessonLabel:'Linie B2 · '+chName(ch), notes:c.notes||[], def:c.def||'', ex:c.ex||''}));
 }
@@ -1582,10 +1598,10 @@ function renderBuch(){
       const cat = (id, src, title, list) => { const cs = list.flatMap(bookCards), o = counts(cs);
         return `<button class="g-tile cat" data-bcat="${id}"><span class="src">${src}</span><h3>${title}</h3><span class="sub">${(id==='kap' ? list.slice().reverse() : list).map(c => c.label? c.title : 'Kapitel '+c.num).join(' · ')}</span><span class="minibar">${bar(o,o.total)}</span><span class="meta"><span>${list.length} ${id==='kap'?'Kapitel':'Listen'} · ${o.total} Karten</span><span>${o.k? o.k+' gekonnt':'noch neu'}</span></span></button>`; };
       $('#buchArea').innerHTML = `<h1 class="page-h1">Linie B2</h1>
-        <div class="panel piles">${pilesHTML(bookAll(), 'data-bpile')}</div>
-        <label class="sx-box sx-gap"><span aria-hidden="true">🔍</span><input id="sxB" type="search" placeholder="Im Buch suchen …" aria-label="Im Buch suchen" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(sxQB)}"></label>
+        <label class="sx-box sx-gap sx-top-box"><span aria-hidden="true">🔍</span><input id="sxB" type="search" placeholder="Im Buch suchen …" aria-label="Im Buch suchen" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(sxQB)}"></label>
         <div id="sxResB" hidden></div>
-        <div class="g-grid" id="bCats">${cat('kap','📘 Kapitel','Lernwortschatz der Kapitel',kap)}${anh.length? cat('anh','📎 Anhang','Listen am Ende des Buchs',anh):''}</div>`;
+        <div id="bBody">${bWsBox(bookAll(), 'ganzes Buch')}
+        <div class="g-grid" id="bCats">${cat('kap','📘 Kapitel','Lernwortschatz der Kapitel',kap)}${anh.length? cat('anh','📎 Anhang','Listen am Ende des Buchs',anh):''}</div></div>`;
       renderSearchB();
       return;
     }
@@ -1604,7 +1620,8 @@ function renderBuch(){
   const secBtns = multi ? `<div class="b-secs">${[''].concat(secs).map(sname => { const n = sname ? all.filter(c => c.group===sname).length : all.length; const short = sname.replace(/^(Unregelmäßige Verben|Nomen-Verb-Verbindungen) /,'');
       return `<button class="chip${(bSection||'')===sname?' on':''}" data-bsec="${esc(sname)}">${sname? esc(short) : 'Alle'} <b>${n}</b></button>`; }).join('')}</div>` : '';
   $('#buchArea').innerHTML = `<div class="g-head"><button class="btn" id="bBack">← ${bCat==='anh'?'Anhang':'Kapitel'}</button><h1>${ch.label? esc(ch.title) : 'Kapitel '+ch.num+': '+esc(ch.title||'')}</h1><button class="btn primary" id="bStudy">Lernen (${cs.length} Karten)</button></div>
-    ${secBtns}${stBtns}
+    <div class="mt-ws"><div class="lbl">📚 Wortschatz · ${esc(chName(ch))}</div><b style="font-size:18px">${uniq(all).length} Wörter</b> <span class="hint">· ${counts(all).k} gekonnt</span>
+      <span class="minibar" style="margin-top:8px">${bar(counts(all), counts(all).total)}</span>${secBtns}${stBtns}</div>
     ${cs.length? '' : '<div class="empty">Keine Karten in diesem Stapel.</div>'}
     <div class="wl">${cs.map(c => `<div class="wl-row" style="--c:${STATUS[st(c)].c}"><div class="bar"></div><div><div class="w">${fmtWord(c.front)}</div><div class="d">${fmt(c.def)}</div>${c.forms? `<div class="src">${esc(c.pres? c.pres+' · ':'')}${esc(c.forms[1])} · ${esc(c.forms[2])}</div>`:''}</div></div>`).join('')}</div>`;
 }
@@ -1951,7 +1968,7 @@ function renderSearch(){
 function renderSearchB(){
   const box = $('#sxResB'); if (!box) return;
   const q = sxQB.trim(), on = q.length >= 2;
-  box.hidden = !on; const g = $('#bCats'); if (g) g.hidden = on;
+  box.hidden = !on; const g = $('#bBody') || $('#bCats'); if (g) g.hidden = on;
   box.innerHTML = on ? sxHTML(q, 'buch') : '';
 }
 function renderSearchM(){
@@ -2019,9 +2036,10 @@ document.addEventListener('click', e => {
     if (msg) $('#dockInfo').textContent = msg;
     return;
   }
+  if (t.dataset.blearn!==undefined){ const q = fabQueue(bookAll()); if (q.length) startSession(q, 'Linie B2 · Wiederholung + Neu', {back:'buch'}); else toast('Alles gelernt – nichts zu wiederholen und keine neuen Wörter.'); return; }
   if (t.dataset.bpile){ const p = t.dataset.bpile, all = bookAll();
     if (p==='smart') return startSession(smartQueue(all), 'Linie B2 · Smarte Wiederholung', {back:'buch'});
-    return startSession(shuffle(uniq(pileFilter(all, p))), 'Linie B2 · Stapel: '+PILES.find(x=>x[0]===p)[1], {back:'buch'}); }
+    return startSession(shuffle(uniq(pileFilter(all, p))), 'Linie B2 · Stapel: '+(p==='new' ? 'Neu' : PILES.find(x=>x[0]===p)[1]), {back:'buch'}); }
   if (t.matches('.pile')){
     const p = t.dataset.pile;
     if (p==='smart') return startSession(smartQueue(), 'Smarte Wiederholung');
