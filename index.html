@@ -1154,6 +1154,7 @@ function cardBack(c){
         <div><small>Präteritum</small><span>${esc(c.forms[1])}</span></div>
         <div><small>Perfekt</small><span>${esc(c.forms[2])}</span></div></div></div>`:''}
     ${c.list ? `<div><div class="lbl">Redemittel</div><div class="list-rm">${c.list.map(x=>`<div>${fmt(x)}</div>`).join('')}</div></div>`:''}
+    ${c.ext ? `<div><div class="lbl">Im Modelltest</div><div class="example">${fmt(c.ext)}</div></div>` : ''}
     ${c.m && c.m.length > 1 ? '' : (() => { const exs = c.m && c.m[0] && c.m[0][1].length ? c.m[0][1] : (c.ex ? [c.ex] : []);
       return exs.length ? `<div><div class="lbl">${c.level==='G'?'Hinweis':(exs.length>1?'Beispiele':'Beispiel')}${c.ge?'<span class="gen-tag" title="Nicht aus dem Protokoll – von Claude ergänzt">ergänzt</span>':''}</div>${exs.map(e => `<div class="example">${fmt(e)}</div>`).join('')}</div>` : ''; })()}
     ${fam ? `<div><div class="lbl">Wortfamilie</div><div class="fam">${fam}</div></div>`:''}
@@ -1894,7 +1895,7 @@ function sxAll(){
 }
 function sxFields(c){
   const m = (c.m||[]).flatMap(([d, ex]) => [['Bedeutung', d], ...(ex||[]).map(e => ['Beispiel', e])]);
-  return [['Wort', c.front], ['Bedeutung', c.def], ...m, ['Beispiel', c.ex], ['Verbform', (c.forms||[]).join(' ')],
+  return [['Wort', c.front], ['Bedeutung', c.def], ...m, ['Beispiel', c.ex], ['Beispiel', c.ext], ['Verbform', (c.forms||[]).join(' ')],
           ['Protokoll', (c.notes||[]).map(n => n[1]).join(' ')], ['Wortfamilie', (c.family||[]).join(' ')],
           ['Übersetzung', (typeof TR!=='undefined' && TR) ? TR[norm(c.front)] : '']];
 }
