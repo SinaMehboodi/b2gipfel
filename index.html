@@ -549,6 +549,12 @@ table.dk.mini td b{font-weight:800;color:var(--brand-700);background:color-mix(i
 .sx-gap{display:flex;margin:16px 0}
 .page-h1{font-size:clamp(20px,5.3vw,28px);font-weight:800;margin:0 0 12px}
 #bCats{margin-top:0}
+.zer{margin-top:14px;border:1px dashed color-mix(in srgb,#2f9c90 55%,var(--line));border-radius:var(--r-md);background:color-mix(in srgb,#2f9c90 6%,var(--surface))}
+.zer summary{cursor:pointer;list-style:none;padding:12px 14px;font:700 15px var(--f-body);color:var(--info,#2f9c90);display:flex;align-items:center;gap:8px}
+.zer summary::-webkit-details-marker{display:none}
+.zer summary::before{content:'▸';transition:transform .15s}.zer[open] summary::before{transform:rotate(90deg)}
+.zer-b{padding:0 16px 14px;display:flex;flex-direction:column;gap:8px;font:400 16.5px/1.5 var(--f-word)}
+.zer-p b{color:var(--info,#2f9c90)}.zer-s{font-weight:600}.zer-f{color:var(--muted);font-size:15px}.zer-f b{color:var(--ink)}
 .subtabs{display:flex;flex-wrap:wrap;gap:6px;overflow-x:auto;scrollbar-width:none;margin:4px 0 14px;padding-bottom:2px;-webkit-overflow-scrolling:touch}
 .subtabs::-webkit-scrollbar{display:none}
 .subtabs button{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font:700 14px var(--f-body);cursor:pointer;white-space:nowrap}
@@ -1159,6 +1165,7 @@ function cardBack(c){
       return exs.length ? `<div><div class="lbl">${c.level==='G'?'Hinweis':(exs.length>1?'Beispiele':'Beispiel')}${c.ge?'<span class="gen-tag" title="Nicht aus dem Protokoll – von Claude ergänzt">ergänzt</span>':''}</div>${exs.map(e => `<div class="example">${fmt(e)}</div>`).join('')}</div>` : ''; })()}
     ${fam ? `<div><div class="lbl">Wortfamilie</div><div class="fam">${fam}</div></div>`:''}
     <div class="note-box" data-key="${esc(c.key)}">${noteHTML(c)}</div>
+    ${zerHTML(c)}
     ${c.notes && c.notes.length ? `<details class="more"><summary>Alles aus dem Protokoll</summary><div class="items">${notesHTML(c.notes)}</div></details>`:''}
     ${!c.def && !c.ex && !c.list && !(c.notes&&c.notes.length) ? '<div class="hint">Im Protokoll steht keine weitere Erklärung.</div>':''}
   </div>`;
@@ -1895,7 +1902,7 @@ function sxAll(){
 }
 function sxFields(c){
   const m = (c.m||[]).flatMap(([d, ex]) => [['Bedeutung', d], ...(ex||[]).map(e => ['Beispiel', e])]);
-  return [['Wort', c.front], ['Bedeutung', c.def], ...m, ['Beispiel', c.ex], ['Beispiel', c.ext], ['Verbform', (c.forms||[]).join(' ')],
+  return [['Wort', c.front], ['Bedeutung', c.def], ...m, ['Beispiel', c.ex], ['Beispiel', c.ext], ['Wortfamilie', c.zer ? c.zer.fam : ''], ['Verbform', (c.forms||[]).join(' ')],
           ['Protokoll', (c.notes||[]).map(n => n[1]).join(' ')], ['Wortfamilie', (c.family||[]).join(' ')],
           ['Übersetzung', (typeof TR!=='undefined' && TR) ? TR[norm(c.front)] : '']];
 }
@@ -1942,6 +1949,18 @@ document.addEventListener('click', e => {
   if (e.target.closest('#sxLearn') && sxHits.length) startSession(uniq(sxHits), 'Suche ('+sxHits.length+')', {back:sxBack});
 });
 /* ===== SUCHE – Ende ===== */
+
+
+/* ===== WORT ZERLEGT – Anfang ===== */
+const zb = t => esc(t||'').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+let zerOpen = false; try { zerOpen = localStorage.getItem('b2g-zer')==='1'; } catch(e){}
+function zerHTML(c){
+  const z = c.zer; if (!z) return '';
+  return `<details class="zer"${zerOpen?' open':''}><summary>🧩 Wort zerlegt &amp; Wortfamilie <span class="gen-tag" title="Nicht aus dem Protokoll – von Claude ergänzt">ergänzt</span></summary>
+    <div class="zer-b"><div class="zer-p">${zb(z.p)}</div><div class="zer-s">→ ${zb(z.s)}</div><div class="zer-ex">💬 <i>${zb(z.ex)}</i></div><div class="zer-f">👪 ${zb(z.fam)}</div></div></details>`;
+}
+document.addEventListener('toggle', e => { if (e.target.classList && e.target.classList.contains('zer')){ zerOpen = e.target.open; try { localStorage.setItem('b2g-zer', zerOpen?'1':'0'); } catch(_){} } }, true);
+/* ===== WORT ZERLEGT – Ende ===== */
 
 function isDark(){ const t = document.documentElement.getAttribute('data-theme'); return t ? t==='dark' : matchMedia('(prefers-color-scheme: dark)').matches; }
 function syncThemeColor(){ const m = document.getElementById('themeColor'); if (m) m.content = isDark() ? '#0b0d0c' : '#fafaf7'; }
