@@ -549,12 +549,13 @@ table.dk.mini td b{font-weight:800;color:var(--brand-700);background:color-mix(i
 .sx-gap{display:flex;margin:16px 0}
 .page-h1{font-size:clamp(20px,5.3vw,28px);font-weight:800;margin:0 0 12px}
 #bCats{margin-top:0}
-.zer{margin-top:14px;border-top:1px dashed var(--line);padding-top:4px}
-.zer summary{cursor:pointer;list-style:none;padding:10px 0;display:flex;align-items:center;gap:8px;white-space:nowrap;font:700 12px var(--f-body);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.zer{margin-top:14px;border:1px solid var(--line);border-radius:14px;padding:0 14px;background:rgba(127,127,127,.06)}
+.zer summary{cursor:pointer;list-style:none;padding:12px 0;display:flex;align-items:center;gap:8px;white-space:nowrap;font:700 12px var(--f-body);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
 .zer summary::-webkit-details-marker{display:none}
 .zer summary::after{content:'▸';margin-left:auto;font-size:13px;transition:transform .15s}.zer[open] summary::after{transform:rotate(90deg)}
 .zer-ic{width:16px;height:16px;flex:none}
-.zer-b{padding:2px 0 6px;display:flex;flex-direction:column;gap:6px;font:400 16.5px/1.5 var(--f-word);color:var(--ink)}
+.zer-b{display:flex;flex-direction:column;gap:10px;padding:2px 0 12px;font:400 16px/1.45 var(--f-word);color:var(--ink)}
+.zer-b>div{padding-left:10px;border-left:2px solid var(--line)}
 .zer-b b{font-weight:700}.zer-f{color:var(--muted);font-size:15px}
 .subtabs{display:flex;flex-wrap:wrap;gap:6px;overflow-x:auto;scrollbar-width:none;margin:4px 0 14px;padding-bottom:2px;-webkit-overflow-scrolling:touch}
 .subtabs::-webkit-scrollbar{display:none}
@@ -967,7 +968,7 @@ function mergeRemote(r){
   if (Array.isArray(r.my)){ const m = new Map(MY.map(x => [x.id, x])); r.my.forEach(x => { const a = m.get(x.id); if (!a || (x.t||0) > (a.t||0)) m.set(x.id, x); }); MY = [...m.values()]; }
   if (r.pr){ const tm = {...PROF.tm}; for (const k in (r.pr.tm||{})) tm[k] = Math.max(tm[k]||0, r.pr.tm[k]);
     const cat = {...(PROF.cat||{})}; for (const d in (r.pr.cat||{})){ cat[d] = {...(cat[d]||{})}; for (const c in r.pr.cat[d]) cat[d][c] = Math.max(cat[d][c]||0, r.pr.cat[d][c]); }
-    if ((r.pr.t||0) > (PROF.t||0)) PROF = {...PROF, goal:r.pr.goal||PROF.goal, name:r.pr.name||'', lang:r.pr.lang||PROF.lang||'none', t:r.pr.t}; PROF.tm = tm; PROF.cat = cat; }
+    if ((r.pr.t||0) > (PROF.t||0)) PROF = {...PROF, goal:r.pr.goal||PROF.goal, name:r.pr.name||'', lang:r.pr.lang||PROF.lang||'none', zer:!!r.pr.zer, t:r.pr.t}; PROF.tm = tm; PROF.cat = cat; }
 }
 async function initCloud(){
   if (!window.claude || !window.claude.use) return;
@@ -1753,6 +1754,10 @@ function renderProfil(){
       <p style="margin:6px 0 0">Zeigt hinten auf den Karten eine kurze Übersetzung unter dem Wort.</p>
       <div class="pf-langs">${LANGS.map(([id,f,n]) => `<button data-lang="${id}" class="${(PROF.lang||'none')===id?'on':''}"><span class="tr-flag">${f}</span>${n}</button>`).join('')}</div>
       <p class="hint" style="margin:10px 0 0">⚠️ Die Übersetzungen wurden mit KI (Claude) erstellt. Sie sind nur eine Hilfe und können falsch oder ungenau sein – bitte immer selbst prüfen.</p></div>` : ''}<!-- TR: Profil-Auswahl -->
+    <div class="panel pf-sec"><div class="lbl">Zusatzinfos</div>
+      <p style="margin:6px 0 0">Zeigt hinten auf den Karten den Kasten „Wort zerlegt &amp; Wortfamilie“: Teile des Wortes, Sinn, ein kurzes Beispiel und verwandte Wörter.</p>
+      <div class="pf-langs"><button data-zer="0" class="${PROF.zer?'':'on'}"><span class="tr-flag">🚫</span>Aus</button><button data-zer="1" class="${PROF.zer?'on':''}"><span class="tr-flag"><svg class="zer-ic" viewBox="0 0 16 16" aria-hidden="true"><rect width="16" height="16" rx="3.5" fill="#d93a3a"/><path d="M6.5 3h3v3.5H13v3H9.5V13h-3V9.5H3v-3h3.5z" fill="#fff"/></svg></span>An</button></div>
+      <p class="hint" style="margin:10px 0 0">⚠️ Mit KI (Claude) erstellt – nicht aus dem Protokoll. Bitte selbst prüfen.</p></div>
     <div class="panel pf-sec"><div class="lbl">Über diese App</div>
       <p style="margin:6px 0 0;line-height:1.55">B2-Gipfel ist eine Lernhilfe für unseren Deutsch-Intensivkurs (B1+ und B2). Die Wörter kommen aus den Unterrichts-Protokollen des Kurses, aus dem Kursbuch <i>Linie B2</i> und aus den Modelltests, die wir im Kurs gemacht haben.</p>
       <p style="margin:8px 0 0;line-height:1.55">Erklärungen, Beispiele mit <span class="gen-tag">ergänzt</span>, Übersetzungen und Teile der Grammatik wurden mit KI (Claude) erstellt. Die App ersetzt nicht den Unterricht und deckt nicht alle Wörter ab. Fehler sind möglich – bitte alles selbst prüfen. Im Zweifel gilt immer das Protokoll bzw. die Lehrkraft.</p>
@@ -1762,6 +1767,7 @@ function renderProfil(){
 document.addEventListener('input', e => { if (e.target.id==='pfName'){ PROF.name = e.target.value.slice(0,30); PROF.t = Date.now(); updateProfBtn(); const av = document.querySelector('.pf-av'); if (av) av.textContent = PROF.name.trim()? PROF.name.trim()[0].toUpperCase() : '👤'; persist(); } });
 document.addEventListener('click', e => {
   const r = e.target.closest('[data-pfrange]'); if (r){ pfRange = r.dataset.pfrange; renderProfil(); return; }
+  const zt = e.target.closest('[data-zer]'); if (zt && currentView()==='profil'){ PROF.zer = zt.dataset.zer==='1'; PROF.t = Date.now(); persist(); renderProfil(); return; }
   const lg = e.target.closest('[data-lang]'); if (lg && currentView()==='profil'){ PROF.lang = lg.dataset.lang; PROF.t = Date.now(); persist(); loadTR(); renderProfil(); return; } // TR: Sprache wählen
   const b = e.target.closest('[data-goal],[data-goalstep]'); if (!b) return;
   PROF.goal = b.dataset.goal ? +b.dataset.goal : Math.min(240, Math.max(10, PROF.goal + (+b.dataset.goalstep)));
@@ -1966,9 +1972,9 @@ document.addEventListener('click', e => {
 const zb = t => esc(t||'').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
 let zerOpen = false; try { zerOpen = localStorage.getItem('b2g-zer')==='1'; } catch(e){}
 function zerHTML(c){
-  const z = c.zer; if (!z) return '';
+  const z = c.zer; if (!z || !PROF.zer) return '';
   return `<details class="zer"${zerOpen?' open':''}><summary><svg class="zer-ic" viewBox="0 0 16 16" aria-hidden="true"><rect width="16" height="16" rx="3.5" fill="#d93a3a"/><path d="M6.5 3h3v3.5H13v3H9.5V13h-3V9.5H3v-3h3.5z" fill="#fff"/></svg>Wort zerlegt &amp; Wortfamilie</summary>
-    <div class="zer-b"><div class="zer-p">${zb(z.p)}</div><div class="zer-s">→ ${zb(z.s)}</div><div class="zer-ex"><i>${zb(z.ex)}</i></div><div class="zer-f">${zb(z.fam)}</div></div></details>`;
+    <div class="zer-b"><div class="zer-p">${zb(z.p)}</div><div class="zer-s">${zb(z.s)}</div><div class="zer-ex"><i>${zb(z.ex)}</i></div><div class="zer-f">${zb(z.fam)}</div></div></details>`;
 }
 document.addEventListener('toggle', e => { if (e.target.classList && e.target.classList.contains('zer')){ zerOpen = e.target.open; try { localStorage.setItem('b2g-zer', zerOpen?'1':'0'); } catch(_){} } }, true);
 /* ===== WORT ZERLEGT – Ende ===== */
