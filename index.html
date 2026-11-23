@@ -549,12 +549,13 @@ table.dk.mini td b{font-weight:800;color:var(--brand-700);background:color-mix(i
 .sx-gap{display:flex;margin:16px 0}
 .page-h1{font-size:clamp(20px,5.3vw,28px);font-weight:800;margin:0 0 12px}
 #bCats{margin-top:0}
-.zer{margin-top:14px;border:1px dashed color-mix(in srgb,#2f9c90 55%,var(--line));border-radius:var(--r-md);background:color-mix(in srgb,#2f9c90 6%,var(--surface))}
-.zer summary{cursor:pointer;list-style:none;padding:12px 14px;font:700 15px var(--f-body);color:var(--info,#2f9c90);display:flex;align-items:center;gap:8px}
+.zer{margin-top:14px;border-top:1px dashed var(--line);padding-top:4px}
+.zer summary{cursor:pointer;list-style:none;padding:10px 0;display:flex;align-items:center;gap:8px;white-space:nowrap;font:700 12px var(--f-body);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
 .zer summary::-webkit-details-marker{display:none}
-.zer summary::before{content:'▸';transition:transform .15s}.zer[open] summary::before{transform:rotate(90deg)}
-.zer-b{padding:0 16px 14px;display:flex;flex-direction:column;gap:8px;font:400 16.5px/1.5 var(--f-word)}
-.zer-p b{color:var(--info,#2f9c90)}.zer-s{font-weight:600}.zer-f{color:var(--muted);font-size:15px}.zer-f b{color:var(--ink)}
+.zer summary::after{content:'▸';margin-left:auto;font-size:13px;transition:transform .15s}.zer[open] summary::after{transform:rotate(90deg)}
+.zer-ic{width:16px;height:16px;flex:none}
+.zer-b{padding:2px 0 6px;display:flex;flex-direction:column;gap:6px;font:400 16.5px/1.5 var(--f-word);color:var(--ink)}
+.zer-b b{font-weight:700}.zer-f{color:var(--muted);font-size:15px}
 .subtabs{display:flex;flex-wrap:wrap;gap:6px;overflow-x:auto;scrollbar-width:none;margin:4px 0 14px;padding-bottom:2px;-webkit-overflow-scrolling:touch}
 .subtabs::-webkit-scrollbar{display:none}
 .subtabs button{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font:700 14px var(--f-body);cursor:pointer;white-space:nowrap}
@@ -1966,8 +1967,8 @@ const zb = t => esc(t||'').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
 let zerOpen = false; try { zerOpen = localStorage.getItem('b2g-zer')==='1'; } catch(e){}
 function zerHTML(c){
   const z = c.zer; if (!z) return '';
-  return `<details class="zer"${zerOpen?' open':''}><summary>🧩 Wort zerlegt &amp; Wortfamilie <span class="gen-tag" title="Nicht aus dem Protokoll – von Claude ergänzt">ergänzt</span></summary>
-    <div class="zer-b"><div class="zer-p">${zb(z.p)}</div><div class="zer-s">→ ${zb(z.s)}</div><div class="zer-ex">💬 <i>${zb(z.ex)}</i></div><div class="zer-f">👪 ${zb(z.fam)}</div></div></details>`;
+  return `<details class="zer"${zerOpen?' open':''}><summary><svg class="zer-ic" viewBox="0 0 16 16" aria-hidden="true"><rect width="16" height="16" rx="3.5" fill="#d93a3a"/><path d="M6.5 3h3v3.5H13v3H9.5V13h-3V9.5H3v-3h3.5z" fill="#fff"/></svg>Wort zerlegt &amp; Wortfamilie</summary>
+    <div class="zer-b"><div class="zer-p">${zb(z.p)}</div><div class="zer-s">→ ${zb(z.s)}</div><div class="zer-ex"><i>${zb(z.ex)}</i></div><div class="zer-f">${zb(z.fam)}</div></div></details>`;
 }
 document.addEventListener('toggle', e => { if (e.target.classList && e.target.classList.contains('zer')){ zerOpen = e.target.open; try { localStorage.setItem('b2g-zer', zerOpen?'1':'0'); } catch(_){} } }, true);
 /* ===== WORT ZERLEGT – Ende ===== */
