@@ -516,13 +516,14 @@ table.dk.mini td b{font-weight:800;color:var(--brand-700);background:color-mix(i
 :root{--c-blue:#3b6fd4;--c-gold:#b8862e;--c-violet:#7c5cc4;--c-coral:#c8643b;--c-teal:#0e8a80;--c-rose:#c0577e}
 :root[data-theme="dark"]{--c-blue:#6b9bf0;--c-gold:#d4a95a;--c-violet:#a48be8;--c-coral:#e08a63;--c-teal:#3cc4b4;--c-rose:#e07fa3}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--c-blue:#6b9bf0;--c-gold:#d4a95a;--c-violet:#a48be8;--c-coral:#e08a63;--c-teal:#3cc4b4;--c-rose:#e07fa3}}
-.panel,.lvl-tab,.g-tile,.lesson,.g-feature{border:1px solid transparent!important;border-top-width:3px!important;background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(90deg,#2f9c90,#5079c0) border-box!important}
+.panel,.pf-stat,.lvl-tab,.g-tile,.lesson,.g-feature{border:1px solid transparent!important;border-top-width:3px!important;background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(90deg,#2f9c90,#5079c0) border-box!important}
 .lesson[aria-pressed="true"]{background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(90deg,var(--accent),var(--accent)) border-box!important}
 .lvl-tab[aria-pressed="true"]{border-width:2px!important;background:linear-gradient(var(--brand-50),var(--brand-50)) padding-box,linear-gradient(90deg,#2f9c90,#5079c0) border-box!important}
 .panel{border-radius:16px}
 #v-wortschatz .sx-head{margin:0 0 16px!important}
 .sx-top-box{margin:0 0 16px!important}
 .mt-ws .minibar{display:flex}
+#lvlTabs{margin-top:16px}
 .sum-nav{display:flex;justify-content:space-between;gap:10px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}.sum-nav .btn{flex:1;max-width:48%}.sum-nav-hint{text-align:center;margin-top:8px;font-size:13px}
 .tr-line{display:flex;align-items:center;gap:7px;margin-top:6px;font:500 16px/1.35 var(--f-body);color:var(--muted)}
 .tr-flag{display:inline-flex;align-items:center;font-size:17px;line-height:1}.flag-img{width:22px;height:22px;display:block}
@@ -552,7 +553,7 @@ table.dk.mini td b{font-weight:800;color:var(--brand-700);background:color-mix(i
 .pile.smart .n{font-size:26px;flex-shrink:0}
 .sx-head{margin:16px 0 !important}
 .sx-gap{display:flex;margin:16px 0}
-.page-h1{font-size:clamp(20px,5.3vw,28px);font-weight:800;margin:0 0 12px}
+.page-h1{font-size:clamp(24px,6.2vw,30px);font-weight:800;margin:0 0 12px}
 #bCats{margin-top:0}
 .zer{margin-top:14px;border:1px solid var(--line);border-radius:14px;padding:0 14px;background:rgba(127,127,127,.06)}
 .zer summary{cursor:pointer;list-style:none;padding:12px 0;display:flex;align-items:center;gap:8px;white-space:nowrap;font:700 12px var(--f-body);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
@@ -802,7 +803,7 @@ table.dk.mini td b{color:var(--info);background:color-mix(in srgb,var(--info) 16
   <section class="view" id="v-buch"><div id="buchArea"></div></section>
   <section class="view" id="v-profil"><div id="profArea"></div></section>
   <section class="view" id="v-pruefung">
-    <h1 style="font-size:32px">Prüfungsvorbereitung</h1>
+    <h1 class="page-h1">Prüfungsvorbereitung</h1>
     <p class="hint" style="margin:6px 0 16px">Modelltest-Wortschatz, Schreiben und Sprechen für die B2-Prüfung.</p>
     <div class="g-grid">
       <a class="g-tile hub" href="#schreiben"><span class="src">E-Mail · Forumsbeitrag</span><h3>Schreiben</h3><span class="sub">Struktur, Redemittel, Modelltexte und Lückentext</span></a>
@@ -1384,7 +1385,7 @@ function renderGram(){
     return;
   }
   if (!gTopic){
-    $('#gramArea').innerHTML = `<h1 style="font-size:32px">Grammatik</h1>
+    $('#gramArea').innerHTML = `<h1 class="page-h1">Grammatik</h1>
       <button class="g-feature" data-topic="allg"><span class="src">Allgemeine Grammatik</span><h3>Deklination: Artikel, Adjektiv, Pronomen</h3><span class="sub">Artikel-Tabelle · Adjektivendungen · Pronomen · Kasus & Präpositionen · Nomen</span></button>
       <h2 class="b-sub g">Grammatik aus dem Unterricht</h2>
       <p class="hint" style="margin:6px 0 0">Jedes Thema hat die Übersicht aus dem Protokoll und Übungskarten.</p>
@@ -1619,9 +1620,10 @@ function renderBuch(){
   const stBtns = `<div class="b-secs st">${[['','Alle Stapel',inSec.length],['new','Neu',oc.new]].concat(PILES.map(([p,l]) => [p,l,oc[p]])).map(([p,l,n]) => `<button class="chip${bStatus===p?' on':''}" data-bstat="${p}" ${n||!p?'':'disabled'}>${p? EMO[p]+' ':''}${l} <b>${n}</b></button>`).join('')}</div>`;
   const secBtns = multi ? `<div class="b-secs">${[''].concat(secs).map(sname => { const n = sname ? all.filter(c => c.group===sname).length : all.length; const short = sname.replace(/^(Unregelmäßige Verben|Nomen-Verb-Verbindungen) /,'');
       return `<button class="chip${(bSection||'')===sname?' on':''}" data-bsec="${esc(sname)}">${sname? esc(short) : 'Alle'} <b>${n}</b></button>`; }).join('')}</div>` : '';
-  $('#buchArea').innerHTML = `<div class="g-head"><button class="btn" id="bBack">← ${bCat==='anh'?'Anhang':'Kapitel'}</button><h1>${ch.label? esc(ch.title) : 'Kapitel '+ch.num+': '+esc(ch.title||'')}</h1><button class="btn primary" id="bStudy">Lernen (${cs.length} Karten)</button></div>
-    <div class="mt-ws"><div class="lbl">📚 Wortschatz · ${esc(chName(ch))}</div><b style="font-size:18px">${uniq(all).length} Wörter</b> <span class="hint">· ${counts(all).k} gekonnt</span>
-      <span class="minibar" style="margin-top:8px">${bar(counts(all), counts(all).total)}</span>${secBtns}${stBtns}</div>
+  $('#buchArea').innerHTML = `<div class="g-head"><button class="btn" id="bBack">← ${bCat==='anh'?'Anhang':'Kapitel'}</button><h1>${ch.label? esc(ch.title) : 'Kapitel '+ch.num+': '+esc(ch.title||'')}</h1></div>
+    <div class="mt-ws"><div class="mt-ws-h"><div><div class="lbl">📚 Wortschatz · ${esc(chName(ch))}</div><b>${uniq(all).length} Wörter</b><div class="hint">${counts(all).k} gekonnt</div></div>
+      <div class="mt-ws-b"><button class="btn primary" id="bStudy" ${cs.length?'':'disabled'}>▶ Lernen (${cs.length})</button></div></div>
+      <span class="minibar">${bar(counts(all), counts(all).total)}</span>${secBtns}${stBtns}</div>
     ${cs.length? '' : '<div class="empty">Keine Karten in diesem Stapel.</div>'}
     <div class="wl">${cs.map(c => `<div class="wl-row" style="--c:${STATUS[st(c)].c}"><div class="bar"></div><div><div class="w">${fmtWord(c.front)}</div><div class="d">${fmt(c.def)}</div>${c.forms? `<div class="src">${esc(c.pres? c.pres+' · ':'')}${esc(c.forms[1])} · ${esc(c.forms[2])}</div>`:''}</div></div>`).join('')}</div>`;
 }
