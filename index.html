@@ -520,7 +520,7 @@ table.dk.mini td b{font-weight:800;color:var(--brand-700);background:color-mix(i
 .lesson[aria-pressed="true"]{background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(90deg,var(--accent),var(--accent)) border-box!important}
 .lvl-tab[aria-pressed="true"]{border-width:2px!important;background:linear-gradient(var(--brand-50),var(--brand-50)) padding-box,linear-gradient(90deg,#2f9c90,#5079c0) border-box!important}
 .panel{border-radius:16px}
-#v-wortschatz .sx-head{margin:0 0 16px!important}
+#v-wortschatz .sx-head{margin:16px 0!important}#sxRes,#sxResB,#sxResM{margin-bottom:16px}
 .sx-top-box{margin:0 0 16px!important}
 .mt-ws .minibar{display:flex}
 #lvlTabs{margin-top:16px}
@@ -715,9 +715,6 @@ table.dk.mini td b{color:var(--info);background:color-mix(in srgb,var(--info) 16
 <main class="wrap">
   <!-- OVERVIEW -->
   <section class="view" id="v-wortschatz">
-    <div class="section-head sx-head">
-      <label class="sx-box"><span aria-hidden="true">🔍</span><input id="sx" type="search" placeholder="Wort, Bedeutung oder Beispiel suchen …" aria-label="Alle Wörter durchsuchen" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
-    </div>
     <div class="hero">
       <div class="panel">
         <h1>Wortschatz aus dem Unterricht</h1>
@@ -741,7 +738,10 @@ table.dk.mini td b{color:var(--info);background:color-mix(in srgb,var(--info) 16
       </div>
     </div>
 
-    <div id="sxRes" hidden style="margin-top:16px"></div>
+    <div class="section-head sx-head">
+      <label class="sx-box"><span aria-hidden="true">🔍</span><input id="sx" type="search" placeholder="Wort, Bedeutung oder Beispiel suchen …" aria-label="Alle Wörter durchsuchen" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
+    </div>
+    <div id="sxRes" hidden></div>
     <div class="lvl-tabs" id="lvlTabs" role="tablist" aria-label="Niveau"></div>
     <div class="lessons" id="lessons"></div>
     <div class="panel datapanel">
@@ -1599,10 +1599,10 @@ function renderBuch(){
       const cat = (id, src, title, list) => { const cs = list.flatMap(bookCards), o = counts(cs);
         return `<button class="g-tile cat" data-bcat="${id}"><span class="src">${src}</span><h3>${title}</h3><span class="sub">${(id==='kap' ? list.slice().reverse() : list).map(c => c.label? c.title : 'Kapitel '+c.num).join(' · ')}</span><span class="minibar">${bar(o,o.total)}</span><span class="meta"><span>${list.length} ${id==='kap'?'Kapitel':'Listen'} · ${o.total} Karten</span><span>${o.k? o.k+' gekonnt':'noch neu'}</span></span></button>`; };
       $('#buchArea').innerHTML = `<h1 class="page-h1">Linie B2</h1>
-        <label class="sx-box sx-gap sx-top-box"><span aria-hidden="true">🔍</span><input id="sxB" type="search" placeholder="Im Buch suchen …" aria-label="Im Buch suchen" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(sxQB)}"></label>
+        ${bWsBox(bookAll(), 'ganzes Buch')}
+        <label class="sx-box sx-gap"><span aria-hidden="true">🔍</span><input id="sxB" type="search" placeholder="Im Buch suchen …" aria-label="Im Buch suchen" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(sxQB)}"></label>
         <div id="sxResB" hidden></div>
-        <div id="bBody">${bWsBox(bookAll(), 'ganzes Buch')}
-        <div class="g-grid" id="bCats">${cat('kap','📘 Kapitel','Lernwortschatz der Kapitel',kap)}${anh.length? cat('anh','📎 Anhang','Listen am Ende des Buchs',anh):''}</div></div>`;
+        <div id="bBody"><div class="g-grid" id="bCats">${cat('kap','📘 Kapitel','Lernwortschatz der Kapitel',kap)}${anh.length? cat('anh','📎 Anhang','Listen am Ende des Buchs',anh):''}</div></div>`;
       renderSearchB();
       return;
     }
@@ -1882,10 +1882,10 @@ function renderMT(){
   if (!t){
     el.innerHTML = `<div class="g-head"><a class="btn" href="#pruefung" style="text-decoration:none">← Prüfung</a><h1>Modelltests</h1></div>
       <p class="hint" style="margin:-6px 0 12px">Wichtige Wörter aus den Modelltests (B1 bis B2) – je tiefer du gehst, desto genauer der Wortschatz.</p>
+      ${mtWsBox('', 'alle Modelltests')}
       <label class="sx-box sx-gap"><span aria-hidden="true">🔍</span><input id="sxM" type="search" placeholder="In den Modelltests suchen …" aria-label="In den Modelltests suchen" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(sxQM)}"></label>
       <div id="sxResM" hidden></div>
-      <div id="mtBody">${mtWsBox('', 'alle Modelltests')}
-      <div class="g-grid">${MT.map(x => tile(`data-mtt="${x.id}"`, '📝 '+esc(x.sub), x.title, x.id)).join('')}</div></div>`;
+      <div id="mtBody"><div class="g-grid">${MT.map(x => tile(`data-mtt="${x.id}"`, '📝 '+esc(x.sub), x.title, x.id)).join('')}</div></div>`;
     renderSearchM(); return;
   }
   if (!s){
