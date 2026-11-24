@@ -520,7 +520,7 @@ table.dk.mini td b{font-weight:800;color:var(--brand-700);background:color-mix(i
 .lesson[aria-pressed="true"]{background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(90deg,var(--accent),var(--accent)) border-box!important}
 .lvl-tab[aria-pressed="true"]{border-width:2px!important;background:linear-gradient(var(--brand-50),var(--brand-50)) padding-box,linear-gradient(90deg,#2f9c90,#5079c0) border-box!important}
 .panel{border-radius:16px}
-#v-wortschatz .sx-head{margin:16px 0!important}#sxRes,#sxResB,#sxResM{margin-bottom:16px}
+#v-wortschatz .sx-head{margin:16px 0!important}#sxRes,#sxResB,#sxResC,#sxResM{margin-bottom:16px}
 .sx-top-box{margin:0 0 16px!important}
 .mt-ws .minibar{display:flex}
 #lvlTabs{margin-top:16px}
@@ -1608,7 +1608,10 @@ function renderBuch(){
     }
     const list = bCat==='kap' ? kap : anh;
     $('#buchArea').innerHTML = `<div class="g-head"><button class="btn" id="bCatBack">← Linie B2</button><h1>${bCat==='kap'?'Lernwortschatz der Kapitel':'Anhang: Listen am Ende des Buchs'}</h1></div>
-      <div class="g-grid">${(bCat==='kap' ? list.slice().reverse() : list).map(tile).join('')}</div>`;
+      <label class="sx-box sx-gap"><span aria-hidden="true">🔍</span><input id="sxC" type="search" placeholder="${bCat==='anh'?'In den Listen suchen …':'In den Kapiteln suchen …'}" aria-label="Suchen" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(sxQC)}"></label>
+      <div id="sxResC" hidden></div>
+      <div class="g-grid" id="cBody">${(bCat==='kap' ? list.slice().reverse() : list).map(tile).join('')}</div>`;
+    renderSearchC();
     return;
   }
   const ch = BUCH.find(x => x.id===bChapter), all = bookCards(ch);
@@ -1940,11 +1943,12 @@ function sxMark(text, q){
   const st = Math.max(0, i-40), en = Math.min(p.length, i+q.length+60);
   return (st?'… ':'')+esc(p.slice(st,i))+'<mark>'+esc(p.slice(i,i+q.length))+'</mark>'+esc(p.slice(i+q.length,en))+(en<p.length?' …':'');
 }
-let sxQB = '', sxQM = '', sxBack = 'wortschatz';
+let sxQB = '', sxQC = '', sxQM = '', sxBack = 'wortschatz';
 function sxRun(q, scope){
   const fq = fold(q), seen = new Set(), groups = {}, hits = [];
   if (scope==='mt' && MT.length && !MTCARDS.length) mtBuildCards();
-  const pool = scope==='buch' ? bookAll().map(c => ({c, g:c.lessonLabel.replace(/^Linie B2 · /,'')}))
+  const pool = scope==='bcat' ? BUCH.filter(ch => !!ch.label === (bCat==='anh')).flatMap(ch => bookCards(ch).map(c => ({c, g:chName(ch)})))
+             : scope==='buch' ? bookAll().map(c => ({c, g:c.lessonLabel.replace(/^Linie B2 · /,'')}))
              : scope==='mt' ? MTCARDS.map(c => ({c, g:c.lessonLabel.split(' · ')[0]})) : sxAll();
   for (const {c, g} of pool){
     const k = c.key + '|' + g; if (seen.has(k)) continue;
@@ -1954,7 +1958,7 @@ function sxRun(q, scope){
   return {hits, groups};
 }
 function sxHTML(q, scope){
-  const {hits, groups} = sxRun(q, scope); sxHits = hits; sxBack = scope==='buch' ? 'buch' : scope==='mt' ? 'modell' : 'wortschatz';
+  const {hits, groups} = sxRun(q, scope); sxHits = hits; sxBack = (scope==='buch'||scope==='bcat') ? 'buch' : scope==='mt' ? 'modell' : 'wortschatz';
   if (!hits.length) return `<div class="sx-empty">Nichts gefunden für „${esc(q)}“.</div>`;
   const order = scope!=='all' ? Object.keys(groups) : ['B2-Kurs','B1+ Kurs','Linie B2','Modelltests','Meine Wörter'];
   return `<div class="sx-top"><span><b>${hits.length}</b> Treffer</span><button class="btn primary" id="sxLearn">▶ Alle Treffer lernen</button></div>` +
@@ -1966,6 +1970,12 @@ function renderSearch(){
   const box = $('#sxRes'), q = sxQ.trim(), on = q.length >= 2;
   box.hidden = !on; $('#lvlTabs').hidden = on; $('#lessons').hidden = on;
   box.innerHTML = on ? sxHTML(q, 'all') : '';
+}
+function renderSearchC(){
+  const box = $('#sxResC'); if (!box) return;
+  const q = sxQC.trim(), on = q.length >= 2;
+  box.hidden = !on; const g = $('#cBody'); if (g) g.hidden = on;
+  box.innerHTML = on ? sxHTML(q, 'bcat') : '';
 }
 function renderSearchB(){
   const box = $('#sxResB'); if (!box) return;
@@ -1979,7 +1989,7 @@ function renderSearchM(){
   box.hidden = !on; const g = $('#mtBody'); if (g) g.hidden = on;
   box.innerHTML = on ? sxHTML(q, 'mt') : '';
 }
-document.addEventListener('input', e => { if (e.target.id==='sxM'){ sxQM = e.target.value; renderSearchM(); } if (e.target.id==='sx'){ sxQ = e.target.value; renderSearch(); } if (e.target.id==='sxB'){ sxQB = e.target.value; renderSearchB(); } });
+document.addEventListener('input', e => { if (e.target.id==='sxM'){ sxQM = e.target.value; renderSearchM(); } if (e.target.id==='sx'){ sxQ = e.target.value; renderSearch(); } if (e.target.id==='sxB'){ sxQB = e.target.value; renderSearchB(); } if (e.target.id==='sxC'){ sxQC = e.target.value; renderSearchC(); } });
 document.addEventListener('click', e => {
   const r = e.target.closest('[data-sx]'); if (r && ['wortschatz','buch','modell'].includes(currentView())){ const c = sxHits[+r.dataset.sx]; if (c) startSession([c], 'Suche', {back:sxBack}); return; }
   if (e.target.closest('#sxLearn') && sxHits.length) startSession(uniq(sxHits), 'Suche ('+sxHits.length+')', {back:sxBack});
@@ -2077,8 +2087,8 @@ document.addEventListener('click', e => {
   if (t.id==='kvReset'){ delete KV[kvKey()]; if (KVD.id==='t1'){ delete KV.text; ['einleitung','struktur','hauptteil','schluss'].forEach(k => delete KV[k]); } KV.__t = Date.now(); kvResult = null; persist(); renderKV(); return; }
   if (t.dataset.bsec!==undefined){ bSection = t.dataset.bsec || null; bStatus = ''; renderBuch(); return; }
   if (t.dataset.bstat!==undefined){ bStatus = t.dataset.bstat; renderBuch(); return; }
-  if (t.dataset.bcat){ bCat = t.dataset.bcat; renderBuch(); window.scrollTo(0,0); return; }
-  if (t.id==='bCatBack'){ bCat = null; renderBuch(); return; }
+  if (t.dataset.bcat){ bCat = t.dataset.bcat; sxQC = ''; renderBuch(); window.scrollTo(0,0); return; }
+  if (t.id==='bCatBack'){ bCat = null; sxQC = ''; renderBuch(); return; }
   if (t.dataset.chapter){ bChapter = t.dataset.chapter; bCat = (BUCH.find(x=>x.id===bChapter)||{}).label ? 'anh' : 'kap'; bSection = null; bStatus = ''; renderBuch(); window.scrollTo(0,0); return; }
   if (t.id==='bBack'){ bChapter = null; renderBuch(); return; }
   if (t.id==='bStudy'){ const ch = BUCH.find(x=>x.id===bChapter); let cs = bookCards(ch); if (bSection) cs = cs.filter(c => c.group===bSection); cs = pileFilter(cs, bStatus); startSession(cs, 'Linie B2 · '+chName(ch)+(bSection? ' · '+bSection.replace(/^(Unregelmäßige Verben|Nomen-Verb-Verbindungen) /,''):'')); return; }
