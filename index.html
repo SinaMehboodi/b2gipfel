@@ -739,7 +739,7 @@ table.dk.mini td b{color:var(--info);background:color-mix(in srgb,var(--info) 16
     </div>
 
     <div class="section-head sx-head">
-      <label class="sx-box"><span aria-hidden="true">🔍</span><input id="sx" type="search" placeholder="Wort, Bedeutung oder Beispiel suchen …" aria-label="Alle Wörter durchsuchen" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
+      <label class="sx-box"><span aria-hidden="true">🔍</span><input id="sx" type="search" placeholder="In allen Wörtern der App suchen …" aria-label="Alle Wörter durchsuchen" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
     </div>
     <div id="sxRes" hidden></div>
     <div class="lvl-tabs" id="lvlTabs" role="tablist" aria-label="Niveau"></div>
@@ -1600,7 +1600,7 @@ function renderBuch(){
         return `<button class="g-tile cat" data-bcat="${id}"><span class="src">${src}</span><h3>${title}</h3><span class="sub">${(id==='kap' ? list.slice().reverse() : list).map(c => c.label? c.title : chName(c)).join(' · ')}</span><span class="minibar">${bar(o,o.total)}</span><span class="meta"><span>${list.length} ${id==='kap'?'Kapitel':'Listen'} · ${o.total} Karten</span><span>${o.k? o.k+' gekonnt':'noch neu'}</span></span></button>`; };
       $('#buchArea').innerHTML = `<h1 class="page-h1">Linie B2</h1>
         ${bWsBox(bookAll(), 'ganzes Buch')}
-        <label class="sx-box sx-gap"><span aria-hidden="true">🔍</span><input id="sxB" type="search" placeholder="Im Buch suchen …" aria-label="Im Buch suchen" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(sxQB)}"></label>
+        <label class="sx-box sx-gap"><span aria-hidden="true">🔍</span><input id="sxB" type="search" placeholder="In allen Wörtern der App suchen …" aria-label="Im Buch suchen" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(sxQB)}"></label>
         <div id="sxResB" hidden></div>
         <div id="bBody"><div class="g-grid" id="bCats">${cat('kap','📘 Kapitel','Lernwortschatz der Kapitel',kap)}${anh.length? cat('anh','📎 Anhang','Listen am Ende des Buchs',anh):''}</div></div>`;
       renderSearchB();
@@ -1608,7 +1608,7 @@ function renderBuch(){
     }
     const list = bCat==='kap' ? kap : anh;
     $('#buchArea').innerHTML = `<div class="g-head"><button class="btn" id="bCatBack">← Linie B2</button><h1>${bCat==='kap'?'Lernwortschatz der Kapitel':'Anhang: Listen am Ende des Buchs'}</h1></div>
-      <label class="sx-box sx-gap"><span aria-hidden="true">🔍</span><input id="sxC" type="search" placeholder="${bCat==='anh'?'In den Listen suchen …':'In den Kapiteln suchen …'}" aria-label="Suchen" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(sxQC)}"></label>
+      <label class="sx-box sx-gap"><span aria-hidden="true">🔍</span><input id="sxC" type="search" placeholder="In allen Wörtern der App suchen …" aria-label="Suchen" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(sxQC)}"></label>
       <div id="sxResC" hidden></div>
       <div class="g-grid" id="cBody">${(bCat==='kap' ? list.slice().reverse() : list).map(tile).join('')}</div>`;
     renderSearchC();
@@ -1886,7 +1886,7 @@ function renderMT(){
     el.innerHTML = `<div class="g-head"><a class="btn" href="#pruefung" style="text-decoration:none">← Prüfung</a><h1>Modelltests</h1></div>
       <p class="hint" style="margin:-6px 0 12px">Wichtige Wörter aus den Modelltests (B1 bis B2) – je tiefer du gehst, desto genauer der Wortschatz.</p>
       ${mtWsBox('', 'alle Modelltests')}
-      <label class="sx-box sx-gap"><span aria-hidden="true">🔍</span><input id="sxM" type="search" placeholder="In den Modelltests suchen …" aria-label="In den Modelltests suchen" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(sxQM)}"></label>
+      <label class="sx-box sx-gap"><span aria-hidden="true">🔍</span><input id="sxM" type="search" placeholder="In allen Wörtern der App suchen …" aria-label="In den Modelltests suchen" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(sxQM)}"></label>
       <div id="sxResM" hidden></div>
       <div id="mtBody"><div class="g-grid">${MT.map(x => tile(`data-mtt="${x.id}"`, '📝 '+esc(x.sub), x.title, x.id)).join('')}</div></div>`;
     renderSearchM(); return;
@@ -1928,9 +1928,12 @@ let sxQ = '', sxHits = [];
 function sxAll(){
   if (MT.length && !MTCARDS.length) mtBuildCards();
   const src = (c, g) => ({c, g});
+  const bg = c => String(c.lesson).startsWith('buch-p') ? 'Linie 1 Beruf (B1+)' : String(c.lesson).startsWith('buch-a') ? 'Linie B2 · Anhang' : 'Linie B2 · Kapitel';
   return [...CARDS.map(c => src(c, c.lesson && String(c.lesson).startsWith('my') ? 'Meine Wörter' : (c.level==='B2' ? 'B2-Kurs' : c.level==='B1+' ? 'B1+ Kurs' : 'Meine Wörter'))),
-          ...bookAll().map(c => src(c, 'Linie B2')), ...MTCARDS.map(c => src(c, 'Modelltests'))];
+          ...bookAll().map(c => src(c, bg(c))), ...MTCARDS.map(c => src(c, 'Modelltests'))];
 }
+const SX_ORDER = ['B2-Kurs','B1+ Kurs','Linie B2 · Kapitel','Linie 1 Beruf (B1+)','Linie B2 · Anhang','Modelltests','Meine Wörter'];
+const sxCore = f => fold(plainT(f)).replace(/^(der|die|das|r|e|s|sich|jdm\.?|jdn\.?|jemandem|jemanden|etwas|\(.*?\))\s+/g,'').replace(/^(der|die|das|r|e|s|sich)\s+/,'');
 function sxFields(c){
   const m = (c.m||[]).flatMap(([d, ex]) => [['Bedeutung', d], ...(ex||[]).map(e => ['Beispiel', e])]);
   return [['Wort', c.front], ['Bedeutung', c.def], ...m, ['Beispiel', c.ex], ['Beispiel', c.ext], ['Wortfamilie', c.zer ? c.zer.fam : (ZER[norm(c.front)]||{}).fam], ['Verbform', (c.forms||[]).join(' ')],
@@ -1944,27 +1947,29 @@ function sxMark(text, q){
   return (st?'… ':'')+esc(p.slice(st,i))+'<mark>'+esc(p.slice(i,i+q.length))+'</mark>'+esc(p.slice(i+q.length,en))+(en<p.length?' …':'');
 }
 let sxQB = '', sxQC = '', sxQM = '', sxBack = 'wortschatz';
-function sxRun(q, scope){
-  const fq = fold(q), seen = new Set(), groups = {}, hits = [];
-  if (scope==='mt' && MT.length && !MTCARDS.length) mtBuildCards();
-  const pool = scope==='bcat' ? BUCH.filter(ch => !!ch.label === (bCat==='anh')).flatMap(ch => bookCards(ch).map(c => ({c, g:chName(ch)})))
-             : scope==='buch' ? bookAll().map(c => ({c, g:c.lessonLabel.replace(/^Linie B2 · /,'')}))
-             : scope==='mt' ? MTCARDS.map(c => ({c, g:c.lessonLabel.split(' · ')[0]})) : sxAll();
-  for (const {c, g} of pool){
+function sxRun(q){
+  const fq = fold(q), seen = new Set(), word = [], other = [];
+  for (const {c, g} of sxAll()){
     const k = c.key + '|' + g; if (seen.has(k)) continue;
-    const hit = sxFields(c).find(([, t]) => t && fold(t).includes(fq)); if (!hit) continue;
-    seen.add(k); hits.push(c); (groups[g] = groups[g] || []).push([c, hit]);
+    const f = sxFields(c), hit = f.find(([, t]) => t && fold(t).includes(fq)); if (!hit) continue;
+    seen.add(k);
+    if (hit[0]==='Wort'){ const core = sxCore(c.front); word.push([c, hit, g, core.startsWith(fq) ? 0 : fold(plainT(c.front)).split(/[\s,/()+-]+/).some(w => w.startsWith(fq)) ? 1 : 2]); }
+    else other.push([c, hit, g, 3]);
   }
-  return {hits, groups};
+  word.sort((a, b) => a[3]-b[3] || SX_ORDER.indexOf(a[2])-SX_ORDER.indexOf(b[2]));
+  other.sort((a, b) => SX_ORDER.indexOf(a[2])-SX_ORDER.indexOf(b[2]));
+  return {word, other, hits: [...word, ...other].map(x => x[0])};
 }
 function sxHTML(q, scope){
-  const {hits, groups} = sxRun(q, scope); sxHits = hits; sxBack = (scope==='buch'||scope==='bcat') ? 'buch' : scope==='mt' ? 'modell' : 'wortschatz';
+  const {word, other, hits} = sxRun(q); sxHits = hits; sxBack = (scope==='buch'||scope==='bcat') ? 'buch' : scope==='mt' ? 'modell' : 'wortschatz';
   if (!hits.length) return `<div class="sx-empty">Nichts gefunden für „${esc(q)}“.</div>`;
-  const order = scope!=='all' ? Object.keys(groups) : ['B2-Kurs','B1+ Kurs','Linie B2','Modelltests','Meine Wörter'];
-  return `<div class="sx-top"><span><b>${hits.length}</b> Treffer</span><button class="btn primary" id="sxLearn">▶ Alle Treffer lernen</button></div>` +
-    order.filter(g => groups[g]).map(g => `<div class="sx-group"><div class="lbl">${esc(g)} · ${groups[g].length}</div><div class="wl">${groups[g].slice(0,150).map(([c, [where, t]]) =>
-      `<button class="wl-row sx-row" data-sx="${hits.indexOf(c)}" style="--c:${STATUS[st(c)].c}"><div class="bar"></div><div><div class="w">${fmtWord(c.front)} <span class="sx-where">${where}</span></div>
-       <div class="d">${where==='Wort' ? esc(plainT(c.def||'').slice(0,110)) : sxMark(t, q)}</div><div class="sx-src">${esc(c.lessonLabel||'')}</div></div></button>`).join('')}</div></div>`).join('');
+  let i = 0;
+  const row = ([c, [where, t], g]) => `<button class="wl-row sx-row" data-sx="${i++}" style="--c:${STATUS[st(c)].c}"><div class="bar"></div><div><div class="w">${fmtWord(c.front)}${where==='Wort' ? '' : ` <span class="sx-where">${where}</span>`}</div>
+       <div class="d">${where==='Wort' ? esc(plainT(c.def||'').slice(0,110)) : sxMark(t, q)}</div><div class="sx-src">${esc(c.lessonLabel||g)}</div></div></button>`;
+  const block = (title, arr) => arr.length ? `<div class="sx-group"><div class="lbl">${title} · ${arr.length}</div><div class="wl">${arr.slice(0,200).map(row).join('')}</div></div>` : '';
+  const w = block('Im Wort', word); if (word.length > 200) i = word.length;
+  return `<div class="sx-top"><span><b>${hits.length}</b> Treffer in der ganzen App</span><button class="btn primary" id="sxLearn">▶ Alle Treffer lernen</button></div>` +
+    w + block('In Bedeutung, Beispiel, Wortfamilie …', other);
 }
 function renderSearch(){
   const box = $('#sxRes'), q = sxQ.trim(), on = q.length >= 2;
