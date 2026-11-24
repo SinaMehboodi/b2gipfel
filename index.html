@@ -1173,8 +1173,8 @@ function cardBack(c){
       return exs.length ? `<div><div class="lbl">${c.level==='G'?'Hinweis':(exs.length>1?'Beispiele':'Beispiel')}${c.ge?'<span class="gen-tag" title="Nicht aus dem Protokoll – von Claude ergänzt">ergänzt</span>':''}</div>${exs.map(e => `<div class="example">${fmt(e)}</div>`).join('')}</div>` : ''; })()}
     ${fam ? `<div><div class="lbl">Wortfamilie</div><div class="fam">${fam}</div></div>`:''}
     <div class="note-box" data-key="${esc(c.key)}">${noteHTML(c)}</div>
-    ${zerHTML(c)}
     ${c.notes && c.notes.length ? `<details class="more"><summary>Alles aus dem Protokoll</summary><div class="items">${notesHTML(c.notes)}</div></details>`:''}
+    ${zerHTML(c)}
     ${!c.def && !c.ex && !c.list && !(c.notes&&c.notes.length) ? '<div class="hint">Im Protokoll steht keine weitere Erklärung.</div>':''}
   </div>`;
 }
