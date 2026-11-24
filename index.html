@@ -82,7 +82,7 @@ main.wrap{padding-top:28px;padding-bottom:120px}
 .view.on{display:block}
 
 /* overview */
-.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;align-items:stretch}.hero.one{grid-template-columns:1fr}.pile.sbar{width:100%;margin-top:12px}
+.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;align-items:stretch}.hero.one{grid-template-columns:1fr}.mt-ws .mt-ws-b{flex-wrap:wrap;justify-content:flex-end;flex-shrink:1}.mt-ws-b .btn{white-space:nowrap}.ws-h{display:flex;flex-direction:column;align-items:flex-start;gap:10px;margin-bottom:12px}.ws-h h1{margin:0!important}.pile.sbar{width:100%;margin-top:12px}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;box-shadow:0 1px 2px rgba(16,24,40,.04),0 1px 3px rgba(16,24,40,.06)}
 .hero h1{font-size:clamp(18px,5.3vw,28px);font-weight:800;margin-bottom:12px;white-space:nowrap}
 .hero p.lead{color:var(--muted);margin:6px 0 18px;max-width:56ch}
@@ -717,7 +717,7 @@ table.dk.mini td b{color:var(--info);background:color-mix(in srgb,var(--info) 16
   <section class="view" id="v-wortschatz">
     <div class="hero one">
       <div class="panel">
-        <h1>Wortschatz aus dem Unterricht</h1>
+        <div class="ws-h"><h1>Wortschatz aus dem Unterricht</h1><button class="btn primary" id="wNew">▶ Neue Wörter</button></div>
         <div class="stackbar" id="totalBar" role="img" aria-label="Lernstand"></div>
         <button class="pile smart sbar" id="pSmart" data-pile="smart"><span><span class="l"><span class="emo">🔁</span> Smarte Wiederholung</span><br><small>Erst 😕, dann 🤔, dann Altes</small></span><span class="n" id="nSmart">0</span></button>
         <div class="b-secs st" id="totalLegend" style="border:0;padding:0;margin-top:8px"></div>
@@ -1031,6 +1031,8 @@ function fabSource(){
   const s = CARDS.filter(c => vis.has(c.lesson));
   return s.length ? s : CARDS;
 }
+const newAll = src => uniq(src || CARDS).filter(c => st(c)==='new');
+const newBtn = (attr, n) => `<button class="btn primary" ${attr} ${n?'':'disabled'}>▶ Neue Wörter${n?' ('+n+')':''}</button>`;
 function fabQueue(src){
   return [...smartQueue(src), ...shuffle(newQueue(src))];
 }
@@ -1038,7 +1040,7 @@ function fabQueue(src){
 function renderOverview(){
   const o = counts(CARDS);
   $('#totalBar').innerHTML = bar(o, o.total);
-  $('#totalLegend').innerHTML = [['new','Neu'], ...PILES].map(([p,l]) => `<button class="chip" data-pile="${p}" ${o[p]?'':'disabled'}>${EMO[p]} ${l} <b>${o[p]}</b></button>`).join('');
+  $('#totalLegend').innerHTML = PILES.map(([p,l]) => `<button class="chip" data-pile="${p}" ${o[p]?'':'disabled'}>${EMO[p]} ${l} <b>${o[p]}</b></button>`).join('');
   $('#tToday').textContent = DAYS[todayKey()]||0;
   $('#tTotal').textContent = o.total;
   let streak = 0; const d = new Date();
@@ -1046,6 +1048,7 @@ function renderOverview(){
   for(;;){ const k = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); if (DAYS[k]) { streak++; d.setDate(d.getDate()-1);} else break; }
   $('#tStreak').textContent = streak;
   const sq = smartQueue().length; $('#nSmart').textContent = sq; $('#pSmart').disabled = !sq;
+  $('#wNew').disabled = !o.new; $('#wNew').textContent = '▶ Neue Wörter'+(o.new?' ('+o.new+')':'');
 
   $('#lvlTabs').innerHTML = ['B2','B1+'].map(lv => { const ls = LESSONS.filter(l => l.level===lv); const o = counts(CARDS.filter(c => c.level===lv));
     return `<button class="lvl-tab" data-lvl="${lv}" role="tab" aria-pressed="${lv===level}"><span class="lv">${lv}</span><span class="lt"><b>${lv==='B2'?'B2-Kurs':'B1+ Kurs'}</b><small>${ls.length} Unterrichte · ${o.total} Wörter</small></span><span class="minibar">${bar(o,o.total)}</span></button>`; }).join('');
@@ -1560,11 +1563,11 @@ function pilesHTML(cs, attr){
 const smartBar = (attr, n) => `<button class="pile smart sbar" ${attr} ${n?'':'disabled'}><span><span class="l"><span class="emo">🔁</span> Smarte Wiederholung</span><br><small>Erst 😕, dann 🤔, dann Altes</small></span><span class="n">${n}</span></button>`;
 function bWsBox(cs, label){
   const o = counts(cs), sq = smartQueue(cs).length;
-  const chips = [['new',EMO.new,'Neu',o.new], ...PILES.map(([p,l]) => [p,EMO[p],l,o[p]])]
+  const chips = PILES.map(([p,l]) => [p,EMO[p],l,o[p]])
     .map(([p,e,l,n]) => `<button class="chip" data-bpile="${p}" ${n?'':'disabled'}>${e} ${l} <b>${n}</b></button>`).join('');
   return `<div class="mt-ws">
     <div class="mt-ws-h"><div><div class="lbl">📚 Wortschatz · ${esc(label)}</div><b>${o.total} Wörter</b><div class="hint">${o.k} gekonnt</div></div>
-      <div class="mt-ws-b"><button class="btn primary" data-blearn>▶ Lernen</button></div></div>
+      <div class="mt-ws-b">${newBtn('data-blearn', o.new)}</div></div>
     <span class="minibar">${bar(o, o.total)}</span>
     ${smartBar('data-bpile="smart"', sq)}
     <div class="b-secs st" style="border:0;padding:0;margin-top:8px">${chips}</div>
@@ -1618,7 +1621,7 @@ function renderBuch(){
       return `<button class="chip${(bSection||'')===sname?' on':''}" data-bsec="${esc(sname)}">${sname? esc(short) : 'Alle'} <b>${n}</b></button>`; }).join('')}</div>` : '';
   $('#buchArea').innerHTML = `<div class="g-head"><button class="btn" id="bBack">← ${bCat==='anh'?'Anhang':'Kapitel'}</button><h1>${ch.label? esc(ch.title) : chName(ch)+': '+esc(ch.title||'')}</h1></div>
     <div class="mt-ws"><div class="mt-ws-h"><div><div class="lbl">📚 Wortschatz · ${esc(chName(ch))}</div><b>${uniq(all).length} Wörter</b><div class="hint">${counts(all).k} gekonnt</div></div>
-      <div class="mt-ws-b"><button class="btn primary" id="bStudy" ${cs.length?'':'disabled'}>▶ Lernen (${cs.length})</button></div></div>
+      <div class="mt-ws-b">${bStatus ? `<button class="btn primary" id="bStudy" ${cs.length?'':'disabled'}>▶ Auswahl lernen (${cs.length})</button>` : newBtn('id="bNew"', newAll(inSec).length)}</div></div>
       <span class="minibar">${bar(counts(all), counts(all).total)}</span>${smartBar('id="bSmart"', smartQueue(inSec).length)}${secBtns}${stBtns}</div>
     ${cs.length? '' : '<div class="empty">Keine Karten in diesem Stapel.</div>'}
     <div class="wl">${cs.map(c => `<div class="wl-row" style="--c:${STATUS[st(c)].c}"><div class="bar"></div><div><div class="w">${fmtWord(c.front)}</div><div class="d">${fmt(c.def)}</div>${c.forms? `<div class="src">${esc(c.pres? c.pres+' · ':'')}${esc(c.forms[1])} · ${esc(c.forms[2])}</div>`:''}</div></div>`).join('')}</div>`;
@@ -1858,11 +1861,11 @@ const mtScopeCards = sc => MTCARDS.filter(c => !sc || c.lesson.startsWith('mt/'+
 function mtWsBox(scope, label){
   const cs = mtScopeCards(scope), o = counts(cs), open = !!mtWsOpen[scope];
   if (!cs.length) return '';
-  const chips = [['new','Neu'], ...PILES.map(([p,l]) => [p,l])].map(([p,l]) => { const n = p==='new' ? o.new : o[p];
+  const chips = PILES.map(([p,l]) => [p,l]).map(([p,l]) => { const n = o[p];
     return `<button class="chip" data-mtpile="${p}" ${n?'':'disabled'}>${EMO[p]} ${l} <b>${n}</b></button>`; }).join('');
   return `<div class="mt-ws">
     <div class="mt-ws-h"><div><div class="lbl">📚 Wortschatz · ${esc(label)}</div><b>${cs.length} Wörter</b><div class="hint">${o.k} gekonnt</div></div>
-      <div class="mt-ws-b"><button class="btn" data-mtwsl>${open?'Liste zu':'Wörter'}</button><button class="btn primary" data-mtlearn>▶ Lernen</button></div></div>
+      <div class="mt-ws-b"><button class="btn" data-mtwsl>${open?'Liste zu':'Wörter'}</button>${newBtn('data-mtlearn', o.new)}</div></div>
     <span class="minibar">${bar(o, o.total)}</span>
     ${smartBar('data-mtpile="smart"', smartQueue(cs).length)}
     <div class="b-secs st" style="border:0;padding:0;margin-top:8px">${chips}</div>
@@ -1911,7 +1914,7 @@ document.addEventListener('click', e => {
   if (t.dataset.mtp){ mtPath.p = t.dataset.mtp; renderMT(); scrollTo(0,0); return; }
   if (t.dataset.mtup!==undefined){ const {s} = mtFind(); if (mtPath.p){ mtPath.p = null; if (s && s.parts.length===1) mtPath.s = null; } else if (mtPath.s) mtPath.s = null; else mtPath.t = null; renderMT(); scrollTo(0,0); return; }
   if (t.dataset.mtwsl!==undefined){ const sc = mtScope(); mtWsOpen[sc] = !mtWsOpen[sc]; renderMT(); return; }
-  if (t.dataset.mtlearn!==undefined){ const cs = uniq(mtScopeCards(mtScope())); if (cs.length) startSession(shuffle(cs), 'Modelltest · Wortschatz', {back:'modell'}); return; }
+  if (t.dataset.mtlearn!==undefined){ const cs = newAll(mtScopeCards(mtScope())); if (cs.length) startSession(cs, 'Modelltest · Neue Wörter', {back:'modell'}); return; }
   if (t.dataset.mtpile==='smart'){ const cs = smartQueue(mtScopeCards(mtScope())); if (cs.length) startSession(cs, 'Modelltest · Smarte Wiederholung', {back:'modell'}); return; }
   if (t.dataset.mtpile){ const pl = t.dataset.mtpile, cs = uniq(pileFilter(mtScopeCards(mtScope()), pl)); if (cs.length) startSession(shuffle(cs), 'Modelltest · '+(pl==='new'?'Neu':PILES.find(x=>x[0]===pl)[1]), {back:'modell'}); return; }
 });
@@ -2048,10 +2051,11 @@ document.addEventListener('click', e => {
     if (msg) $('#dockInfo').textContent = msg;
     return;
   }
-  if (t.dataset.blearn!==undefined){ const q = fabQueue(bookAll()); if (q.length) startSession(q, 'Linie B2 · Wiederholung + Neu', {back:'buch'}); else toast('Alles gelernt – nichts zu wiederholen und keine neuen Wörter.'); return; }
+  if (t.dataset.blearn!==undefined){ const q = newAll(bookAll()); if (q.length) startSession(q, 'Linie B2 · Neue Wörter', {back:'buch'}); return; }
   if (t.dataset.bpile){ const p = t.dataset.bpile, all = bookAll();
     if (p==='smart') return startSession(smartQueue(all), 'Linie B2 · Smarte Wiederholung', {back:'buch'});
     return startSession(shuffle(uniq(pileFilter(all, p))), 'Linie B2 · Stapel: '+(p==='new' ? 'Neu' : PILES.find(x=>x[0]===p)[1]), {back:'buch'}); }
+  if (t.id==='wNew'){ const q = newAll(CARDS); if (q.length) startSession(q, 'Neue Wörter'); return; }
   if (t.dataset.pile && currentView()==='wortschatz'){
     const p = t.dataset.pile;
     if (p==='smart') return startSession(smartQueue(), 'Smarte Wiederholung');
@@ -2091,6 +2095,7 @@ document.addEventListener('click', e => {
   if (t.id==='bCatBack'){ bCat = null; sxQC = ''; renderBuch(); return; }
   if (t.dataset.chapter){ bChapter = t.dataset.chapter; bCat = (BUCH.find(x=>x.id===bChapter)||{}).label ? 'anh' : 'kap'; bSection = null; bStatus = ''; renderBuch(); window.scrollTo(0,0); return; }
   if (t.id==='bBack'){ bChapter = null; renderBuch(); return; }
+  if (t.id==='bNew'){ const ch = BUCH.find(x=>x.id===bChapter); let cs = bookCards(ch); if (bSection) cs = cs.filter(c => c.group===bSection); const q = newAll(cs); if (q.length) startSession(q, (ch.book ? 'Linie 1 Beruf · ' : 'Linie B2 · ')+chName(ch)+' · Neue Wörter', {back:'buch'}); return; }
   if (t.id==='bSmart'){ const ch = BUCH.find(x=>x.id===bChapter); let cs = bookCards(ch); if (bSection) cs = cs.filter(c => c.group===bSection); return startSession(smartQueue(cs), (ch.book ? 'Linie 1 Beruf · ' : 'Linie B2 · ')+chName(ch)+' · Smarte Wiederholung', {back:'buch'}); }
   if (t.id==='bStudy'){ const ch = BUCH.find(x=>x.id===bChapter); let cs = bookCards(ch); if (bSection) cs = cs.filter(c => c.group===bSection); cs = pileFilter(cs, bStatus); startSession(cs, (ch.book ? 'Linie 1 Beruf · ' : 'Linie B2 · ')+chName(ch)+(bSection? ' · '+bSection.replace(/^(Unregelmäßige Verben|Nomen-Verb-Verbindungen) /,''):'')); return; }
   if (t.dataset.wkind){ wkind = t.dataset.wkind; wmodel = 0; wsub = 'aufgabe'; renderWrite(); window.scrollTo(0,0); return; }
