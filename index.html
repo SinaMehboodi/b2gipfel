@@ -1556,7 +1556,7 @@ function kvTick(){
 function kvStop(){ clearInterval(kvTimer); kvTimer = null; const b = $('#kvStart'); if (b) b.textContent = b.closest('.kv-rbar') ? '▶ Start' : 'Start'; }
 /* ---------- Buch (Linie B2) ---------- */
 let BUCH = [], bChapter = null;
-const chName = ch => ch.label ? ch.title : 'Kapitel '+ch.num;
+const chName = ch => ch.label ? ch.title : (ch.book ? ch.book+' · Kapitel '+ch.num : 'Kapitel '+ch.num);
 let bSection = null, bStatus = '', bCat = null;
 const bookAll = () => BUCH.flatMap(bookCards);
 const PILES = [['x','Weiß ich nicht','--bad'],['u','Unsicher','--mid'],['b','Markiert','--mark'],['k','Kann ich','--ok']];
@@ -1578,7 +1578,7 @@ function bWsBox(cs, label){
   </div>`;
 }
 function bookCards(ch){
-  return ch.cards.map((c,i) => ({...c, key: 'b:'+norm(c.front), lesson:'buch-'+ch.id, level:'Buch', lessonLabel:'Linie B2 · '+chName(ch), notes:c.notes||[], def:c.def||'', ex:c.ex||''}));
+  return ch.cards.map((c,i) => ({...c, key: 'b:'+norm(c.front), lesson:'buch-'+ch.id, level:'Buch', lessonLabel:(ch.book ? 'Linie 1 Beruf · ' : 'Linie B2 · ')+chName(ch), notes:c.notes||[], def:c.def||'', ex:c.ex||''}));
 }
 function renderBuch(){
   if (!BUCH.length){
@@ -1593,11 +1593,11 @@ function renderBuch(){
   }
   if (!bChapter){
     const tile = ch => { const cs = bookCards(ch); const o = counts(cs);
-      return `<button class="g-tile" data-chapter="${ch.id}"><span class="src">${ch.label? esc(ch.label) : 'Kapitel '+ch.num}</span><h3>${esc(ch.label? ch.title : (ch.title||'Kapitel '+ch.num))}</h3><span class="minibar">${bar(o,o.total)}</span><span class="meta"><span>${o.total} Karten</span><span>${o.k? o.k+' gekonnt':'noch neu'}</span></span></button>`; };
+      return `<button class="g-tile" data-chapter="${ch.id}"><span class="src">${ch.label? esc(ch.label) : chName(ch)}</span><h3>${esc(ch.label? ch.title : (ch.title||'Kapitel '+ch.num))}</h3><span class="minibar">${bar(o,o.total)}</span><span class="meta"><span>${o.total} Karten</span><span>${o.k? o.k+' gekonnt':'noch neu'}</span></span></button>`; };
     const kap = BUCH.filter(c => !c.label), anh = BUCH.filter(c => c.label);
     if (!bCat){
       const cat = (id, src, title, list) => { const cs = list.flatMap(bookCards), o = counts(cs);
-        return `<button class="g-tile cat" data-bcat="${id}"><span class="src">${src}</span><h3>${title}</h3><span class="sub">${(id==='kap' ? list.slice().reverse() : list).map(c => c.label? c.title : 'Kapitel '+c.num).join(' · ')}</span><span class="minibar">${bar(o,o.total)}</span><span class="meta"><span>${list.length} ${id==='kap'?'Kapitel':'Listen'} · ${o.total} Karten</span><span>${o.k? o.k+' gekonnt':'noch neu'}</span></span></button>`; };
+        return `<button class="g-tile cat" data-bcat="${id}"><span class="src">${src}</span><h3>${title}</h3><span class="sub">${(id==='kap' ? list.slice().reverse() : list).map(c => c.label? c.title : chName(c)).join(' · ')}</span><span class="minibar">${bar(o,o.total)}</span><span class="meta"><span>${list.length} ${id==='kap'?'Kapitel':'Listen'} · ${o.total} Karten</span><span>${o.k? o.k+' gekonnt':'noch neu'}</span></span></button>`; };
       $('#buchArea').innerHTML = `<h1 class="page-h1">Linie B2</h1>
         ${bWsBox(bookAll(), 'ganzes Buch')}
         <label class="sx-box sx-gap"><span aria-hidden="true">🔍</span><input id="sxB" type="search" placeholder="Im Buch suchen …" aria-label="Im Buch suchen" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(sxQB)}"></label>
@@ -1623,7 +1623,7 @@ function renderBuch(){
   const stBtns = `<div class="b-secs st">${[['','Alle Stapel',inSec.length],['new','Neu',oc.new]].concat(PILES.map(([p,l]) => [p,l,oc[p]])).map(([p,l,n]) => `<button class="chip${bStatus===p?' on':''}" data-bstat="${p}" ${n||!p?'':'disabled'}>${p? EMO[p]+' ':''}${l} <b>${n}</b></button>`).join('')}</div>`;
   const secBtns = multi ? `<div class="b-secs">${[''].concat(secs).map(sname => { const n = sname ? all.filter(c => c.group===sname).length : all.length; const short = sname.replace(/^(Unregelmäßige Verben|Nomen-Verb-Verbindungen) /,'');
       return `<button class="chip${(bSection||'')===sname?' on':''}" data-bsec="${esc(sname)}">${sname? esc(short) : 'Alle'} <b>${n}</b></button>`; }).join('')}</div>` : '';
-  $('#buchArea').innerHTML = `<div class="g-head"><button class="btn" id="bBack">← ${bCat==='anh'?'Anhang':'Kapitel'}</button><h1>${ch.label? esc(ch.title) : 'Kapitel '+ch.num+': '+esc(ch.title||'')}</h1></div>
+  $('#buchArea').innerHTML = `<div class="g-head"><button class="btn" id="bBack">← ${bCat==='anh'?'Anhang':'Kapitel'}</button><h1>${ch.label? esc(ch.title) : chName(ch)+': '+esc(ch.title||'')}</h1></div>
     <div class="mt-ws"><div class="mt-ws-h"><div><div class="lbl">📚 Wortschatz · ${esc(chName(ch))}</div><b>${uniq(all).length} Wörter</b><div class="hint">${counts(all).k} gekonnt</div></div>
       <div class="mt-ws-b"><button class="btn primary" id="bStudy" ${cs.length?'':'disabled'}>▶ Lernen (${cs.length})</button></div></div>
       <span class="minibar">${bar(counts(all), counts(all).total)}</span>${secBtns}${stBtns}</div>
@@ -2091,7 +2091,7 @@ document.addEventListener('click', e => {
   if (t.id==='bCatBack'){ bCat = null; sxQC = ''; renderBuch(); return; }
   if (t.dataset.chapter){ bChapter = t.dataset.chapter; bCat = (BUCH.find(x=>x.id===bChapter)||{}).label ? 'anh' : 'kap'; bSection = null; bStatus = ''; renderBuch(); window.scrollTo(0,0); return; }
   if (t.id==='bBack'){ bChapter = null; renderBuch(); return; }
-  if (t.id==='bStudy'){ const ch = BUCH.find(x=>x.id===bChapter); let cs = bookCards(ch); if (bSection) cs = cs.filter(c => c.group===bSection); cs = pileFilter(cs, bStatus); startSession(cs, 'Linie B2 · '+chName(ch)+(bSection? ' · '+bSection.replace(/^(Unregelmäßige Verben|Nomen-Verb-Verbindungen) /,''):'')); return; }
+  if (t.id==='bStudy'){ const ch = BUCH.find(x=>x.id===bChapter); let cs = bookCards(ch); if (bSection) cs = cs.filter(c => c.group===bSection); cs = pileFilter(cs, bStatus); startSession(cs, (ch.book ? 'Linie 1 Beruf · ' : 'Linie B2 · ')+chName(ch)+(bSection? ' · '+bSection.replace(/^(Unregelmäßige Verben|Nomen-Verb-Verbindungen) /,''):'')); return; }
   if (t.dataset.wkind){ wkind = t.dataset.wkind; wmodel = 0; wsub = 'aufgabe'; renderWrite(); window.scrollTo(0,0); return; }
   if (t.id==='wBack'){ wkind = null; renderWrite(); return; }
   if (t.dataset.wsub){ wsub = t.dataset.wsub; renderWrite(); return; }
