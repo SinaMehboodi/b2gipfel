@@ -82,7 +82,7 @@ main.wrap{padding-top:28px;padding-bottom:120px}
 .view.on{display:block}
 
 /* overview */
-.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;align-items:stretch}
+.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;align-items:stretch}.hero.one{grid-template-columns:1fr}.pile.sbar{width:100%;margin-top:12px}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;box-shadow:0 1px 2px rgba(16,24,40,.04),0 1px 3px rgba(16,24,40,.06)}
 .hero h1{font-size:clamp(18px,5.3vw,28px);font-weight:800;margin-bottom:12px;white-space:nowrap}
 .hero p.lead{color:var(--muted);margin:6px 0 18px;max-width:56ch}
@@ -715,11 +715,12 @@ table.dk.mini td b{color:var(--info);background:color-mix(in srgb,var(--info) 16
 <main class="wrap">
   <!-- OVERVIEW -->
   <section class="view" id="v-wortschatz">
-    <div class="hero">
+    <div class="hero one">
       <div class="panel">
         <h1>Wortschatz aus dem Unterricht</h1>
         <div class="stackbar" id="totalBar" role="img" aria-label="Lernstand"></div>
-        <div class="legend" id="totalLegend"></div>
+        <button class="pile smart sbar" id="pSmart" data-pile="smart"><span><span class="l"><span class="emo">🔁</span> Smarte Wiederholung</span><br><small>Erst 😕, dann 🤔, dann Altes</small></span><span class="n" id="nSmart">0</span></button>
+        <div class="b-secs st" id="totalLegend" style="border:0;padding:0;margin-top:8px"></div>
         <div class="legend-colors" style="margin-top:14px">Farben wie im Unterricht: <span class="hl akk">AKK</span><span class="hl dat">DAT</span><span class="hl gen">GEN</span><span class="hl rede">Redemittel</span></div>
         <div class="today">
           <div><strong id="tToday">0</strong>heute geübt</div>
@@ -727,15 +728,7 @@ table.dk.mini td b{color:var(--info);background:color-mix(in srgb,var(--info) 16
           <div><strong id="tTotal">0</strong>Wörter insgesamt</div>
         </div>
       </div>
-      <div class="panel piles">
-        <div class="pile-grid">
-          <button class="pile smart" id="pSmart" data-pile="smart"><span><span class="l"><span class="emo">🔁</span> Smarte Wiederholung</span><br><small>Erst 😕, dann 🤔, dann Altes</small></span><span class="n" id="nSmart">0</span></button>
-          <button class="pile" data-pile="x" style="--c:var(--bad)"><span class="n" id="nX">0</span><span class="l"><span class="emo">😕</span> Weiß ich nicht</span></button>
-          <button class="pile" data-pile="u" style="--c:var(--mid)"><span class="n" id="nU">0</span><span class="l"><span class="emo">🤔</span> Unsicher</span></button>
-          <button class="pile" data-pile="b" style="--c:var(--mark)"><span class="n" id="nB">0</span><span class="l"><span class="emo">⭐</span> Markiert</span></button>
-          <button class="pile" data-pile="k" style="--c:var(--ok)"><span class="n" id="nK">0</span><span class="l"><span class="emo">✅</span> Kann ich</span></button>
-        </div>
-      </div>
+    </div>
     </div>
 
     <div class="section-head sx-head">
@@ -1045,16 +1038,14 @@ function fabQueue(src){
 function renderOverview(){
   const o = counts(CARDS);
   $('#totalBar').innerHTML = bar(o, o.total);
-  $('#totalLegend').innerHTML = ['k','u','x','new'].map(s => `<span><i class="dot" style="background:${STATUS[s].c}"></i>${EMO[s]} ${STATUS[s].label} <b>${o[s]}</b></span>`).join('');
+  $('#totalLegend').innerHTML = [['new','Neu'], ...PILES].map(([p,l]) => `<button class="chip" data-pile="${p}" ${o[p]?'':'disabled'}>${EMO[p]} ${l} <b>${o[p]}</b></button>`).join('');
   $('#tToday').textContent = DAYS[todayKey()]||0;
   $('#tTotal').textContent = o.total;
   let streak = 0; const d = new Date();
   if (!DAYS[todayKey()]) d.setDate(d.getDate()-1);
   for(;;){ const k = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); if (DAYS[k]) { streak++; d.setDate(d.getDate()-1);} else break; }
   $('#tStreak').textContent = streak;
-  $('#nX').textContent = o.x; $('#nU').textContent = o.u; $('#nK').textContent = o.k; $('#nB').textContent = o.b;
-  const sq = smartQueue().length; $('#nSmart').textContent = sq;
-  $$('.pile').forEach(b => { const p = b.dataset.pile; b.disabled = p==='smart' ? !sq : !o[p]; });
+  const sq = smartQueue().length; $('#nSmart').textContent = sq; $('#pSmart').disabled = !sq;
 
   $('#lvlTabs').innerHTML = ['B2','B1+'].map(lv => { const ls = LESSONS.filter(l => l.level===lv); const o = counts(CARDS.filter(c => c.level===lv));
     return `<button class="lvl-tab" data-lvl="${lv}" role="tab" aria-pressed="${lv===level}"><span class="lv">${lv}</span><span class="lt"><b>${lv==='B2'?'B2-Kurs':'B1+ Kurs'}</b><small>${ls.length} Unterrichte · ${o.total} Wörter</small></span><span class="minibar">${bar(o,o.total)}</span></button>`; }).join('');
@@ -1566,14 +1557,16 @@ function pilesHTML(cs, attr){
   return `<div class="pile-grid"><button class="pile smart" ${attr}="smart" ${sq?'':'disabled'}><span><span class="l"><span class="emo">🔁</span> Smarte Wiederholung</span><br><small>Erst 😕, dann 🤔, dann Altes</small></span><span class="n">${sq}</span></button>
     ${PILES.map(([p,l,c]) => `<button class="pile" ${attr}="${p}" style="--c:var(${c})" ${o[p]?'':'disabled'}><span class="n">${o[p]}</span><span class="l"><span class="emo">${EMO[p]}</span> ${l}</span></button>`).join('')}</div>`;
 }
+const smartBar = (attr, n) => `<button class="pile smart sbar" ${attr} ${n?'':'disabled'}><span><span class="l"><span class="emo">🔁</span> Smarte Wiederholung</span><br><small>Erst 😕, dann 🤔, dann Altes</small></span><span class="n">${n}</span></button>`;
 function bWsBox(cs, label){
   const o = counts(cs), sq = smartQueue(cs).length;
-  const chips = [['smart','🔁','Wiederholung',sq],['new',EMO.new,'Neu',o.new], ...PILES.map(([p,l]) => [p,EMO[p],l,o[p]])]
+  const chips = [['new',EMO.new,'Neu',o.new], ...PILES.map(([p,l]) => [p,EMO[p],l,o[p]])]
     .map(([p,e,l,n]) => `<button class="chip" data-bpile="${p}" ${n?'':'disabled'}>${e} ${l} <b>${n}</b></button>`).join('');
   return `<div class="mt-ws">
     <div class="mt-ws-h"><div><div class="lbl">📚 Wortschatz · ${esc(label)}</div><b>${o.total} Wörter</b><div class="hint">${o.k} gekonnt</div></div>
       <div class="mt-ws-b"><button class="btn primary" data-blearn>▶ Lernen</button></div></div>
     <span class="minibar">${bar(o, o.total)}</span>
+    ${smartBar('data-bpile="smart"', sq)}
     <div class="b-secs st" style="border:0;padding:0;margin-top:8px">${chips}</div>
   </div>`;
 }
@@ -1626,7 +1619,7 @@ function renderBuch(){
   $('#buchArea').innerHTML = `<div class="g-head"><button class="btn" id="bBack">← ${bCat==='anh'?'Anhang':'Kapitel'}</button><h1>${ch.label? esc(ch.title) : chName(ch)+': '+esc(ch.title||'')}</h1></div>
     <div class="mt-ws"><div class="mt-ws-h"><div><div class="lbl">📚 Wortschatz · ${esc(chName(ch))}</div><b>${uniq(all).length} Wörter</b><div class="hint">${counts(all).k} gekonnt</div></div>
       <div class="mt-ws-b"><button class="btn primary" id="bStudy" ${cs.length?'':'disabled'}>▶ Lernen (${cs.length})</button></div></div>
-      <span class="minibar">${bar(counts(all), counts(all).total)}</span>${secBtns}${stBtns}</div>
+      <span class="minibar">${bar(counts(all), counts(all).total)}</span>${smartBar('id="bSmart"', smartQueue(inSec).length)}${secBtns}${stBtns}</div>
     ${cs.length? '' : '<div class="empty">Keine Karten in diesem Stapel.</div>'}
     <div class="wl">${cs.map(c => `<div class="wl-row" style="--c:${STATUS[st(c)].c}"><div class="bar"></div><div><div class="w">${fmtWord(c.front)}</div><div class="d">${fmt(c.def)}</div>${c.forms? `<div class="src">${esc(c.pres? c.pres+' · ':'')}${esc(c.forms[1])} · ${esc(c.forms[2])}</div>`:''}</div></div>`).join('')}</div>`;
 }
@@ -1871,6 +1864,7 @@ function mtWsBox(scope, label){
     <div class="mt-ws-h"><div><div class="lbl">📚 Wortschatz · ${esc(label)}</div><b>${cs.length} Wörter</b><div class="hint">${o.k} gekonnt</div></div>
       <div class="mt-ws-b"><button class="btn" data-mtwsl>${open?'Liste zu':'Wörter'}</button><button class="btn primary" data-mtlearn>▶ Lernen</button></div></div>
     <span class="minibar">${bar(o, o.total)}</span>
+    ${smartBar('data-mtpile="smart"', smartQueue(cs).length)}
     <div class="b-secs st" style="border:0;padding:0;margin-top:8px">${chips}</div>
     ${open ? `<div class="wl" style="margin-top:10px">${uniq(cs).map(c => `<div class="wl-row" style="--c:${STATUS[st(c)].c}"><div class="bar"></div><div><div class="w">${fmtWord(c.front)} <span class="mt-lv lv-${c.level.replace('+','p')}">${c.level}</span></div><div class="d">${fmt(c.def)}</div></div></div>`).join('')}</div>` : ''}
   </div>`;
@@ -1918,6 +1912,7 @@ document.addEventListener('click', e => {
   if (t.dataset.mtup!==undefined){ const {s} = mtFind(); if (mtPath.p){ mtPath.p = null; if (s && s.parts.length===1) mtPath.s = null; } else if (mtPath.s) mtPath.s = null; else mtPath.t = null; renderMT(); scrollTo(0,0); return; }
   if (t.dataset.mtwsl!==undefined){ const sc = mtScope(); mtWsOpen[sc] = !mtWsOpen[sc]; renderMT(); return; }
   if (t.dataset.mtlearn!==undefined){ const cs = uniq(mtScopeCards(mtScope())); if (cs.length) startSession(shuffle(cs), 'Modelltest · Wortschatz', {back:'modell'}); return; }
+  if (t.dataset.mtpile==='smart'){ const cs = smartQueue(mtScopeCards(mtScope())); if (cs.length) startSession(cs, 'Modelltest · Smarte Wiederholung', {back:'modell'}); return; }
   if (t.dataset.mtpile){ const pl = t.dataset.mtpile, cs = uniq(pileFilter(mtScopeCards(mtScope()), pl)); if (cs.length) startSession(shuffle(cs), 'Modelltest · '+(pl==='new'?'Neu':PILES.find(x=>x[0]===pl)[1]), {back:'modell'}); return; }
 });
 
@@ -2057,11 +2052,11 @@ document.addEventListener('click', e => {
   if (t.dataset.bpile){ const p = t.dataset.bpile, all = bookAll();
     if (p==='smart') return startSession(smartQueue(all), 'Linie B2 · Smarte Wiederholung', {back:'buch'});
     return startSession(shuffle(uniq(pileFilter(all, p))), 'Linie B2 · Stapel: '+(p==='new' ? 'Neu' : PILES.find(x=>x[0]===p)[1]), {back:'buch'}); }
-  if (t.matches('.pile')){
+  if (t.dataset.pile && currentView()==='wortschatz'){
     const p = t.dataset.pile;
     if (p==='smart') return startSession(smartQueue(), 'Smarte Wiederholung');
-    const cs = uniq(CARDS).filter(c => p==='b' ? marked(c) : st(c)===p);
-    return startSession(shuffle(cs), 'Stapel: '+({x:'Weiß ich nicht',u:'Unsicher',k:'Kann ich',b:'Markiert'})[p]);
+    const cs = uniq(pileFilter(CARDS, p));
+    return startSession(shuffle(cs), 'Stapel: '+({new:'Neu',x:'Weiß ich nicht',u:'Unsicher',k:'Kann ich',b:'Markiert'})[p]);
   }
   if (t.dataset.act==='speak'){ e.stopPropagation(); speak(S.cards[S.i].front); return; }
   if (t.dataset.act==='mark'){ e.stopPropagation(); toggleMark(); return; }
@@ -2096,6 +2091,7 @@ document.addEventListener('click', e => {
   if (t.id==='bCatBack'){ bCat = null; sxQC = ''; renderBuch(); return; }
   if (t.dataset.chapter){ bChapter = t.dataset.chapter; bCat = (BUCH.find(x=>x.id===bChapter)||{}).label ? 'anh' : 'kap'; bSection = null; bStatus = ''; renderBuch(); window.scrollTo(0,0); return; }
   if (t.id==='bBack'){ bChapter = null; renderBuch(); return; }
+  if (t.id==='bSmart'){ const ch = BUCH.find(x=>x.id===bChapter); let cs = bookCards(ch); if (bSection) cs = cs.filter(c => c.group===bSection); return startSession(smartQueue(cs), (ch.book ? 'Linie 1 Beruf · ' : 'Linie B2 · ')+chName(ch)+' · Smarte Wiederholung', {back:'buch'}); }
   if (t.id==='bStudy'){ const ch = BUCH.find(x=>x.id===bChapter); let cs = bookCards(ch); if (bSection) cs = cs.filter(c => c.group===bSection); cs = pileFilter(cs, bStatus); startSession(cs, (ch.book ? 'Linie 1 Beruf · ' : 'Linie B2 · ')+chName(ch)+(bSection? ' · '+bSection.replace(/^(Unregelmäßige Verben|Nomen-Verb-Verbindungen) /,''):'')); return; }
   if (t.dataset.wkind){ wkind = t.dataset.wkind; wmodel = 0; wsub = 'aufgabe'; renderWrite(); window.scrollTo(0,0); return; }
   if (t.id==='wBack'){ wkind = null; renderWrite(); return; }
