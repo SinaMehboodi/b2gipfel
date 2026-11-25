@@ -1561,6 +1561,8 @@ function pilesHTML(cs, attr){
     ${PILES.map(([p,l,c]) => `<button class="pile" ${attr}="${p}" style="--c:var(${c})" ${o[p]?'':'disabled'}><span class="n">${o[p]}</span><span class="l"><span class="emo">${EMO[p]}</span> ${l}</span></button>`).join('')}</div>`;
 }
 const smartBar = (attr, n) => `<button class="pile smart sbar" ${attr} ${n?'':'disabled'}><span><span class="l"><span class="emo">🔁</span> Smarte Wiederholung</span><br><small>Erst 😕, dann 🤔, dann Altes</small></span><span class="n">${n}</span></button>`;
+const bScope = () => bCat ? BUCH.filter(ch => !!ch.label === (bCat==='anh')).sort((x, y) => !!x.book - !!y.book).flatMap(ch => bookCards(ch)) : bookAll();
+const bScopeName = () => bCat==='kap' ? 'Linie B2 · alle Kapitel' : bCat==='anh' ? 'Linie B2 · Anhang' : 'Linie B2';
 function bWsBox(cs, label){
   const o = counts(cs), sq = smartQueue(cs).length;
   const chips = PILES.map(([p,l]) => [p,EMO[p],l,o[p]])
@@ -1604,6 +1606,7 @@ function renderBuch(){
     }
     const list = bCat==='kap' ? kap : anh;
     $('#buchArea').innerHTML = `<div class="g-head"><button class="btn" id="bCatBack">← Linie B2</button><h1>${bCat==='kap'?'Lernwortschatz der Kapitel':'Anhang: Listen am Ende des Buchs'}</h1></div>
+      ${bWsBox(bScope(), bCat==='kap' ? 'alle Kapitel' : 'alle Listen')}
       <label class="sx-box sx-gap"><span aria-hidden="true">🔍</span><input id="sxC" type="search" placeholder="In allen Wörtern der App suchen …" aria-label="Suchen" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(sxQC)}"></label>
       <div id="sxResC" hidden></div>
       <div class="g-grid" id="cBody">${(bCat==='kap' ? list.slice().reverse() : list).map(tile).join('')}</div>`;
@@ -2051,10 +2054,10 @@ document.addEventListener('click', e => {
     if (msg) $('#dockInfo').textContent = msg;
     return;
   }
-  if (t.dataset.blearn!==undefined){ const q = newAll(bookAll()); if (q.length) startSession(q, 'Linie B2 · Neue Wörter', {back:'buch'}); return; }
-  if (t.dataset.bpile){ const p = t.dataset.bpile, all = bookAll();
-    if (p==='smart') return startSession(smartQueue(all), 'Linie B2 · Smarte Wiederholung', {back:'buch'});
-    return startSession(shuffle(uniq(pileFilter(all, p))), 'Linie B2 · Stapel: '+(p==='new' ? 'Neu' : PILES.find(x=>x[0]===p)[1]), {back:'buch'}); }
+  if (t.dataset.blearn!==undefined){ const q = newAll(bScope()); if (q.length) startSession(q, bScopeName()+' · Neue Wörter', {back:'buch'}); return; }
+  if (t.dataset.bpile){ const p = t.dataset.bpile, all = bScope();
+    if (p==='smart') return startSession(smartQueue(all), bScopeName()+' · Smarte Wiederholung', {back:'buch'});
+    return startSession(shuffle(uniq(pileFilter(all, p))), bScopeName()+' · Stapel: '+(p==='new' ? 'Neu' : PILES.find(x=>x[0]===p)[1]), {back:'buch'}); }
   if (t.id==='wNew'){ const q = newAll(CARDS); if (q.length) startSession(q, 'Neue Wörter'); return; }
   if (t.dataset.pile && currentView()==='wortschatz'){
     const p = t.dataset.pile;
