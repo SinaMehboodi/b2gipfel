@@ -1191,6 +1191,20 @@ function head(c){
     <button class="iconbtn" data-act="mark" title="Markieren (M)" aria-label="Markieren" aria-pressed="${marked(c)}">${marked(c)?'★':'☆'}</button>
   </div>`;
 }
+function fitWords(){
+  // lange Einzelwörter (z. B. Komposita) verkleinern, damit sie mittig im Kasten bleiben
+  document.querySelectorAll('#faceFront .word, #faceBack .word').forEach(w => {
+    w.style.fontSize = ''; w.style.maxWidth = '';
+    if (w.scrollWidth <= w.clientWidth + 1) return;
+    w.style.maxWidth = '100%';
+    let fs = parseFloat(getComputedStyle(w).fontSize);
+    while (w.scrollWidth > w.clientWidth + 1 && fs > 20){ fs -= 1; w.style.fontSize = fs + 'px'; }
+  });
+}
+window.addEventListener('resize', () => { if (currentView()==='lernen') fitWords(); });
+const _renderCard0 = renderCard;
+renderCard = function(){ _renderCard0.apply(this, arguments); fitWords(); requestAnimationFrame(fitWords); setTimeout(fitWords, 80); };
+document.fonts && document.fonts.ready.then(() => { if (currentView()==='lernen') fitWords(); });
 function renderCard(){
   loadTR();
   const c = S.cards[S.i];
