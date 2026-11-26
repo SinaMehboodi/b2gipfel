@@ -627,6 +627,8 @@ table.dk.mini td b{font-weight:800;color:var(--brand-700);background:color-mix(i
 a.g-tile.hub{text-decoration:none;color:inherit}
 .note-box{border-top:1px dashed var(--line);padding-top:12px}
 .note-add{border:1px dashed #2f9c90;background:color-mix(in srgb,#2f9c90 9%,var(--surface));color:color-mix(in srgb,#2f9c90 75%,var(--ink));border-radius:var(--r-md);padding:10px 14px;font-weight:600;width:100%;text-align:left}
+:root{--note-o:#c85a14}[data-theme="dark"]{--note-o:#f0954a}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--note-o:#f0954a}}
+.note-add{display:flex;align-items:center;gap:8px;border:0;border-radius:10px;padding:9px 12px;font-weight:700;font-size:14px;background:color-mix(in srgb,var(--note-o) 13%,var(--surface));color:var(--note-o)}
 .note-edit{border:0;background:none;color:var(--accent);font:600 12px var(--f-body);text-transform:none;letter-spacing:0;margin-left:6px;cursor:pointer}
 .note-text{font:400 18px/1.5 var(--f-word);background:var(--mark-bg);border-radius:var(--r-md);padding:10px 14px}
 .note-input{width:100%;font:400 18px/1.5 var(--f-word);padding:10px 12px;border:1px solid var(--accent);border-radius:var(--r-md);background:var(--surface);color:var(--ink);resize:vertical}
@@ -1185,7 +1187,7 @@ function noteHTML(c, editing){
   if (editing) return `<div class="lbl">Meine Notiz</div><textarea class="note-input" dir="auto" rows="3" placeholder="z. B. Bedeutung auf Persisch, eigene Eselsbrücke …">${esc(n)}</textarea>
     <div class="note-acts"><button class="btn primary note-save">Speichern</button><button class="btn ghost note-cancel">Abbrechen</button>${n?'<button class="btn ghost note-del">Löschen</button>':''}</div>`;
   if (n) return `<div class="lbl">Meine Notiz <button class="note-edit" aria-label="Notiz bearbeiten">✎ Bearbeiten</button></div><div class="note-text" dir="auto">${esc(n).replace(/\n/g,'<br>')}</div>`;
-  return `<button class="note-add">+ Eigene Notiz hinzufügen</button>`;
+  return `<button class="note-add"><svg class="pr-ic" viewBox="0 0 16 16" aria-hidden="true"><rect width="16" height="16" rx="3.5" fill="#e07a2e"/><path d="M4.5 11.5l.6-2.3 5-5 1.7 1.7-5 5z" fill="#fff"/><path d="M4.5 11.5h7" stroke="#fff" stroke-width=".9"/></svg><span>Eigene Notiz hinzufügen</span></button>`;
 }
 function isCourse(c){ return /^B[12]-\d/.test(String(c.lesson||'')); }
 function shortLabel(c){
