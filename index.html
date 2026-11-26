@@ -218,6 +218,11 @@ details.more summary{cursor:pointer;font-weight:700;font-size:14px;color:var(--a
 details.more summary::-webkit-details-marker{display:none}
 details.more summary::before{content:"▸ "}
 details.more[open] summary::before{content:"▾ "}
+details.more.pr summary{color:var(--ink);background:color-mix(in srgb,var(--muted) 10%,transparent);border-radius:10px;padding:9px 12px;display:flex;align-items:center;gap:8px}
+details.more.pr summary::before{content:none}
+details.more.pr summary::after{content:"▾";margin-left:auto;color:var(--muted);font-size:12px;transition:transform .2s}
+details.more.pr[open] summary::after{transform:rotate(180deg)}
+.pr-ic{width:18px;height:18px;flex:none}
 .items{display:flex;flex-direction:column;gap:7px;font-family:var(--f-word);font-size:16.5px;line-height:1.55;margin-top:10px}
 .it-ex{font-family:var(--f-word);font-style:italic;padding-left:12px;border-left:3px solid var(--line)}
 .it-rel::before{content:"→ ";color:var(--accent);font-weight:700}
@@ -1170,7 +1175,7 @@ function cardBack(c){
       return exs.length ? `<div><div class="lbl">${c.level==='G'?'Hinweis':(exs.length>1?'Beispiele':'Beispiel')}${c.ge?'<span class="gen-tag" title="Nicht aus dem Protokoll – von Claude ergänzt">ergänzt</span>':''}</div>${exs.map(e => `<div class="example">${fmt(e)}</div>`).join('')}</div>` : ''; })()}
     ${fam ? `<div><div class="lbl">Wortfamilie</div><div class="fam">${fam}</div></div>`:''}
     <div class="note-box" data-key="${esc(c.key)}">${noteHTML(c)}</div>
-    ${c.notes && c.notes.length ? `<details class="more"><summary>Alles aus dem Protokoll</summary><div class="items">${notesHTML(c.notes)}</div></details>`:''}
+    ${c.notes && c.notes.length ? `<details class="more pr"><summary><svg class="pr-ic" viewBox="0 0 16 16" aria-hidden="true"><rect width="16" height="16" rx="3.5" fill="#3b6fd4"/><rect x="4.5" y="3.5" width="7.5" height="9" rx="1" fill="#fff"/><path d="M6 3.5v9" stroke="#3b6fd4" stroke-width=".9"/><path d="M7.4 6.5h3.3M7.4 8.3h3.3" stroke="#3b6fd4" stroke-width=".9"/></svg><span>Alles aus dem Protokoll</span></summary><div class="items">${notesHTML(c.notes)}</div></details>`:''}
     ${zerHTML(c)}
     ${!c.def && !c.ex && !c.list && !(c.notes&&c.notes.length) ? '<div class="hint">Im Protokoll steht keine weitere Erklärung.</div>':''}
   </div>`;
