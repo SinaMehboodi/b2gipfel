@@ -560,9 +560,11 @@ table.dk.mini td b{font-weight:800;color:var(--brand-700);background:color-mix(i
 .zer summary::-webkit-details-marker{display:none}
 .zer summary::after{content:'▸';margin-left:auto;font-size:13px;transition:transform .15s}.zer[open] summary::after{transform:rotate(90deg)}
 .zer-ic{width:16px;height:16px;flex:none}
-.zer-b{display:flex;flex-direction:column;gap:10px;padding:2px 0 12px;font:400 16px/1.45 var(--f-word);color:var(--ink)}
-.zer-b>div{padding-left:10px;border-left:2px solid var(--line)}
-.zer-b b{font-weight:700}.zer-f{color:var(--muted);font-size:15px}
+.zer-b{display:flex;flex-direction:column;gap:8px;padding:2px 0 14px;font:400 16px/1.45 var(--f-word);color:var(--ink)}
+.zer-b b{font-weight:700}.zsep{border-top:1px dashed var(--line);margin:2px 0}
+.zrow{display:flex;align-items:flex-start;gap:8px}.ztag{flex:none;min-width:30px;text-align:center;font:700 11px/24px var(--f-body);color:var(--muted);border-radius:6px;background:rgba(127,127,127,.12);padding:0 6px;margin-top:1px}
+.zchip{display:inline-block;margin:0 5px 5px 0;padding:2px 9px;border-radius:999px;border:1px solid var(--line);font-size:14.5px;line-height:1.4}
+.zwarn{border-left:3px solid #e0a72e;padding:6px 10px;background:rgba(224,167,46,.1);border-radius:6px;font-size:14.5px}
 .subtabs{display:flex;flex-wrap:wrap;gap:6px;overflow-x:auto;scrollbar-width:none;margin:4px 0 14px;padding-bottom:2px;-webkit-overflow-scrolling:touch}
 .subtabs::-webkit-scrollbar{display:none}
 .subtabs button{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font:700 14px var(--f-body);cursor:pointer;white-space:nowrap}
@@ -1951,7 +1953,7 @@ const SX_ORDER = ['B2-Kurs','B1+ Kurs','Linie B2 · Kapitel','Linie 1 Beruf (B1+
 const sxCore = f => fold(plainT(f)).replace(/^(der|die|das|r|e|s|sich|jdm\.?|jdn\.?|jemandem|jemanden|etwas|\(.*?\))\s+/g,'').replace(/^(der|die|das|r|e|s|sich)\s+/,'');
 function sxFields(c){
   const m = (c.m||[]).flatMap(([d, ex]) => [['Bedeutung', d], ...(ex||[]).map(e => ['Beispiel', e])]);
-  return [['Wort', c.front], ['Bedeutung', c.def], ...m, ['Beispiel', c.ex], ['Beispiel', c.ext], ['Wortfamilie', c.zer ? c.zer.fam : (ZER[norm(c.front)]||{}).fam], ['Verbform', (c.forms||[]).join(' ')],
+  return [['Wort', c.front], ['Bedeutung', c.def], ...m, ['Beispiel', c.ex], ['Beispiel', c.ext], ['Wortfamilie', (z => z ? [z.fam, ...(z.f||[]), ...(z.syn||[]), ...(z.ant||[]), z.w].filter(Boolean).join(' · ') : '')(c.zer || ZER[norm(c.front)])], ['Verbform', (c.forms||[]).join(' ')],
           ['Protokoll', (c.notes||[]).map(n => n[1]).join(' ')], ['Wortfamilie', (c.family||[]).join(' ')],
           ['Übersetzung', (typeof TR!=='undefined' && TR) ? TR[norm(c.front)] : '']];
 }
@@ -2023,11 +2025,25 @@ let ZER = {}, zerLoaded = false;
 function loadZER(){ if (zerLoaded) return; zerLoaded = true;
   fetch('data/zer.json').then(r => r.json()).then(d => { ZER = d; if (currentView()==='lernen' && S) renderCard(); }).catch(() => { zerLoaded = false; }); }
 let zerOpen = false; try { zerOpen = localStorage.getItem('b2g-zer')==='1'; } catch(e){}
+function zerParts(z){
+  // neue Felder: f (Familie), syn, ant, w (Achtung) – sonst aus dem alten Text „fam“ ableiten
+  if (z.f || z.syn || z.ant || z.w) return {f:z.f||[], syn:z.syn||[], ant:z.ant||[], w:z.w||''};
+  const f = [], ant = []; let w = '';
+  let t = z.fam || '';
+  const m = t.match(/Achtung[^:]*:\s*(.*)$/);
+  if (m){ w = m[1]; t = t.slice(0, m.index); }
+  t.split(/\s·\s/).map(x => x.trim()).filter(Boolean).forEach(x => x.includes('↔') ? ant.push(x) : f.push(x));
+  return {f, syn:[], ant, w};
+}
 function zerHTML(c){
   if (!PROF.zer || !c || !c.front) return ''; loadZER();
   const z = c.zer || ZER[norm(c.front)]; if (!z) return '';
+  const p = zerParts(z), chips = xs => xs.map(x => `<span class="zchip">${zb(x)}</span>`).join('');
+  const row = (tag, xs) => xs.length ? `<div class="zrow"><span class="ztag">${tag}</span><div>${chips(xs)}</div></div>` : '';
   return `<details class="zer"${zerOpen?' open':''}><summary><svg class="zer-ic" viewBox="0 0 16 16" aria-hidden="true"><rect width="16" height="16" rx="3.5" fill="#d93a3a"/><path d="M6.5 3h3v3.5H13v3H9.5V13h-3V9.5H3v-3h3.5z" fill="#fff"/></svg>Wort zerlegt &amp; Wortfamilie</summary>
-    <div class="zer-b"><div class="zer-p">${zb(z.p)}</div><div class="zer-s">${zb(z.s)}</div><div class="zer-ex"><i>${zb(z.ex)}</i></div><div class="zer-f">${zb(z.fam)}</div></div></details>`;
+    <div class="zer-b"><div class="zer-p">${zb(z.p)}</div><div class="zer-s">→ ${zb(z.s)}</div><div class="zer-ex"><i>${zb(z.ex)}</i></div>
+    ${(p.f.length||p.syn.length||p.ant.length) ? '<div class="zsep"></div>' : ''}${row('Familie', p.f)}${row('≈', p.syn)}${row('↔', p.ant)}
+    ${p.w ? `<div class="zwarn">⚠️ Nicht verwechseln: ${zb(p.w)}</div>` : ''}</div></details>`;
 }
 setTimeout(() => { if (PROF.zer) loadZER(); }, 1500);
 document.addEventListener('toggle', e => { if (e.target.classList && e.target.classList.contains('zer')){ zerOpen = e.target.open; try { localStorage.setItem('b2g-zer', zerOpen?'1':'0'); } catch(_){} } }, true);
