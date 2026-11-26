@@ -1,1 +1,1595 @@
-[{"id":"konnektoren","title":"Konnektoren und Präpositionen","sub":"Verbalstil (informell) ↔ Nominalstil (formell)","src":"B1+ · Unterricht 4–7","blocks":[{"type":"table","head":["Typ","Konnektor","Satz (Verbalstil)","Präposition","Satz (Nominalstil)"],"rows":[["kausal · GRUND","weil (NS) + Grund<br>deshalb (HS) + Folge","Ich komme nicht zur Arbeit, weil ich krank bin.<br>Ich bin krank, deshalb komme ich nicht zur Arbeit.","wegen + GEN","Ich komme wegen Krankheit nicht zur Arbeit."],["konzessiv · GEGENGRUND","obwohl (NS) + Gegengrund<br>trotzdem (HS) + Folge","Ich komme nicht zur Arbeit, obwohl ich nicht krank bin.<br>Ich bin nicht krank, trotzdem komme ich nicht zur Arbeit.","trotz + GEN","Ich komme trotz der Tatsache, dass ich nicht krank bin, nicht zur Arbeit."],["konditional · BEDINGUNG","wenn … (dann)","Wenn die Sonne scheint, (dann) gehe ich spazieren.","bei + DAT","Beim Sonnenschein gehe ich spazieren."],["temporal (1) · VORZEITIGKEIT","bevor (NS) + spätere Aktion","Bevor ich in Urlaub fahre, packe ich meinen Koffer.","vor + DAT","Vor dem Urlaub packe ich meinen Koffer."],["temporal (2) · GLEICHZEITIGKEIT","während (NS) + wichtigere Aktion<br>als (NS) – einmal in der Vergangenheit<br>immer wenn (NS) – mehrmals in der Vergangenheit","Während ich den Film anschaue, esse ich Popcorn.<br>Als ich ein Kind war, habe ich gern gespielt.<br>Immer wenn ich einen Film angeschaut habe, habe ich Popcorn gegessen.","während + GEN<br>in + DAT","Während des Films esse ich Popcorn.<br>In der Kindheit habe ich gern gespielt."],["temporal (3) · NACHZEITIGKEIT","nachdem (NS) + frühere Aktion<br>bis (NS) + spätere Aktion<br>seit(dem) (NS) + Dauer","Nachdem ich gegessen habe, lerne ich Deutsch.<br>Bis die Sonne scheint, bleibe ich zu Hause.<br>Seitdem ich in München wohne, besuche ich einen Deutschkurs.","nach + DAT<br>bis + zu + DAT<br>seit + DAT","Nach dem Essen lerne ich Deutsch.<br>Bis zum Erscheinen der Sonne bleibe ich zu Hause.<br>Seit dem Beginn meines Münchner Aufenthalts besuche ich einen Deutschkurs."],["modal · WIE? MODUS, INSTRUMENT","indem (NS) + instrumentelle Aktion","Indem ich ein Wörterbuch benutzt habe, habe ich den Text verstanden.","mithilfe + GEN","Mithilfe eines Wörterbuchs habe ich den Text verstanden."]]}],"drill":[["weil → Präposition?","wegen + GEN","Ich komme wegen Krankheit nicht zur Arbeit."],["obwohl → Präposition?","trotz + GEN","Ich komme trotz der Tatsache, dass ich nicht krank bin, nicht zur Arbeit."],["wenn → Präposition?","bei + DAT","Beim Sonnenschein gehe ich spazieren."],["bevor → Präposition?","vor + DAT","Vor dem Urlaub packe ich meinen Koffer."],["während (Konnektor) → Präposition?","während + GEN","Während des Films esse ich Popcorn."],["als → Präposition?","in + DAT","In der Kindheit habe ich gern gespielt."],["nachdem → Präposition?","nach + DAT","Nach dem Essen lerne ich Deutsch."],["bis (Konnektor) → Präposition?","bis + zu + DAT","Bis zum Erscheinen der Sonne bleibe ich zu Hause."],["seitdem → Präposition?","seit + DAT","Seit dem Beginn meines Aufenthalts besuche ich einen Deutschkurs."],["indem → Präposition?","mithilfe + GEN","Mithilfe eines Wörterbuchs habe ich den Text verstanden."],["Welcher Typ? weil / deshalb","kausal: GRUND",""],["Welcher Typ? obwohl / trotzdem","konzessiv: GEGENGRUND",""],["Welcher Typ? indem","modal: WIE? (Modus, Instrument)",""]]},{"id":"perfekt","title":"Perfekt mit haben oder sein?","sub":"vier Regeln","src":"B1+ · Unterricht 6–7","blocks":[{"type":"rules","items":[["(1) Alle transitiven Verben bilden Perfekt mit haben.","Das sind alle Verben mit einem Akkusativobjekt oder einem Dativobjekt.",["Ich esse das Brot. → Ich habe das Brot gegessen.","Ich fahre dich zum Bahnhof. → Ich habe dich zum Bahnhof gefahren.","Ich helfe dir. → Ich habe dir geholfen. (ganz wenige Ausnahmen)"]],["(2) Alle reflexiven Verben bilden Perfekt mit haben.","",["Ich erinnere mich. → Ich habe mich erinnert.","Ich erhole mich. → Ich habe mich erholt."]],["(3) Verben ohne Objekt und mit Bewegung/Veränderung bilden Perfekt mit sein.","",["Das Blatt fällt vom Baum. → Das Blatt ist vom Baum gefallen.","Der Mann stirbt im Bett. → Der Mann ist im Bett gestorben.","Der Bus fährt zum Bahnhof. → Der Bus ist zum Bahnhof gefahren.","Diese Pflanzen wachsen sehr schnell. → Diese Pflanzen sind sehr schnell gewachsen."]],["(4) Verben ohne Objekt und ohne Bewegung/Veränderung: keine Regel.","Manchmal haben, manchmal sein.",["Ich bleibe zu Hause. → Ich bin zu Hause geblieben.","Ich bin krank. → Ich bin krank gewesen.","Er schläft den ganzen Tag. → Er hat den ganzen Tag geschlafen.","Er liegt auf dem Sofa. → Er hat auf dem Sofa gelegen.","Er sitzt am Schreibtisch. → Er hat am Schreibtisch gesessen.","Er steht an der Bushaltestelle. → Er hat an der Bushaltestelle gestanden."]]]}],"drill":[["Ich esse das Brot. → Perfekt?","Ich habe das Brot gegessen.","Regel 1: transitiv (AKK) → haben"],["Ich fahre dich zum Bahnhof. → Perfekt?","Ich habe dich zum Bahnhof gefahren.","Regel 1: mit Objekt → haben"],["Der Bus fährt zum Bahnhof. → Perfekt?","Der Bus ist zum Bahnhof gefahren.","Regel 3: Bewegung ohne Objekt → sein"],["Ich helfe dir. → Perfekt?","Ich habe dir geholfen.","Regel 1: Dativobjekt → haben"],["Ich erinnere mich. → Perfekt?","Ich habe mich erinnert.","Regel 2: reflexiv → haben"],["Das Blatt fällt vom Baum. → Perfekt?","Das Blatt ist vom Baum gefallen.","Regel 3: Bewegung → sein"],["Der Mann stirbt im Bett. → Perfekt?","Der Mann ist im Bett gestorben.","Regel 3: Veränderung → sein"],["Diese Pflanzen wachsen schnell. → Perfekt?","Diese Pflanzen sind schnell gewachsen.","Regel 3: Veränderung → sein"],["Ich bleibe zu Hause. → Perfekt?","Ich bin zu Hause geblieben.","Regel 4: keine Regel – auswendig lernen"],["Ich bin krank. → Perfekt?","Ich bin krank gewesen.","Regel 4"],["Er schläft den ganzen Tag. → Perfekt?","Er hat den ganzen Tag geschlafen.","Regel 4"],["Er liegt auf dem Sofa. → Perfekt?","Er hat auf dem Sofa gelegen.","Regel 4"],["Er sitzt am Schreibtisch. → Perfekt?","Er hat am Schreibtisch gesessen.","Regel 4"],["Er steht an der Bushaltestelle. → Perfekt?","Er hat an der Bushaltestelle gestanden.","Regel 4"]]},{"id":"reflexiv-dat","title":"Reflexive Verben mit Dativ","sub":"sich (DAT) + etwas (AKK)","src":"B1+ · Unterricht 10–12","blocks":[{"type":"rules","items":[["sich etwas merken","",["Ich merke mir den Termin für meine nächste Untersuchung beim Arzt."]],["sich etwas überlegen","",["Ich überlege mir eine Lösung für dieses Problem."]],["sich etwas wünschen","",["Ich wünsche mir einen Urlaub am Strand."]],["sich etwas waschen","",["Ich wasche mir die Hände.","Ich wasche mir den Kopf."]]]}],"drill":[["Ich merke ___ den Termin.","mir","sich (DAT) etwas (AKK) merken"],["Ich überlege ___ eine Lösung.","mir","sich etwas überlegen"],["Ich wünsche ___ einen Urlaub am Strand.","mir","sich etwas wünschen"],["Ich wasche ___ die Hände.","mir","sich etwas waschen"],["Du merkst ___ den Termin.","dir","Dativ: mir, dir, sich, uns, euch, sich"],["Wir überlegen ___ eine Lösung.","uns",""]]},{"id":"auf-ueber","title":"Präpositionen: auf (Fokus) und über (Thema)","sub":"reflexive und nichtreflexive Verben + AKK","src":"B1+ · Unterricht 10–12","blocks":[{"type":"rules","items":[["auf + AKK = Fokus · reflexiv","",["sich konzentrieren: Ich konzentriere mich auf den Unterricht.","sich vorbereiten: Ich bereite mich auf die Prüfung vor.","sich freuen: Ich freue mich auf meinen Geburtstag. (Zukunft)"]],["auf + AKK = Fokus · nichtreflexiv","",["warten: Ich warte auf den Bus.","achten: Ich achte auf den Verkehr, wenn ich über die Straße laufe."]],["über + AKK = Thema · reflexiv","",["sich freuen: Ich freue mich über deinen Besuch heute. (Gegenwart)","sich beschweren: Ich beschwere mich über den unfreundlichen Kellner.","sich ärgern: Wir ärgern uns seit langem über den Lärm unserer Nachbarn."]],["über + AKK = Thema · nichtreflexiv","",["diskutieren: Wir diskutieren über den Klimawandel.","schreiben: Wir schreiben im Tagebuch über diesen Tag.","lesen: Er liest (ein Buch) über Atomphysik.","streiten: Wir haben über die Erziehung unserer Kinder gestritten."]]]}],"drill":[["sich konzentrieren + ?","auf + AKK","Ich konzentriere mich auf den Unterricht."],["sich vorbereiten + ?","auf + AKK","Ich bereite mich auf die Prüfung vor."],["sich freuen (Zukunft) + ?","auf + AKK","Ich freue mich auf meinen Geburtstag."],["sich freuen (jetzt/Vergangenheit) + ?","über + AKK","Ich freue mich über deinen Besuch heute."],["warten + ?","auf + AKK","Ich warte auf den Bus."],["achten + ?","auf + AKK","Ich achte auf den Verkehr."],["sich beschweren + ?","über + AKK","Ich beschwere mich über den unfreundlichen Kellner."],["sich ärgern + ?","über + AKK","Wir ärgern uns über den Lärm unserer Nachbarn."],["diskutieren + ?","über + AKK","Wir diskutieren über den Klimawandel."],["streiten + ?","über + AKK","Wir haben über die Erziehung unserer Kinder gestritten."]]},{"id":"negation","title":"Negation: kein oder nicht?","sub":"Nomen, Adjektiv, Verb","src":"B1+ · Unterricht 13","blocks":[{"type":"table","head":["Was negiert man?","Negation","Beispiel"],"rows":[["Nomen (unbestimmt)","kein","ein Stift → kein Stift"],["Nomen (bestimmt)","nicht","der Stift → nicht der Stift"],["Nomen + Possessivpronomen","nicht","Peter ist nicht mein Vater."],["Adjektiv","nicht + Adjektiv","Der Vorhang ist nicht weiß."],["Verb","nicht vor dem Verb (Ende) / am Ende des Satzes","Ich kann morgen nicht arbeiten.<br>Ich arbeite morgen nicht."]]}],"drill":[["ein Stift → negiert?","kein Stift","unbestimmtes Nomen → kein"],["Peter ist ___ Vater.","nicht mein","Possessivpronomen → nicht"],["Der Vorhang ist ___ weiß.","nicht","Adjektiv → nicht"],["Ich kann morgen ___ arbeiten.","nicht (vor dem Verb am Ende)",""],["Ich arbeite morgen ___.","nicht (am Ende des Satzes)",""]]},{"id":"derselbe","title":"derselbe · dieselbe · dasselbe","sub":"Deklination","src":"B1+ · Unterricht 20","blocks":[{"type":"table","head":["","Maskulin","Feminin","Neutrum","Plural"],"rows":[["Nominativ","derselbe","dieselbe","dasselbe","dieselben"],["Akkusativ","denselben","dieselbe","dasselbe","dieselben"],["Dativ","demselben","derselben","demselben","denselben"],["Genitiv","desselben","derselben","desselben","derselben"]]},{"type":"rules","items":[["Beispiele","",["Ich bin derselbe Mann, der ich auch in meiner Jugend war.","Ich kenne denselben Mann, den du auch kennst.","Ich helfe derselben Frau, die bei dir wohnt.","Das ist das Auto desselben Mannes, der bei dir wohnt.","Ich helfe denselben Leuten, die bei dir wohnen."]]]}],"drill":[["Nominativ · maskulin","derselbe","Ich bin derselbe Mann."],["Akkusativ · maskulin","denselben","Ich kenne denselben Mann."],["Dativ · maskulin","demselben","Ich helfe demselben Mann."],["Genitiv · maskulin","desselben","das Auto desselben Mannes"],["Dativ · feminin","derselben","Ich helfe derselben Frau."],["Genitiv · feminin","derselben","das Auto derselben Frau"],["Dativ · neutrum","demselben","Ich helfe demselben Kind."],["Dativ · Plural","denselben","Ich helfe denselben Leuten."],["Genitiv · Plural","derselben","die Autos derselben Leute"],["Akkusativ · neutrum","dasselbe","Ich kenne dasselbe Kind."]]},{"id":"praeteritum","title":"Präteritum und Perfekt","sub":"wichtige Formen","src":"B1+ · Unterricht 21","blocks":[{"type":"table","head":["Verb","Präteritum","Perfekt"],"rows":[["sein","war / warst / waren / wart","bin / ist / sind gewesen"],["haben","hatte / hattest / hatten / hattet","habe / hat / haben gehabt"],["Modalverben","wollte / sollte / musste / durfte / konnte / mochte",""],["gehen","ging / gingen","ist / sind gegangen"],["kommen","kam / kamen","ist / sind gekommen"],["bringen","brachte","hat / haben gebracht"],["brauchen","brauchte","gebraucht"],["denken","dachte","gedacht"],["wissen","wusste","gewusst"],["andere Verben, z. B. fahren, essen","","gefahren, gegessen"]]}],"drill":[["sein → Präteritum (er)","war","Perfekt: ist gewesen"],["haben → Präteritum (er)","hatte","Perfekt: hat gehabt"],["müssen → Präteritum (er)","musste",""],["können → Präteritum (er)","konnte",""],["dürfen → Präteritum (er)","durfte",""],["gehen → Präteritum (er)","ging","Perfekt: ist gegangen"],["kommen → Präteritum (er)","kam","Perfekt: ist gekommen"],["bringen → Präteritum (er)","brachte","Perfekt: hat gebracht"],["denken → Präteritum (er)","dachte","Perfekt: hat gedacht"],["wissen → Präteritum (er)","wusste","Perfekt: hat gewusst"],["brauchen → Präteritum (er)","brauchte","Perfekt: hat gebraucht"]]},{"id":"passiv","title":"Passiv","sub":"Wann und wie?","src":"B1+ · Unterricht 22","blocks":[{"type":"rules","items":[["(1) wenn das Subjekt allgemein ist (z. B. bei Regeln/Gesetzen)","Alle Menschen können die Aktion machen.",["Man kann den Baum sehen. → Man sieht den Baum. → Der Baum wird gesehen."]],["(2) wenn das Subjekt unbekannt ist","",["Man hat in der Innenstadt Feuer gelegt. → In der Innenstadt wurde Feuer gelegt. (Präteritum) → In der Innenstadt ist Feuer gelegt worden. (Perfekt)"]],["(3) wenn das Subjekt unwichtig ist","",["Der Automechaniker hat das Auto repariert. → Man hat das Auto repariert. → Das Auto wurde repariert. (Präteritum) → Das Auto ist repariert worden. (Perfekt)"]]]},{"type":"table","head":["","Präsens","Präteritum","Perfekt"],"rows":[["Aktiv","Man backt einen Kuchen.","Man backte einen Kuchen.","Man hat einen Kuchen gebacken."],["Passiv","Ein Kuchen wird gebacken.","Ein Kuchen wurde gebacken.","Ein Kuchen ist gebacken worden."]]}],"drill":[["Man backt einen Kuchen. → Passiv Präsens","Ein Kuchen wird gebacken.","werden + Partizip II"],["Man backte einen Kuchen. → Passiv Präteritum","Ein Kuchen wurde gebacken.","wurde + Partizip II"],["Man hat einen Kuchen gebacken. → Passiv Perfekt","Ein Kuchen ist gebacken worden.","ist + Partizip II + worden"],["Man sieht den Baum. → Passiv","Der Baum wird gesehen.","Subjekt allgemein"],["Man hat in der Innenstadt Feuer gelegt. → Passiv Perfekt","In der Innenstadt ist Feuer gelegt worden.","Subjekt unbekannt"],["Der Mechaniker hat das Auto repariert. → Passiv Präteritum","Das Auto wurde repariert.","Subjekt unwichtig"],["Der Mechaniker hat das Auto repariert. → Passiv Perfekt","Das Auto ist repariert worden.",""]]}]
+[
+ {
+  "id": "konnektoren",
+  "title": "Konnektoren und Präpositionen",
+  "sub": "Verbalstil (informell) ↔ Nominalstil (formell)",
+  "src": "B1+ · Unterricht 4–7",
+  "blocks": [
+   {
+    "type": "table",
+    "head": [
+     "Typ",
+     "Konnektor",
+     "Satz (Verbalstil)",
+     "Präposition",
+     "Satz (Nominalstil)"
+    ],
+    "rows": [
+     [
+      "kausal · GRUND",
+      "weil (NS) + Grund<br>deshalb (HS) + Folge",
+      "Ich komme nicht zur Arbeit, weil ich krank bin.<br>Ich bin krank, deshalb komme ich nicht zur Arbeit.",
+      "wegen + GEN",
+      "Ich komme wegen Krankheit nicht zur Arbeit."
+     ],
+     [
+      "konzessiv · GEGENGRUND",
+      "obwohl (NS) + Gegengrund<br>trotzdem (HS) + Folge",
+      "Ich komme nicht zur Arbeit, obwohl ich nicht krank bin.<br>Ich bin nicht krank, trotzdem komme ich nicht zur Arbeit.",
+      "trotz + GEN",
+      "Ich komme trotz der Tatsache, dass ich nicht krank bin, nicht zur Arbeit."
+     ],
+     [
+      "konditional · BEDINGUNG",
+      "wenn … (dann)",
+      "Wenn die Sonne scheint, (dann) gehe ich spazieren.",
+      "bei + DAT",
+      "Beim Sonnenschein gehe ich spazieren."
+     ],
+     [
+      "temporal (1) · VORZEITIGKEIT",
+      "bevor (NS) + spätere Aktion",
+      "Bevor ich in Urlaub fahre, packe ich meinen Koffer.",
+      "vor + DAT",
+      "Vor dem Urlaub packe ich meinen Koffer."
+     ],
+     [
+      "temporal (2) · GLEICHZEITIGKEIT",
+      "während (NS) + wichtigere Aktion<br>als (NS) – einmal in der Vergangenheit<br>immer wenn (NS) – mehrmals in der Vergangenheit",
+      "Während ich den Film anschaue, esse ich Popcorn.<br>Als ich ein Kind war, habe ich gern gespielt.<br>Immer wenn ich einen Film angeschaut habe, habe ich Popcorn gegessen.",
+      "während + GEN<br>in + DAT",
+      "Während des Films esse ich Popcorn.<br>In der Kindheit habe ich gern gespielt."
+     ],
+     [
+      "temporal (3) · NACHZEITIGKEIT",
+      "nachdem (NS) + frühere Aktion<br>bis (NS) + spätere Aktion<br>seit(dem) (NS) + Dauer",
+      "Nachdem ich gegessen habe, lerne ich Deutsch.<br>Bis die Sonne scheint, bleibe ich zu Hause.<br>Seitdem ich in München wohne, besuche ich einen Deutschkurs.",
+      "nach + DAT<br>bis + zu + DAT<br>seit + DAT",
+      "Nach dem Essen lerne ich Deutsch.<br>Bis zum Erscheinen der Sonne bleibe ich zu Hause.<br>Seit dem Beginn meines Münchner Aufenthalts besuche ich einen Deutschkurs."
+     ],
+     [
+      "modal · WIE? MODUS, INSTRUMENT",
+      "indem (NS) + instrumentelle Aktion",
+      "Indem ich ein Wörterbuch benutzt habe, habe ich den Text verstanden.",
+      "mithilfe + GEN",
+      "Mithilfe eines Wörterbuchs habe ich den Text verstanden."
+     ]
+    ]
+   }
+  ],
+  "drill": [
+   [
+    "weil → Präposition?",
+    "wegen + GEN",
+    "Ich komme wegen Krankheit nicht zur Arbeit."
+   ],
+   [
+    "obwohl → Präposition?",
+    "trotz + GEN",
+    "Ich komme trotz der Tatsache, dass ich nicht krank bin, nicht zur Arbeit."
+   ],
+   [
+    "wenn → Präposition?",
+    "bei + DAT",
+    "Beim Sonnenschein gehe ich spazieren."
+   ],
+   [
+    "bevor → Präposition?",
+    "vor + DAT",
+    "Vor dem Urlaub packe ich meinen Koffer."
+   ],
+   [
+    "während (Konnektor) → Präposition?",
+    "während + GEN",
+    "Während des Films esse ich Popcorn."
+   ],
+   [
+    "als → Präposition?",
+    "in + DAT",
+    "In der Kindheit habe ich gern gespielt."
+   ],
+   [
+    "nachdem → Präposition?",
+    "nach + DAT",
+    "Nach dem Essen lerne ich Deutsch."
+   ],
+   [
+    "bis (Konnektor) → Präposition?",
+    "bis + zu + DAT",
+    "Bis zum Erscheinen der Sonne bleibe ich zu Hause."
+   ],
+   [
+    "seitdem → Präposition?",
+    "seit + DAT",
+    "Seit dem Beginn meines Aufenthalts besuche ich einen Deutschkurs."
+   ],
+   [
+    "indem → Präposition?",
+    "mithilfe + GEN",
+    "Mithilfe eines Wörterbuchs habe ich den Text verstanden."
+   ],
+   [
+    "Welcher Typ? weil / deshalb",
+    "kausal: GRUND",
+    ""
+   ],
+   [
+    "Welcher Typ? obwohl / trotzdem",
+    "konzessiv: GEGENGRUND",
+    ""
+   ],
+   [
+    "Welcher Typ? indem",
+    "modal: WIE? (Modus, Instrument)",
+    ""
+   ]
+  ]
+ },
+ {
+  "id": "perfekt",
+  "title": "Perfekt mit haben oder sein?",
+  "sub": "vier Regeln",
+  "src": "B1+ · Unterricht 6–7",
+  "blocks": [
+   {
+    "type": "rules",
+    "items": [
+     [
+      "(1) Alle transitiven Verben bilden Perfekt mit haben.",
+      "Das sind alle Verben mit einem Akkusativobjekt oder einem Dativobjekt.",
+      [
+       "Ich esse das Brot. → Ich habe das Brot gegessen.",
+       "Ich fahre dich zum Bahnhof. → Ich habe dich zum Bahnhof gefahren.",
+       "Ich helfe dir. → Ich habe dir geholfen. (ganz wenige Ausnahmen)"
+      ]
+     ],
+     [
+      "(2) Alle reflexiven Verben bilden Perfekt mit haben.",
+      "",
+      [
+       "Ich erinnere mich. → Ich habe mich erinnert.",
+       "Ich erhole mich. → Ich habe mich erholt."
+      ]
+     ],
+     [
+      "(3) Verben ohne Objekt und mit Bewegung/Veränderung bilden Perfekt mit sein.",
+      "",
+      [
+       "Das Blatt fällt vom Baum. → Das Blatt ist vom Baum gefallen.",
+       "Der Mann stirbt im Bett. → Der Mann ist im Bett gestorben.",
+       "Der Bus fährt zum Bahnhof. → Der Bus ist zum Bahnhof gefahren.",
+       "Diese Pflanzen wachsen sehr schnell. → Diese Pflanzen sind sehr schnell gewachsen."
+      ]
+     ],
+     [
+      "(4) Verben ohne Objekt und ohne Bewegung/Veränderung: keine Regel.",
+      "Manchmal haben, manchmal sein.",
+      [
+       "Ich bleibe zu Hause. → Ich bin zu Hause geblieben.",
+       "Ich bin krank. → Ich bin krank gewesen.",
+       "Er schläft den ganzen Tag. → Er hat den ganzen Tag geschlafen.",
+       "Er liegt auf dem Sofa. → Er hat auf dem Sofa gelegen.",
+       "Er sitzt am Schreibtisch. → Er hat am Schreibtisch gesessen.",
+       "Er steht an der Bushaltestelle. → Er hat an der Bushaltestelle gestanden."
+      ]
+     ]
+    ]
+   }
+  ],
+  "drill": [
+   [
+    "Ich esse das Brot. → Perfekt?",
+    "Ich habe das Brot gegessen.",
+    "Regel 1: transitiv (AKK) → haben"
+   ],
+   [
+    "Ich fahre dich zum Bahnhof. → Perfekt?",
+    "Ich habe dich zum Bahnhof gefahren.",
+    "Regel 1: mit Objekt → haben"
+   ],
+   [
+    "Der Bus fährt zum Bahnhof. → Perfekt?",
+    "Der Bus ist zum Bahnhof gefahren.",
+    "Regel 3: Bewegung ohne Objekt → sein"
+   ],
+   [
+    "Ich helfe dir. → Perfekt?",
+    "Ich habe dir geholfen.",
+    "Regel 1: Dativobjekt → haben"
+   ],
+   [
+    "Ich erinnere mich. → Perfekt?",
+    "Ich habe mich erinnert.",
+    "Regel 2: reflexiv → haben"
+   ],
+   [
+    "Das Blatt fällt vom Baum. → Perfekt?",
+    "Das Blatt ist vom Baum gefallen.",
+    "Regel 3: Bewegung → sein"
+   ],
+   [
+    "Der Mann stirbt im Bett. → Perfekt?",
+    "Der Mann ist im Bett gestorben.",
+    "Regel 3: Veränderung → sein"
+   ],
+   [
+    "Diese Pflanzen wachsen schnell. → Perfekt?",
+    "Diese Pflanzen sind schnell gewachsen.",
+    "Regel 3: Veränderung → sein"
+   ],
+   [
+    "Ich bleibe zu Hause. → Perfekt?",
+    "Ich bin zu Hause geblieben.",
+    "Regel 4: keine Regel – auswendig lernen"
+   ],
+   [
+    "Ich bin krank. → Perfekt?",
+    "Ich bin krank gewesen.",
+    "Regel 4"
+   ],
+   [
+    "Er schläft den ganzen Tag. → Perfekt?",
+    "Er hat den ganzen Tag geschlafen.",
+    "Regel 4"
+   ],
+   [
+    "Er liegt auf dem Sofa. → Perfekt?",
+    "Er hat auf dem Sofa gelegen.",
+    "Regel 4"
+   ],
+   [
+    "Er sitzt am Schreibtisch. → Perfekt?",
+    "Er hat am Schreibtisch gesessen.",
+    "Regel 4"
+   ],
+   [
+    "Er steht an der Bushaltestelle. → Perfekt?",
+    "Er hat an der Bushaltestelle gestanden.",
+    "Regel 4"
+   ]
+  ]
+ },
+ {
+  "id": "reflexiv-dat",
+  "title": "Reflexive Verben mit Dativ",
+  "sub": "sich (DAT) + etwas (AKK)",
+  "src": "B1+ · Unterricht 10–12",
+  "blocks": [
+   {
+    "type": "rules",
+    "items": [
+     [
+      "sich etwas merken",
+      "",
+      [
+       "Ich merke mir den Termin für meine nächste Untersuchung beim Arzt."
+      ]
+     ],
+     [
+      "sich etwas überlegen",
+      "",
+      [
+       "Ich überlege mir eine Lösung für dieses Problem."
+      ]
+     ],
+     [
+      "sich etwas wünschen",
+      "",
+      [
+       "Ich wünsche mir einen Urlaub am Strand."
+      ]
+     ],
+     [
+      "sich etwas waschen",
+      "",
+      [
+       "Ich wasche mir die Hände.",
+       "Ich wasche mir den Kopf."
+      ]
+     ]
+    ]
+   }
+  ],
+  "drill": [
+   [
+    "Ich merke ___ den Termin.",
+    "mir",
+    "sich (DAT) etwas (AKK) merken"
+   ],
+   [
+    "Ich überlege ___ eine Lösung.",
+    "mir",
+    "sich etwas überlegen"
+   ],
+   [
+    "Ich wünsche ___ einen Urlaub am Strand.",
+    "mir",
+    "sich etwas wünschen"
+   ],
+   [
+    "Ich wasche ___ die Hände.",
+    "mir",
+    "sich etwas waschen"
+   ],
+   [
+    "Du merkst ___ den Termin.",
+    "dir",
+    "Dativ: mir, dir, sich, uns, euch, sich"
+   ],
+   [
+    "Wir überlegen ___ eine Lösung.",
+    "uns",
+    ""
+   ]
+  ]
+ },
+ {
+  "id": "auf-ueber",
+  "title": "Präpositionen: auf (Fokus) und über (Thema)",
+  "sub": "reflexive und nichtreflexive Verben + AKK",
+  "src": "B1+ · Unterricht 10–12",
+  "blocks": [
+   {
+    "type": "rules",
+    "items": [
+     [
+      "auf + AKK = Fokus · reflexiv",
+      "",
+      [
+       "sich konzentrieren: Ich konzentriere mich auf den Unterricht.",
+       "sich vorbereiten: Ich bereite mich auf die Prüfung vor.",
+       "sich freuen: Ich freue mich auf meinen Geburtstag. (Zukunft)"
+      ]
+     ],
+     [
+      "auf + AKK = Fokus · nichtreflexiv",
+      "",
+      [
+       "warten: Ich warte auf den Bus.",
+       "achten: Ich achte auf den Verkehr, wenn ich über die Straße laufe."
+      ]
+     ],
+     [
+      "über + AKK = Thema · reflexiv",
+      "",
+      [
+       "sich freuen: Ich freue mich über deinen Besuch heute. (Gegenwart)",
+       "sich beschweren: Ich beschwere mich über den unfreundlichen Kellner.",
+       "sich ärgern: Wir ärgern uns seit langem über den Lärm unserer Nachbarn."
+      ]
+     ],
+     [
+      "über + AKK = Thema · nichtreflexiv",
+      "",
+      [
+       "diskutieren: Wir diskutieren über den Klimawandel.",
+       "schreiben: Wir schreiben im Tagebuch über diesen Tag.",
+       "lesen: Er liest (ein Buch) über Atomphysik.",
+       "streiten: Wir haben über die Erziehung unserer Kinder gestritten."
+      ]
+     ]
+    ]
+   }
+  ],
+  "drill": [
+   [
+    "sich konzentrieren + ?",
+    "auf + AKK",
+    "Ich konzentriere mich auf den Unterricht."
+   ],
+   [
+    "sich vorbereiten + ?",
+    "auf + AKK",
+    "Ich bereite mich auf die Prüfung vor."
+   ],
+   [
+    "sich freuen (Zukunft) + ?",
+    "auf + AKK",
+    "Ich freue mich auf meinen Geburtstag."
+   ],
+   [
+    "sich freuen (jetzt/Vergangenheit) + ?",
+    "über + AKK",
+    "Ich freue mich über deinen Besuch heute."
+   ],
+   [
+    "warten + ?",
+    "auf + AKK",
+    "Ich warte auf den Bus."
+   ],
+   [
+    "achten + ?",
+    "auf + AKK",
+    "Ich achte auf den Verkehr."
+   ],
+   [
+    "sich beschweren + ?",
+    "über + AKK",
+    "Ich beschwere mich über den unfreundlichen Kellner."
+   ],
+   [
+    "sich ärgern + ?",
+    "über + AKK",
+    "Wir ärgern uns über den Lärm unserer Nachbarn."
+   ],
+   [
+    "diskutieren + ?",
+    "über + AKK",
+    "Wir diskutieren über den Klimawandel."
+   ],
+   [
+    "streiten + ?",
+    "über + AKK",
+    "Wir haben über die Erziehung unserer Kinder gestritten."
+   ]
+  ]
+ },
+ {
+  "id": "negation",
+  "title": "Negation: kein oder nicht?",
+  "sub": "Nomen, Adjektiv, Verb",
+  "src": "B1+ · Unterricht 13",
+  "blocks": [
+   {
+    "type": "table",
+    "head": [
+     "Was negiert man?",
+     "Negation",
+     "Beispiel"
+    ],
+    "rows": [
+     [
+      "Nomen (unbestimmt)",
+      "kein",
+      "ein Stift → kein Stift"
+     ],
+     [
+      "Nomen (bestimmt)",
+      "nicht",
+      "der Stift → nicht der Stift"
+     ],
+     [
+      "Nomen + Possessivpronomen",
+      "nicht",
+      "Peter ist nicht mein Vater."
+     ],
+     [
+      "Adjektiv",
+      "nicht + Adjektiv",
+      "Der Vorhang ist nicht weiß."
+     ],
+     [
+      "Verb",
+      "nicht vor dem Verb (Ende) / am Ende des Satzes",
+      "Ich kann morgen nicht arbeiten.<br>Ich arbeite morgen nicht."
+     ]
+    ]
+   }
+  ],
+  "drill": [
+   [
+    "ein Stift → negiert?",
+    "kein Stift",
+    "unbestimmtes Nomen → kein"
+   ],
+   [
+    "Peter ist ___ Vater.",
+    "nicht mein",
+    "Possessivpronomen → nicht"
+   ],
+   [
+    "Der Vorhang ist ___ weiß.",
+    "nicht",
+    "Adjektiv → nicht"
+   ],
+   [
+    "Ich kann morgen ___ arbeiten.",
+    "nicht (vor dem Verb am Ende)",
+    ""
+   ],
+   [
+    "Ich arbeite morgen ___.",
+    "nicht (am Ende des Satzes)",
+    ""
+   ]
+  ]
+ },
+ {
+  "id": "derselbe",
+  "title": "derselbe · dieselbe · dasselbe",
+  "sub": "Deklination",
+  "src": "B1+ · Unterricht 20",
+  "blocks": [
+   {
+    "type": "table",
+    "head": [
+     "",
+     "Maskulin",
+     "Feminin",
+     "Neutrum",
+     "Plural"
+    ],
+    "rows": [
+     [
+      "Nominativ",
+      "derselbe",
+      "dieselbe",
+      "dasselbe",
+      "dieselben"
+     ],
+     [
+      "Akkusativ",
+      "denselben",
+      "dieselbe",
+      "dasselbe",
+      "dieselben"
+     ],
+     [
+      "Dativ",
+      "demselben",
+      "derselben",
+      "demselben",
+      "denselben"
+     ],
+     [
+      "Genitiv",
+      "desselben",
+      "derselben",
+      "desselben",
+      "derselben"
+     ]
+    ]
+   },
+   {
+    "type": "rules",
+    "items": [
+     [
+      "Beispiele",
+      "",
+      [
+       "Ich bin derselbe Mann, der ich auch in meiner Jugend war.",
+       "Ich kenne denselben Mann, den du auch kennst.",
+       "Ich helfe derselben Frau, die bei dir wohnt.",
+       "Das ist das Auto desselben Mannes, der bei dir wohnt.",
+       "Ich helfe denselben Leuten, die bei dir wohnen."
+      ]
+     ]
+    ]
+   }
+  ],
+  "drill": [
+   [
+    "Nominativ · maskulin",
+    "derselbe",
+    "Ich bin derselbe Mann."
+   ],
+   [
+    "Akkusativ · maskulin",
+    "denselben",
+    "Ich kenne denselben Mann."
+   ],
+   [
+    "Dativ · maskulin",
+    "demselben",
+    "Ich helfe demselben Mann."
+   ],
+   [
+    "Genitiv · maskulin",
+    "desselben",
+    "das Auto desselben Mannes"
+   ],
+   [
+    "Dativ · feminin",
+    "derselben",
+    "Ich helfe derselben Frau."
+   ],
+   [
+    "Genitiv · feminin",
+    "derselben",
+    "das Auto derselben Frau"
+   ],
+   [
+    "Dativ · neutrum",
+    "demselben",
+    "Ich helfe demselben Kind."
+   ],
+   [
+    "Dativ · Plural",
+    "denselben",
+    "Ich helfe denselben Leuten."
+   ],
+   [
+    "Genitiv · Plural",
+    "derselben",
+    "die Autos derselben Leute"
+   ],
+   [
+    "Akkusativ · neutrum",
+    "dasselbe",
+    "Ich kenne dasselbe Kind."
+   ]
+  ]
+ },
+ {
+  "id": "praeteritum",
+  "title": "Präteritum und Perfekt",
+  "sub": "wichtige Formen",
+  "src": "B1+ · Unterricht 21",
+  "blocks": [
+   {
+    "type": "table",
+    "head": [
+     "Verb",
+     "Präteritum",
+     "Perfekt"
+    ],
+    "rows": [
+     [
+      "sein",
+      "war / warst / waren / wart",
+      "bin / ist / sind gewesen"
+     ],
+     [
+      "haben",
+      "hatte / hattest / hatten / hattet",
+      "habe / hat / haben gehabt"
+     ],
+     [
+      "Modalverben",
+      "wollte / sollte / musste / durfte / konnte / mochte",
+      ""
+     ],
+     [
+      "gehen",
+      "ging / gingen",
+      "ist / sind gegangen"
+     ],
+     [
+      "kommen",
+      "kam / kamen",
+      "ist / sind gekommen"
+     ],
+     [
+      "bringen",
+      "brachte",
+      "hat / haben gebracht"
+     ],
+     [
+      "brauchen",
+      "brauchte",
+      "gebraucht"
+     ],
+     [
+      "denken",
+      "dachte",
+      "gedacht"
+     ],
+     [
+      "wissen",
+      "wusste",
+      "gewusst"
+     ],
+     [
+      "andere Verben, z. B. fahren, essen",
+      "",
+      "gefahren, gegessen"
+     ]
+    ]
+   }
+  ],
+  "drill": [
+   [
+    "sein → Präteritum (er)",
+    "war",
+    "Perfekt: ist gewesen"
+   ],
+   [
+    "haben → Präteritum (er)",
+    "hatte",
+    "Perfekt: hat gehabt"
+   ],
+   [
+    "müssen → Präteritum (er)",
+    "musste",
+    ""
+   ],
+   [
+    "können → Präteritum (er)",
+    "konnte",
+    ""
+   ],
+   [
+    "dürfen → Präteritum (er)",
+    "durfte",
+    ""
+   ],
+   [
+    "gehen → Präteritum (er)",
+    "ging",
+    "Perfekt: ist gegangen"
+   ],
+   [
+    "kommen → Präteritum (er)",
+    "kam",
+    "Perfekt: ist gekommen"
+   ],
+   [
+    "bringen → Präteritum (er)",
+    "brachte",
+    "Perfekt: hat gebracht"
+   ],
+   [
+    "denken → Präteritum (er)",
+    "dachte",
+    "Perfekt: hat gedacht"
+   ],
+   [
+    "wissen → Präteritum (er)",
+    "wusste",
+    "Perfekt: hat gewusst"
+   ],
+   [
+    "brauchen → Präteritum (er)",
+    "brauchte",
+    "Perfekt: hat gebraucht"
+   ]
+  ]
+ },
+ {
+  "id": "passiv",
+  "title": "Passiv",
+  "sub": "Wann und wie?",
+  "src": "B1+ · Unterricht 22",
+  "blocks": [
+   {
+    "type": "rules",
+    "items": [
+     [
+      "(1) wenn das Subjekt allgemein ist (z. B. bei Regeln/Gesetzen)",
+      "Alle Menschen können die Aktion machen.",
+      [
+       "Man kann den Baum sehen. → Man sieht den Baum. → Der Baum wird gesehen."
+      ]
+     ],
+     [
+      "(2) wenn das Subjekt unbekannt ist",
+      "",
+      [
+       "Man hat in der Innenstadt Feuer gelegt. → In der Innenstadt wurde Feuer gelegt. (Präteritum) → In der Innenstadt ist Feuer gelegt worden. (Perfekt)"
+      ]
+     ],
+     [
+      "(3) wenn das Subjekt unwichtig ist",
+      "",
+      [
+       "Der Automechaniker hat das Auto repariert. → Man hat das Auto repariert. → Das Auto wurde repariert. (Präteritum) → Das Auto ist repariert worden. (Perfekt)"
+      ]
+     ]
+    ]
+   },
+   {
+    "type": "table",
+    "head": [
+     "",
+     "Präsens",
+     "Präteritum",
+     "Perfekt"
+    ],
+    "rows": [
+     [
+      "Aktiv",
+      "Man backt einen Kuchen.",
+      "Man backte einen Kuchen.",
+      "Man hat einen Kuchen gebacken."
+     ],
+     [
+      "Passiv",
+      "Ein Kuchen wird gebacken.",
+      "Ein Kuchen wurde gebacken.",
+      "Ein Kuchen ist gebacken worden."
+     ]
+    ]
+   }
+  ],
+  "drill": [
+   [
+    "Man backt einen Kuchen. → Passiv Präsens",
+    "Ein Kuchen wird gebacken.",
+    "werden + Partizip II"
+   ],
+   [
+    "Man backte einen Kuchen. → Passiv Präteritum",
+    "Ein Kuchen wurde gebacken.",
+    "wurde + Partizip II"
+   ],
+   [
+    "Man hat einen Kuchen gebacken. → Passiv Perfekt",
+    "Ein Kuchen ist gebacken worden.",
+    "ist + Partizip II + worden"
+   ],
+   [
+    "Man sieht den Baum. → Passiv",
+    "Der Baum wird gesehen.",
+    "Subjekt allgemein"
+   ],
+   [
+    "Man hat in der Innenstadt Feuer gelegt. → Passiv Perfekt",
+    "In der Innenstadt ist Feuer gelegt worden.",
+    "Subjekt unbekannt"
+   ],
+   [
+    "Der Mechaniker hat das Auto repariert. → Passiv Präteritum",
+    "Das Auto wurde repariert.",
+    "Subjekt unwichtig"
+   ],
+   [
+    "Der Mechaniker hat das Auto repariert. → Passiv Perfekt",
+    "Das Auto ist repariert worden.",
+    ""
+   ]
+  ]
+ },
+ {
+  "id": "wb-adjektiv",
+  "grp": "wb",
+  "src": "Whiteboard Notes",
+  "title": "Adjektivendungen – kurz und klar",
+  "sub": "der schnelle Wagen · ein schneller Wagen · schnelle Wagen",
+  "blocks": [
+   {
+    "type": "table",
+    "head": [
+     "",
+     "bestimmt (Sg.)",
+     "unbestimmt (Sg.)",
+     "bestimmt (Pl.)",
+     "ohne Artikel (Pl.)"
+    ],
+    "rows": [
+     [
+      "r Wagen (Nom.)",
+      "der schnelle Wagen",
+      "ein schneller Wagen",
+      "die schnellen Wagen",
+      "schnelle Wagen"
+     ],
+     [
+      "s Auto (Nom.)",
+      "das schnelle Auto",
+      "ein schnelles Auto",
+      "die schnellen Autos",
+      "schnelle Autos"
+     ],
+     [
+      "e Firma (Nom.)",
+      "die neue Firma",
+      "eine neue Firma",
+      "die neuen Firmen",
+      "neue Firmen"
+     ],
+     [
+      "r Wagen (Akk.)",
+      "den schnellen Wagen",
+      "einen schnellen Wagen",
+      "die schnellen Wagen",
+      "schnelle Wagen"
+     ],
+     [
+      "r Wagen (Dat.)",
+      "dem schnellen Wagen",
+      "einem schnellen Wagen",
+      "den schnellen Wagen",
+      "schnellen Wagen"
+     ]
+    ]
+   },
+   {
+    "type": "rules",
+    "items": [
+     [
+      "Merksatz: Das Signal muss einmal da sein",
+      "der/das zeigt schon das Genus → Adjektiv nur -e. ein zeigt das Genus nicht → das Adjektiv zeigt es: -er (r), -es (s).",
+      [
+       "der schnelle Wagen → ein schneller Wagen",
+       "das schnelle Auto → ein schnelles Auto"
+      ]
+     ],
+     [
+      "Plural mit Artikel: immer -en",
+      "",
+      [
+       "die neuen Kollegen · keine neuen Kollegen · meine neuen Kollegen"
+      ]
+     ],
+     [
+      "Zeitangaben ohne Präposition: Akkusativ",
+      "Ohne Präposition steht die Zeitangabe im Akkusativ – das Adjektiv bekommt dann -en (maskulin).",
+      [
+       "nächsten Samstag = am nächsten Samstag",
+       "den ganzen Tag = während des ganzen Tages",
+       "jeden Morgen · letzte Woche · nächstes Jahr"
+      ]
+     ],
+     [
+      "Alle Tabellen",
+      "Die vollständigen Tabellen findest du unter Grammatik → Deklination → Adjektivendungen.",
+      []
+     ]
+    ]
+   }
+  ],
+  "drill": [
+   [
+    "ein schnell___ Wagen (NOM)",
+    "er",
+    "ein + maskulin: das Adjektiv zeigt das Genus"
+   ],
+   [
+    "das schnell___ Auto",
+    "e",
+    "das zeigt schon das Genus"
+   ],
+   [
+    "ein schnell___ Auto",
+    "es",
+    ""
+   ],
+   [
+    "Ich fahre einen schnell___ Wagen.",
+    "en",
+    "AKK maskulin: einen schnellen Wagen"
+   ],
+   [
+    "Das ist ein neu___ Auto.",
+    "es",
+    "ein + Neutrum: das Adjektiv zeigt das Genus"
+   ],
+   [
+    "Er ist ein erfahren___ Kollege.",
+    "er",
+    "ein + maskulin NOM"
+   ],
+   [
+    "Die neu___ Kollegen sind sehr nett.",
+    "en",
+    "Plural mit Artikel: -en"
+   ],
+   [
+    "Wir suchen erfahren___ Mitarbeiter.",
+    "e",
+    "Plural ohne Artikel, AKK"
+   ],
+   [
+    "Sie arbeitet bei einer groß___ Firma.",
+    "en",
+    "DAT: einer großen Firma"
+   ],
+   [
+    "Der alt___ Drucker ist kaputt.",
+    "e",
+    "der + Adjektiv: -e"
+   ],
+   [
+    "Ich habe ___ ganzen Tag gearbeitet.",
+    "den",
+    "Zeitangabe ohne Präposition = AKK"
+   ],
+   [
+    "Am nächst___ Samstag fahren wir los.",
+    "en",
+    "am = an dem (DAT)"
+   ],
+   [
+    "Während des ganz___ Tages war es kalt.",
+    "en",
+    "GEN: des ganzen Tages"
+   ]
+  ]
+ },
+ {
+  "id": "wb-konj2",
+  "grp": "wb",
+  "src": "Whiteboard Notes",
+  "title": "Konjunktiv II",
+  "sub": "wäre · hätte · könnte · würde + Infinitiv",
+  "blocks": [
+   {
+    "type": "table",
+    "head": [
+     "Infinitiv",
+     "Präteritum",
+     "Konjunktiv II"
+    ],
+    "rows": [
+     [
+      "sein",
+      "war",
+      "wäre"
+     ],
+     [
+      "haben",
+      "hatte",
+      "hätte"
+     ],
+     [
+      "können",
+      "konnte",
+      "könnte"
+     ],
+     [
+      "müssen",
+      "musste",
+      "müsste"
+     ],
+     [
+      "dürfen",
+      "durfte",
+      "dürfte"
+     ],
+     [
+      "mögen",
+      "mochte",
+      "möchte"
+     ],
+     [
+      "sollen",
+      "sollte",
+      "sollte (gleich!)"
+     ],
+     [
+      "wollen",
+      "wollte",
+      "wollte (gleich!)"
+     ],
+     [
+      "kommen",
+      "kam",
+      "käme / würde kommen"
+     ],
+     [
+      "gehen",
+      "ging",
+      "ginge / würde gehen"
+     ],
+     [
+      "wissen",
+      "wusste",
+      "wüsste"
+     ],
+     [
+      "schlafen",
+      "schlief",
+      "schliefe / würde schlafen"
+     ],
+     [
+      "denken",
+      "dachte",
+      "dächte / würde denken"
+     ],
+     [
+      "lesen",
+      "las",
+      "läse / würde lesen"
+     ]
+    ]
+   },
+   {
+    "type": "rules",
+    "items": [
+     [
+      "So bildet man ihn",
+      "Präteritum + Umlaut (a → ä, o → ö, u → ü). sollen und wollen bekommen keinen Umlaut.",
+      [
+       "war → wäre · hatte → hätte · konnte → könnte"
+      ]
+     ],
+     [
+      "Bei den meisten Verben: würde + Infinitiv",
+      "Formen wie läse oder schliefe klingen sehr formell. Normal sind: wäre, hätte, die Modalverben und oft käme, ginge, wüsste.",
+      [
+       "Ich würde gern mehr lesen."
+      ]
+     ],
+     [
+      "Wofür? – E-Mail und Forum",
+      "",
+      [
+       "Höfliche Bitte: Könnten Sie mir bitte die Unterlagen schicken?",
+       "Vorschlag: Ich würde vorschlagen, dass wir den Termin verschieben.",
+       "Wunsch / irreal: Wenn ich mehr Zeit hätte, würde ich einen Kurs machen.",
+       "Formell: Ich wäre Ihnen dankbar, wenn Sie mir antworten könnten."
+      ]
+     ]
+    ]
+   }
+  ],
+  "drill": [
+   [
+    "haben → Konjunktiv II (ich)",
+    "hätte",
+    ""
+   ],
+   [
+    "sein → Konjunktiv II (ich)",
+    "wäre",
+    ""
+   ],
+   [
+    "können → Konjunktiv II (ich)",
+    "könnte",
+    ""
+   ],
+   [
+    "müssen → Konjunktiv II (ich)",
+    "müsste",
+    ""
+   ],
+   [
+    "dürfen → Konjunktiv II (ich)",
+    "dürfte",
+    ""
+   ],
+   [
+    "mögen → Konjunktiv II (ich)",
+    "möchte",
+    ""
+   ],
+   [
+    "sollen → Konjunktiv II (ich)",
+    "sollte",
+    "kein Umlaut"
+   ],
+   [
+    "kommen → Konjunktiv II (ich)",
+    "käme / würde kommen",
+    ""
+   ],
+   [
+    "wissen → Konjunktiv II (ich)",
+    "wüsste",
+    ""
+   ],
+   [
+    "___ Sie mir bitte helfen? (können, höflich)",
+    "Könnten",
+    ""
+   ],
+   [
+    "Wenn ich Zeit ___, würde ich mitkommen. (haben)",
+    "hätte",
+    ""
+   ],
+   [
+    "Ich ___ Ihnen dankbar, wenn … (sein)",
+    "wäre",
+    ""
+   ]
+  ]
+ },
+ {
+  "id": "wb-objekte",
+  "grp": "wb",
+  "src": "Whiteboard Notes",
+  "title": "Dativ und Akkusativ: Wer steht zuerst?",
+  "sub": "Der Mann kocht seinen Kindern ein Reisgericht.",
+  "blocks": [
+   {
+    "type": "rules",
+    "items": [
+     [
+      "1 · Ohne Objekt",
+      "",
+      [
+       "Der Mann kocht."
+      ]
+     ],
+     [
+      "2 · Nur Akkusativobjekt",
+      "",
+      [
+       "Der Mann kocht ein Reisgericht."
+      ]
+     ],
+     [
+      "3 · Zwei Nomen → Dativ vor Akkusativ",
+      "",
+      [
+       "Der Mann kocht seinen Kindern ein Reisgericht."
+      ]
+     ],
+     [
+      "4 · Akkusativ ist ein Pronomen → Akkusativ vor Dativ",
+      "",
+      [
+       "Der Mann kocht es seinen Kindern."
+      ]
+     ],
+     [
+      "5 · Zwei Pronomen → Akkusativ vor Dativ",
+      "",
+      [
+       "Der Mann kocht es ihnen."
+      ]
+     ],
+     [
+      "6 · Nur Dativ ist ein Pronomen → Dativ vor Akkusativ",
+      "",
+      [
+       "Der Mann kocht ihnen ein Reisgericht."
+      ]
+     ],
+     [
+      "Merksatz",
+      "Pronomen stehen vor Nomen. Zwei Nomen: Dativ zuerst. Zwei Pronomen: Akkusativ zuerst.",
+      [
+       "Ich schicke Ihnen den Bericht. → Ich schicke ihn Ihnen.",
+       "Können Sie mir die Rechnung geben? → Können Sie sie mir geben?"
+      ]
+     ]
+    ]
+   }
+  ],
+  "drill": [
+   [
+    "Ordnen: Der Mann kocht · ein Reisgericht · seinen Kindern",
+    "Der Mann kocht seinen Kindern ein Reisgericht.",
+    "Zwei Nomen: DAT vor AKK"
+   ],
+   [
+    "Ordnen: Der Mann kocht · ihnen · es",
+    "Der Mann kocht es ihnen.",
+    "Zwei Pronomen: AKK vor DAT"
+   ],
+   [
+    "Ordnen: Ich schicke · den Bericht · Ihnen",
+    "Ich schicke Ihnen den Bericht.",
+    "Nur DAT ist ein Pronomen → DAT zuerst"
+   ],
+   [
+    "Ordnen: Ich schicke · ihn · Ihnen",
+    "Ich schicke ihn Ihnen.",
+    "Zwei Pronomen: AKK vor DAT"
+   ],
+   [
+    "Ordnen: Er gibt · seiner Kollegin · das Buch",
+    "Er gibt seiner Kollegin das Buch.",
+    "Zwei Nomen: DAT vor AKK"
+   ],
+   [
+    "Ordnen: Er gibt · es · seiner Kollegin",
+    "Er gibt es seiner Kollegin.",
+    "AKK-Pronomen vor DAT"
+   ],
+   [
+    "Ordnen: Er gibt · es · ihr",
+    "Er gibt es ihr.",
+    "Zwei Pronomen: AKK vor DAT"
+   ],
+   [
+    "Ordnen: Er gibt · ihr · das Buch",
+    "Er gibt ihr das Buch.",
+    "DAT-Pronomen vor AKK-Nomen"
+   ],
+   [
+    "Ersetze durch Pronomen: Ich erkläre dem Kunden das Problem.",
+    "Ich erkläre es ihm.",
+    ""
+   ]
+  ]
+ },
+ {
+  "id": "wb-nomadj",
+  "grp": "wb",
+  "src": "Whiteboard Notes",
+  "title": "Nomen aus Adjektiven",
+  "sub": "der Reiche · ein Angestellter · die Vorgesetzte",
+  "blocks": [
+   {
+    "type": "table",
+    "head": [
+     "",
+     "NOM",
+     "AKK",
+     "DAT",
+     "GEN"
+    ],
+    "rows": [
+     [
+      "der (m)",
+      "der Reiche",
+      "den Reichen",
+      "dem Reichen",
+      "des Reichen"
+     ],
+     [
+      "die (f)",
+      "die Reiche",
+      "die Reiche",
+      "der Reichen",
+      "der Reichen"
+     ],
+     [
+      "ein (m)",
+      "ein Reicher",
+      "einen Reichen",
+      "einem Reichen",
+      "eines Reichen"
+     ],
+     [
+      "eine (f)",
+      "eine Reiche",
+      "eine Reiche",
+      "einer Reichen",
+      "einer Reichen"
+     ],
+     [
+      "die (Pl.)",
+      "die Reichen",
+      "die Reichen",
+      "den Reichen",
+      "der Reichen"
+     ],
+     [
+      "ohne Artikel (Pl.)",
+      "Reiche",
+      "Reiche",
+      "Reichen",
+      "Reicher"
+     ]
+    ]
+   },
+   {
+    "type": "rules",
+    "items": [
+     [
+      "Wie ein Adjektiv – nur großgeschrieben",
+      "Die Endung ist genau wie bei Adjektiven. Darum: der Angestellte, aber ein Angestellter.",
+      []
+     ],
+     [
+      "Wichtig für die Arbeit",
+      "",
+      [
+       "der/die Angestellte · ein Angestellter",
+       "der/die Vorgesetzte · ein Vorgesetzter",
+       "der/die Auszubildende (= Azubi)",
+       "der/die Bekannte · der/die Erwachsene · der/die Arbeitslose · der/die Deutsche"
+      ]
+     ]
+    ]
+   }
+  ],
+  "drill": [
+   [
+    "Er ist ein Angestellt___ der Stadt.",
+    "er",
+    "ein + maskulin NOM"
+   ],
+   [
+    "Ich spreche morgen mit meiner Vorgesetzt___.",
+    "en",
+    "DAT feminin"
+   ],
+   [
+    "Die Angestellt___ bekommen mehr Urlaub.",
+    "en",
+    "Plural mit Artikel"
+   ],
+   [
+    "Wir suchen einen neuen Angestellt___.",
+    "en",
+    "AKK maskulin"
+   ],
+   [
+    "Sie ist eine Bekannt___ von mir.",
+    "e",
+    "eine + feminin NOM"
+   ],
+   [
+    "das Geld der Reich___ (Pl.)",
+    "en",
+    "GEN Plural"
+   ],
+   [
+    "Viele Arbeitslos___ suchen eine Stelle.",
+    "e",
+    "Plural ohne Artikel, NOM"
+   ],
+   [
+    "Das ist das Haus eines Reich___.",
+    "en",
+    "GEN"
+   ],
+   [
+    "Ich helfe dem Reich___.",
+    "en",
+    "DAT"
+   ],
+   [
+    "Hier wohnen viele Reich___. (ohne Artikel)",
+    "e",
+    ""
+   ]
+  ]
+ },
+ {
+  "id": "wb-lassen",
+  "grp": "wb",
+  "src": "Whiteboard Notes",
+  "title": "Das Verb lassen",
+  "sub": "lassen + Infinitiv · gelassen",
+  "blocks": [
+   {
+    "type": "table",
+    "head": [
+     "Bedeutung",
+     "Präsens",
+     "Perfekt"
+    ],
+    "rows": [
+     [
+      "1 · Jemand macht etwas für mich",
+      "Er lässt das Mittagessen kochen.",
+      "Er hat das Mittagessen kochen lassen."
+     ],
+     [
+      "2 · Jemandem etwas erlauben",
+      "Er lässt mich heute sein Auto fahren.",
+      "Er hat mich heute sein Auto fahren lassen."
+     ],
+     [
+      "3 · Jemandem erlauben, etwas zu tun",
+      "Er lässt mich heute fahren.",
+      "Er hat mich heute fahren lassen."
+     ],
+     [
+      "4 · Etwas / jemanden (ver)lassen",
+      "Er lässt den Koffer auf dem Boden.",
+      "Er hat den Koffer auf dem Boden gelassen."
+     ]
+    ]
+   },
+   {
+    "type": "rules",
+    "items": [
+     [
+      "Perfekt: lassen oder gelassen?",
+      "Mit einem zweiten Verb (Infinitiv): hat … + Infinitiv + lassen – zwei Infinitive am Ende. Ohne zweites Verb: hat … gelassen.",
+      [
+       "Er hat das Mittagessen kochen lassen. (1–3: lassen + Infinitiv)",
+       "Er hat den Koffer auf dem Boden gelassen. (4: nur lassen)"
+      ]
+     ]
+    ]
+   }
+  ],
+  "drill": [
+   [
+    "Er hat das Mittagessen kochen ___.",
+    "lassen",
+    "mit Infinitiv → lassen"
+   ],
+   [
+    "Er hat den Koffer auf dem Boden ___.",
+    "gelassen",
+    "ohne Infinitiv → gelassen"
+   ],
+   [
+    "Ich habe meine Tasche im Zug ___.",
+    "gelassen",
+    "ohne Infinitiv → gelassen"
+   ],
+   [
+    "Die Chefin ___ uns heute früher gehen.",
+    "lässt",
+    "Präsens, sie"
+   ],
+   [
+    "Ich ___ mir morgen die Haare schneiden.",
+    "lasse",
+    "Präsens, ich"
+   ],
+   [
+    "Er hat mich sein Auto fahren ___.",
+    "lassen",
+    ""
+   ],
+   [
+    "Wo hast du den Schlüssel ___?",
+    "gelassen",
+    ""
+   ]
+  ]
+ },
+ {
+  "id": "wb-zuinf",
+  "grp": "wb",
+  "src": "Whiteboard Notes",
+  "title": "sein + zu + Infinitiv & Partizip als Attribut",
+  "sub": "ist zu lesen · ein auszubildender Schüler",
+  "blocks": [
+   {
+    "type": "rules",
+    "items": [
+     [
+      "sein + zu + Infinitiv = können / müssen (passiv)",
+      "Ersetzt einen Satz mit man + Modalverb. Bei trennbaren Verben steht zu in der Mitte: abzugeben, auszufüllen.",
+      [
+       "Der Text ist mit einem Wörterbuch leicht zu lesen. = Man kann den Text leicht lesen.",
+       "Die Hausaufgaben sind bis Freitag abzugeben. = Man muss die Hausaufgaben bis Freitag abgeben."
+      ]
+     ],
+     [
+      "Partizip I als Attribut (aktiv)",
+      "Infinitiv + d + Adjektivendung. Die Person / Sache macht es selbst.",
+      [
+       "Der Mann bildet den Schüler aus. → ein ausbildender Mann (= ein Mann, der ausbildet)",
+       "ein schlafendes Kind (= ein Kind, das schläft)"
+      ]
+     ],
+     [
+      "zu + Partizip I (passiv + müssen/können)",
+      "Mit zu: Man muss oder kann es mit der Person / Sache machen.",
+      [
+       "ein auszubildender Schüler = ein Schüler, den man ausbilden muss",
+       "die auszufüllenden Formulare = die Formulare, die man ausfüllen muss",
+       "der/die Auszubildende → kurz: der/die Azubi"
+      ]
+     ]
+    ]
+   }
+  ],
+  "drill": [
+   [
+    "Man kann den Text mit einem Wörterbuch leicht lesen. → Der Text ist mit einem Wörterbuch leicht ___.",
+    "zu lesen",
+    "kann lesen = ist zu lesen"
+   ],
+   [
+    "Man muss die Hausaufgaben bis Freitag abgeben. → Die Hausaufgaben sind bis Freitag ___.",
+    "abzugeben",
+    "muss abgeben = ist abzugeben"
+   ],
+   [
+    "Man muss das Formular ausfüllen. → Das Formular ist ___.",
+    "auszufüllen",
+    ""
+   ],
+   [
+    "Man kann das Problem leicht lösen. → Das Problem ist leicht ___.",
+    "zu lösen",
+    ""
+   ],
+   [
+    "Man muss die Rechnung bis Montag bezahlen. → Die Rechnung ist bis Montag ___.",
+    "zu bezahlen",
+    ""
+   ],
+   [
+    "ein Kind, das schläft → ein ___ Kind",
+    "schlafendes",
+    "Partizip I"
+   ],
+   [
+    "ein Schüler, den man ausbilden muss → ein ___ Schüler",
+    "auszubildender",
+    "zu + Partizip I"
+   ],
+   [
+    "die Formulare, die man ausfüllen muss → die ___ Formulare",
+    "auszufüllenden",
+    ""
+   ]
+  ]
+ }
+]

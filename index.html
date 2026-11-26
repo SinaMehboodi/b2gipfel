@@ -1427,9 +1427,12 @@ function renderWrite(){
 
 /* ---------- Grammatik ---------- */
 function gCards(t){
-  return t.drill.map(([q,a,h], i) => ({front:q, def:a, ex:h||'', notes:[], key:'g:'+t.id+':'+i, level:'G', lessonLabel:'Grammatik', lesson:'g', group:t.title}));
+  return t.drill.map(([q,a,h], i) => ({front:q, def:a, ex:h||'', notes:[], key:'g:'+t.id+':'+i, level:'G', lessonLabel:t.grp==='wb'?'Whiteboard':'Grammatik', lesson:'g', group:t.title}));
 }
 function cellHTML(c){ return fmt(c).replace(/&lt;br&gt;/g,'<br>'); }
+function gTile(t){ const cs = gCards(t); const k = cs.filter(c => st(c)==='k').length;
+  return `<button class="g-tile" data-topic="${t.id}"><span class="src">${esc(t.src)}</span><h3>${fmt(t.title)}</h3><span class="sub">${fmt(t.sub)}</span>
+    <span class="minibar">${bar(counts(cs), cs.length)}</span><span class="meta"><span>${cs.length} Übungskarten</span><span>${k? k+' gekonnt':'noch neu'}</span></span></button>`; }
 function renderGram(){
   if (!GRAM.length){ $('#gramArea').innerHTML = '<div class="empty">Wird geladen …</div>'; return; }
   if (gTopic==='allg'){
@@ -1445,9 +1448,10 @@ function renderGram(){
       <button class="g-feature" data-topic="allg"><span class="src">Allgemeine Grammatik</span><h3>Deklination: Artikel, Adjektiv, Pronomen</h3><span class="sub">Artikel-Tabelle · Adjektivendungen · Pronomen · Kasus & Präpositionen · Nomen</span></button>
       <h2 class="b-sub g">Grammatik aus dem Unterricht</h2>
       <p class="hint" style="margin:6px 0 0">Jedes Thema hat die Übersicht aus dem Protokoll und Übungskarten.</p>
-      <div class="g-grid">${GRAM.map(t => { const cs = gCards(t); const k = cs.filter(c => st(c)==='k').length;
-        return `<button class="g-tile" data-topic="${t.id}"><span class="src">${esc(t.src)}</span><h3>${fmt(t.title)}</h3><span class="sub">${fmt(t.sub)}</span>
-          <span class="minibar">${bar(counts(cs), cs.length)}</span><span class="meta"><span>${cs.length} Übungskarten</span><span>${k? k+' gekonnt':'noch neu'}</span></span></button>`; }).join('')}</div>`;
+      <div class="g-grid">${GRAM.filter(t => t.grp!=='wb').map(gTile).join('')}</div>
+      <h2 class="b-sub g">Whiteboard Notes</h2>
+      <p class="hint" style="margin:6px 0 0">Was an der Tafel stand – mit den Beispielen aus dem Unterricht und Übungskarten.</p>
+      <div class="g-grid">${GRAM.filter(t => t.grp==='wb').map(gTile).join('')}</div>`;
     return;
   }
   const t = GRAM.find(x => x.id===gTopic);
