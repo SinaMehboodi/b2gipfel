@@ -158,6 +158,7 @@ main.wrap{padding-top:28px;padding-bottom:120px}
 .tag{font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--new-bg);color:var(--muted);white-space:nowrap}
 .tag.lv{background:color-mix(in srgb,var(--lvc) 14%,transparent);color:var(--lvc)}
 .tag.lv{min-width:0;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto}
+.tag.lv.kurs{background:color-mix(in srgb,var(--c-violet) 14%,transparent);color:var(--c-violet)}
 .face-head .iconbtn{flex-shrink:0}.face-head .sp{min-width:0}
 .tag.st-k{background:var(--ok-bg);color:var(--ok)} .tag.st-u{background:var(--mid-bg);color:var(--mid)} .tag.st-x{background:var(--bad-bg);color:var(--bad)}
 .tag.lab{background:transparent;border:1px solid var(--line)}
@@ -1181,10 +1182,21 @@ function noteHTML(c, editing){
   if (n) return `<div class="lbl">Meine Notiz <button class="note-edit" aria-label="Notiz bearbeiten">✎ Bearbeiten</button></div><div class="note-text" dir="auto">${esc(n).replace(/\n/g,'<br>')}</div>`;
   return `<button class="note-add">+ Eigene Notiz hinzufügen</button>`;
 }
+function isCourse(c){ return /^B[12]-\d/.test(String(c.lesson||'')); }
+function shortLabel(c){
+  const L = String(c.lessonLabel||''), id = String(c.lesson||'');
+  if (isCourse(c)) return L.replace(' · Unterricht ', ' · U');
+  if (id.startsWith('buch-')){
+    const ch = (typeof BUCH!=='undefined' ? BUCH : []).find(x => 'buch-'+x.id===id);
+    if (ch && ch.label) return (ch.book||'B2')+' · '+ch.label;
+    if (ch) return (ch.book||'B2')+' · K'+ch.num;
+  }
+  return L;
+}
 function head(c){
   const s = st(c);
   return `<div class="face-head">
-    <span class="tag lv">${esc(c.lessonLabel)}</span>
+    <span class="tag lv${isCourse(c)?' kurs':''}" title="${esc(c.lessonLabel)}">${esc(shortLabel(c))}</span>
     ${c.label ? `<span class="tag lab">${esc(c.label)}</span>`:''}
     ${s!=='new' ? `<span class="tag st-${s}">${STATUS[s].label}</span>`:''}
     <span class="sp"></span>
