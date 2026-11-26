@@ -1515,35 +1515,118 @@
   "id": "wb-zuinf",
   "grp": "wb",
   "src": "Whiteboard Notes",
-  "title": "sein + zu + Infinitiv & Partizip als Attribut",
-  "sub": "ist zu lesen · ein auszubildender Schüler",
+  "title": "Modalverbersatz & Partizipien als Adjektiv",
+  "sub": "ist zu lesen · der lachende Mann · das reparierte Auto · der auszubildende Schüler",
   "blocks": [
    {
     "type": "rules",
     "items": [
      [
-      "sein + zu + Infinitiv = können / müssen (passiv)",
-      "Ersetzt einen Satz mit man + Modalverb. Bei trennbaren Verben steht zu in der Mitte: abzugeben, auszufüllen.",
+      "1 · sein + zu + Infinitiv = man kann / man muss",
+      "Ersetzt einen Satz mit man + können/müssen. Die Bedeutung ist passiv. Ob kann oder muss gemeint ist, zeigt der Kontext.",
       [
-       "Der Text ist mit einem Wörterbuch leicht zu lesen. = Man kann den Text leicht lesen.",
+       "Der Text ist mit einem Wörterbuch leicht zu lesen. = Man kann den Text mit einem Wörterbuch leicht lesen.",
        "Die Hausaufgaben sind bis Freitag abzugeben. = Man muss die Hausaufgaben bis Freitag abgeben."
       ]
      ],
      [
-      "Partizip I als Attribut (aktiv)",
-      "Infinitiv + d + Adjektivendung. Die Person / Sache macht es selbst.",
+      "Trennbare Verben: zu steht in der Mitte",
+      "",
       [
-       "Der Mann bildet den Schüler aus. → ein ausbildender Mann (= ein Mann, der ausbildet)",
-       "ein schlafendes Kind (= ein Kind, das schläft)"
+       "abzugeben · auszufüllen · anzumelden · auszubilden"
+      ]
+     ]
+    ]
+   },
+   {
+    "type": "table",
+    "head": [
+     "man kann / man muss …",
+     "Ersatz",
+     "Beispiel"
+    ],
+    "rows": [
+     [
+      "man kann + Infinitiv",
+      "sein + zu + Infinitiv",
+      "Das Problem ist leicht zu lösen."
+     ],
+     [
+      "man kann + Infinitiv",
+      "sich lassen + Infinitiv",
+      "Das Problem lässt sich leicht lösen."
+     ],
+     [
+      "man kann + Infinitiv",
+      "Adjektiv auf -bar",
+      "Das Problem ist leicht lösbar."
+     ],
+     [
+      "man muss + Infinitiv",
+      "sein + zu + Infinitiv",
+      "Das Formular ist bis Montag auszufüllen."
+     ],
+     [
+      "ich muss … (aktiv)",
+      "haben + zu + Infinitiv",
+      "Ich habe heute noch viel zu tun."
+     ]
+    ]
+   },
+   {
+    "type": "rules",
+    "items": [
+     [
+      "2 · Partizip I als Adjektiv",
+      "Bildung: Infinitiv + d + Endung. Bedeutung: aktiv – die Person/Sache macht es gerade selbst.",
+      [
+       "der lachende Mann = der Mann, der lacht",
+       "ein ausbildender Mann = ein Mann, der ausbildet"
       ]
      ],
      [
-      "zu + Partizip I (passiv + müssen/können)",
-      "Mit zu: Man muss oder kann es mit der Person / Sache machen.",
+      "3 · Partizip II als Adjektiv",
+      "Bildung: ge…t / ge…en + Endung. Bedeutung: passiv oder schon fertig.",
       [
-       "ein auszubildender Schüler = ein Schüler, den man ausbilden muss",
-       "die auszufüllenden Formulare = die Formulare, die man ausfüllen muss",
-       "der/die Auszubildende → kurz: der/die Azubi"
+       "das reparierte Auto = das Auto, das repariert worden ist",
+       "der angekommene Zug = der Zug, der angekommen ist"
+      ]
+     ],
+     [
+      "4 · zu + Partizip I als Adjektiv",
+      "Bildung: zu + Infinitiv + d + Endung (trennbar: zu in der Mitte). Bedeutung: passiv + muss / kann.",
+      [
+       "das zu reparierende Auto = das Auto, das repariert werden muss",
+       "ein auszubildender Schüler = ein Schüler, den man ausbilden muss"
+      ]
+     ]
+    ]
+   },
+   {
+    "type": "rules",
+    "items": [
+     [
+      "So wird aus dem Partizip ein Adjektiv",
+      "Das Partizip steht vor dem Nomen und bekommt ganz normale Adjektivendungen.",
+      [
+       "der lachende Mann · ein lachender Mann · mit dem lachenden Mann",
+       "die steigenden Preise = die Preise, die steigen"
+      ]
+     ],
+     [
+      "Was für ein Mann? – Was für ein Schüler?",
+      "Der Mann bildet den Schüler aus.",
+      [
+       "Der Mann macht es selbst → ein ausbildender Mann (Partizip I, aktiv)",
+       "Mit dem Schüler muss man es machen → ein auszubildender Schüler (zu + Partizip I, passiv)"
+      ]
+     ],
+     [
+      "Auch als Nomen",
+      "Partizipien können Nomen werden – mit Endungen wie bei den Adjektiven.",
+      [
+       "der/die Auszubildende → kurz: der/die Azubi",
+       "der/die Reisende (Partizip I) · der/die Angestellte (Partizip II)"
       ]
      ]
     ]
@@ -1563,31 +1646,66 @@
    [
     "Man muss das Formular ausfüllen. → Das Formular ist ___.",
     "auszufüllen",
-    ""
+    "trennbar: zu in der Mitte"
    ],
    [
-    "Man kann das Problem leicht lösen. → Das Problem ist leicht ___.",
-    "zu lösen",
-    ""
+    "Man kann das Problem leicht lösen. → Das Problem lässt sich leicht ___.",
+    "lösen",
+    "sich lassen + Infinitiv"
    ],
    [
-    "Man muss die Rechnung bis Montag bezahlen. → Die Rechnung ist bis Montag ___.",
-    "zu bezahlen",
-    ""
+    "Man kann das Problem lösen. → Das Problem ist ___. (Adjektiv)",
+    "lösbar",
+    "-bar = kann man machen"
    ],
    [
-    "ein Kind, das schläft → ein ___ Kind",
-    "schlafendes",
+    "Ich muss heute noch viel tun. → Ich habe heute noch viel ___.",
+    "zu tun",
+    "haben + zu + Infinitiv"
+   ],
+   [
+    "der Mann, der lacht → der ___ Mann",
+    "lachende",
     "Partizip I"
+   ],
+   [
+    "die Preise, die steigen → die ___ Preise",
+    "steigenden",
+    "Partizip I"
+   ],
+   [
+    "ein Mann, der ausbildet → ein ___ Mann",
+    "ausbildender",
+    "Partizip I (aktiv)"
+   ],
+   [
+    "das Auto, das repariert worden ist → das ___ Auto",
+    "reparierte",
+    "Partizip II"
+   ],
+   [
+    "der Zug, der angekommen ist → der ___ Zug",
+    "angekommene",
+    "Partizip II"
+   ],
+   [
+    "das Auto, das repariert werden muss → das ___ Auto",
+    "zu reparierende",
+    "zu + Partizip I"
    ],
    [
     "ein Schüler, den man ausbilden muss → ein ___ Schüler",
     "auszubildender",
-    "zu + Partizip I"
+    "zu + Partizip I (passiv)"
    ],
    [
     "die Formulare, die man ausfüllen muss → die ___ Formulare",
     "auszufüllenden",
+    "zu + Partizip I"
+   ],
+   [
+    "ein auszubildender Schüler = ?",
+    "ein Schüler, den man ausbilden muss",
     ""
    ]
   ]
